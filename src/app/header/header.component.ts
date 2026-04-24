@@ -1,15 +1,19 @@
-import { Component, HostListener, ElementRef, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, HostListener, ElementRef, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Course, CreateCourseService } from '../services/create-course.service';
 import { InquiryService, InquiryPayload } from '../services/inquiry.service';
 import { AlertService } from '../services/alert.service'; 
+import { LanguageCode, LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Output() pageChange = new EventEmitter<string>();
+
+  private readonly themeStorageKey = 'quenrix_theme';
 
   // UI States
   isMenuOpen = false;
@@ -26,6 +30,10 @@ export class HeaderComponent implements OnInit {
   // Modal State
   isEnrollmentModalOpen = false;
   selectedCourse: string = '';
+  currentTheme: 'light' | 'dark' = 'light';
+  isThemeSparkActive = false;
+  sparkX = 0;
+  sparkY = 0;
 
   // --- Country Codes List ---
   countryCodes = [
@@ -56,16 +64,75 @@ export class HeaderComponent implements OnInit {
 
   isSubmitting = false;
   courses: Course[] = [];
+  currentLanguage: LanguageCode = 'en';
+
+  private languageSubscription?: Subscription;
 
   constructor(
     private el: ElementRef, 
     private courseService: CreateCourseService,
     private inquiryService: InquiryService,
-    private alertService: AlertService 
+    private alertService: AlertService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit() {
     this.fetchCourses();
+    this.currentLanguage = this.languageService.currentLanguage;
+    this.initializeTheme();
+    this.languageSubscription = this.languageService.language$.subscribe((language) => {
+      this.currentLanguage = language;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.languageSubscription?.unsubscribe();
+  }
+
+  t(key: string, params?: Record<string, string>): string {
+    return this.languageService.t(key, params);
+  }
+
+  setLanguage(language: LanguageCode): void {
+    this.languageService.setLanguage(language);
+  }
+
+  toggleTheme(event?: MouseEvent): void {
+    if (event) {
+      this.sparkX = event.clientX;
+      this.sparkY = event.clientY;
+    } else {
+      this.sparkX = window.innerWidth / 2;
+      this.sparkY = 96;
+    }
+
+    this.isThemeSparkActive = true;
+
+    const nextTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+
+    setTimeout(() => {
+      this.applyTheme(nextTheme);
+    }, 140);
+
+    setTimeout(() => {
+      this.isThemeSparkActive = false;
+    }, 700);
+  }
+
+  private initializeTheme(): void {
+    const stored = localStorage.getItem(this.themeStorageKey);
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme: 'light' | 'dark' = stored === 'dark' || stored === 'light'
+      ? stored
+      : (prefersDark ? 'dark' : 'light');
+
+    this.applyTheme(initialTheme);
+  }
+
+  private applyTheme(theme: 'light' | 'dark'): void {
+    this.currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(this.themeStorageKey, theme);
   }
 
   navigateTo(page: string, event?: Event) {

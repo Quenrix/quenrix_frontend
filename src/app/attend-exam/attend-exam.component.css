@@ -650,6 +650,7 @@
     .palette-grid { grid-template-columns: repeat(10, 1fr); }
     .q-content { max-height: none; }
     .coding-interface { height: 450px; }
+    .search-wrapper { width: min(320px, 44vw); }
 }
 
 @media (max-width: 768px) {
@@ -665,6 +666,10 @@
     .spacer { display: none; }
     .palette-grid { grid-template-columns: repeat(6, 1fr); }
 
+    .result-card { padding: 2rem 1.5rem; }
+    .coding-interface { height: 380px; min-height: 360px; }
+    .terminal-box { height: 120px; }
+    .exam-entry-card { padding: 0.85rem; }
     .result-score-row { gap: 1rem; padding: 1.5rem 1rem; }
     .score-number { font-size: 3rem; }
     .result-hero-top { padding: 2rem 1rem 1.5rem; }
@@ -679,4 +684,8 @@
 @media (max-width: 400px) {
     .palette-grid { grid-template-columns: repeat(5, 1fr); }
     .option-card { padding: 0.8rem; }
+    .coding-interface { height: 320px; min-height: 300px; }
+    .editor-header-bar { padding: 0 8px; }
+    .lang-select { max-width: 110px; }
+    .run-btn { padding: 4px 8px; font-size: 0.78rem; }
 }
