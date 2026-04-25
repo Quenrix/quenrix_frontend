@@ -1,1 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global light-theme lock for homepage consistency */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+	color-scheme: only light;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+	background: #f6f7fb !important;
+	color: #1f2937;
+	font-family: 'Inter', sans-serif;
+	color-scheme: light;
+}
+
+app-root {
+	display: block;
+	min-height: 100vh;
+	background: #f6f7fb !important;
+}
+
+.landing-page,
+.hero-section,
+.stats-section,
+.feature-dashboard-section {
+	background-color: #ffffff !important;
+	color: #1f2937 !important;
+}
+
+/* Keep controls light even when OS/browser is dark */
+input,
+select,
+textarea,
+button {
+	color-scheme: light;
+}
+
+input,
+select,
+textarea {
+	background: #ffffff;
+	color: #111827;
+	border: 1px solid #e5e7eb;
+}
+
+a {
+	color: inherit;
+}
+
+/* If OS/browser is in dark mode, still render our app in light mode */
+@media (prefers-color-scheme: dark) {
+	html,
+	body,
+	app-root,
+	.landing-page,
+	.hero-section,
+	.stats-section,
+	.feature-dashboard-section {
+		background-color: #f6f7fb !important;
+		color: #1f2937 !important;
+	}
+
+	.site-header,
+	.site-header::before,
+	.mobile-nav,
+	.dropdown-menu {
+		filter: none !important;
+	}
+}

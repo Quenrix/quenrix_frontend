@@ -1,10 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "ignoreDeprecations": "5.0",       // ← ADD THIS to silence deprecated options
-    "baseUrl": "./",
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    },
     "outDir": "./dist/out-tsc",
-    "rootDir": "./src",                // ← ADD THIS (required when baseUrl is set)
+    "rootDir": "./src",
+    "ignoreDeprecations": "5.0",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -13,9 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",

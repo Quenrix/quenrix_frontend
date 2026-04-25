@@ -22,7 +22,7 @@
           <a class="nav-link" 
              [class.active]="isCoursesOpen" 
              (click)="toggleCourses($event)">
-            Courses
+            {{ t('header.courses') }}
             <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
             </svg>
@@ -35,7 +35,7 @@
                {{ course.courseName }}
             </a>
             <span *ngIf="courses.length === 0" class="dropdown-item" style="cursor: default; color: #888;">
-              Loading...
+              {{ t('header.loading') }}
             </span>
           </div>
         </li>
@@ -46,7 +46,7 @@
              class="nav-link" 
              [class.active]="activePage === 'careers'"
              (click)="navigateTo('careers', $event)">
-             Careers
+             {{ t('header.careers') }}
           </a>
         </li>
         
@@ -56,7 +56,7 @@
              class="nav-link" 
              [class.active]="activePage === 'blog'"
              (click)="navigateTo('blog', $event)">
-             Blog
+             {{ t('header.blog') }}
           </a>
         </li>
         
@@ -66,7 +66,7 @@
              class="nav-link" 
              [class.active]="activePage === 'contact'"
              (click)="navigateTo('contact', $event)">
-             Contact
+             {{ t('header.contact') }}
           </a>
         </li>
       </ul>
@@ -74,11 +74,38 @@
 
     <!-- RIGHT: Desktop Login & Mobile Toggle -->
     <div class="actions-container right-group">
+      <div class="lang-toggle desktop-only" role="group" [attr.aria-label]="t('header.language')">
+        <button
+          type="button"
+          class="lang-btn"
+          [class.active]="currentLanguage === 'en'"
+          (click)="setLanguage('en')">
+          EN
+        </button>
+        <button
+          type="button"
+          class="lang-btn"
+          [class.active]="currentLanguage === 'hi'"
+          (click)="setLanguage('hi')">
+          हिंदी
+        </button>
+      </div>
+
+      <!-- Theme Toggle (Desktop) -->
+      <button
+        type="button"
+        class="theme-toggle-btn desktop-only"
+        [attr.aria-label]="currentTheme === 'dark' ? 'Switch to light' : 'Switch to dark'"
+        (click)="toggleTheme($event)">
+        <span *ngIf="currentTheme === 'dark'" class="icon">☀️</span>
+        <span *ngIf="currentTheme === 'light'" class="icon">🌙</span>
+      </button>
+
       <a routerLink="/login" class="login-btn desktop-only">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 19.5a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.638z" />
         </svg>
-        Log In
+        {{ t('header.login') }}
       </a>
 
       <button class="hamburger-menu" (click)="toggleMenu()">
@@ -97,16 +124,41 @@
     <!-- PANEL 1: MAIN MENU -->
     <div class="mobile-panel main-panel" [class.slide-left]="showMobileCourses">
       <div class="mobile-nav-header">
-        <span class="menu-title">Menu</span>
+        <span class="menu-title">{{ t('header.menu') }}</span>
       </div>
       
       <div class="mobile-links">
+        <div class="mobile-language-switch">
+          <span class="mobile-language-label">{{ t('header.language') }}</span>
+          <div class="lang-toggle" role="group" [attr.aria-label]="t('header.language')">
+            <button
+              type="button"
+              class="lang-btn"
+              [class.active]="currentLanguage === 'en'"
+              (click)="setLanguage('en')">
+              EN
+            </button>
+            <button
+              type="button"
+              class="lang-btn"
+              [class.active]="currentLanguage === 'hi'"
+              (click)="setLanguage('hi')">
+              हिंदी
+            </button>
+          </div>
+          <!-- Mobile Theme Toggle -->
+          <button class="mobile-theme-btn" type="button" (click)="toggleTheme($event)" [attr.aria-label]="currentTheme === 'dark' ? 'Switch to light' : 'Switch to dark'">
+            <span *ngIf="currentTheme === 'dark'">☀️</span>
+            <span *ngIf="currentTheme === 'light'">🌙</span>
+          </button>
+        </div>
+
         <a class="mobile-item has-arrow" (click)="openMobileCourses()">
           <span class="flex-center">
              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="item-icon">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 69.14 69.14 0 00-2.923.295m-15.684 0a69.14 69.14 0 012.922.295M3 14h18M12 14v8m0 0V14m0 8h.01" />
              </svg>
-             Courses
+         {{ t('header.courses') }}
           </span>
           <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -117,23 +169,23 @@
         <a href="javascript:void(0)" class="mobile-item" 
            [class.active]="activePage === 'careers'"
            (click)="navigateTo('careers', $event)">
-           Careers
+        {{ t('header.careers') }}
         </a>
         <a href="javascript:void(0)" class="mobile-item" 
            [class.active]="activePage === 'blog'"
            (click)="navigateTo('blog', $event)">
-           Blog
+        {{ t('header.blog') }}
         </a>
         <a href="javascript:void(0)" class="mobile-item" 
            [class.active]="activePage === 'contact'"
            (click)="navigateTo('contact', $event)">
-           Contact
+        {{ t('header.contact') }}
         </a>
         
         <div class="mobile-divider"></div>
         
         <a routerLink="/login" class="mobile-login-btn" (click)="toggleMenu()">
-          Log In
+          {{ t('header.login') }}
         </a>
       </div>
     </div>
@@ -145,9 +197,9 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
-          Back
+          {{ t('header.back') }}
         </button>
-        <span class="menu-title">All Courses</span>
+        <span class="menu-title">{{ t('header.allCourses') }}</span>
       </div>
 
       <div class="mobile-links">
@@ -157,11 +209,17 @@
            {{ course.courseName }}
         </a>
         <span *ngIf="courses.length === 0" class="mobile-item" style="color: #888;">
-           Loading courses...
+        {{ t('header.loadingCourses') }}
         </span>
       </div>
     </div>
   </nav>
+
+  <!-- Theme spark overlay (renders when a theme-change is triggered) -->
+  <div class="theme-spark-overlay" *ngIf="isThemeSparkActive"
+       [style.--spark-x.px]="sparkX"
+       [style.--spark-y.px]="sparkY">
+  </div>
 
 </header>
 
@@ -170,28 +228,28 @@
   <div class="enrollment-modal" (click)="$event.stopPropagation()">
     <div class="modal-header">
       <div>
-        <h3>Enroll Now</h3>
-        <p>Start your journey in {{ selectedCourse }}</p>
+        <h3>{{ t('header.enrollNow') }}</h3>
+        <p>{{ t('header.startJourneyIn', { course: selectedCourse }) }}</p>
       </div>
       <button class="close-modal-btn" (click)="closeEnrollmentModal()">✕</button>
     </div>
     <div class="modal-body">
       <div class="enroll-message">
-        <strong>Note:</strong> If you want more details regarding the course, please fill out this form to enroll. Our expert will call you.
+        <strong>{{ t('header.note') }}</strong> {{ t('header.enrollNote') }}
       </div>
       <form (ngSubmit)="submitEnrollment()">
         <div class="form-group">
-          <label for="name">Full Name</label>
+          <label for="name">{{ t('header.fullName') }}</label>
           <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required [(ngModel)]="enrollmentForm.name">
         </div>
         <div class="form-group">
-          <label for="email">Email Address</label>
+          <label for="email">{{ t('header.emailAddress') }}</label>
           <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required [(ngModel)]="enrollmentForm.email">
         </div>
 
         <!-- UPDATED: Phone Number Group with Country Code & Manual Option -->
         <div class="form-group">
-          <label for="phone">Phone Number</label>
+          <label for="phone">{{ t('header.phoneNumber') }}</label>
           <div class="phone-input-group">
             
             <!-- Standard Dropdown - Always Visible -->
@@ -215,7 +273,7 @@
         </div>
 
         <button type="submit" class="submit-btn" [disabled]="isSubmitting">
-          {{ isSubmitting ? 'Submitting...' : 'Request Callback' }}
+          {{ isSubmitting ? t('header.submitting') : t('header.requestCallback') }}
         </button>
       </form>
     </div>

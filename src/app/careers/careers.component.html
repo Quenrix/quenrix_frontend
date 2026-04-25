@@ -1,94 +1,97 @@
 <div class="page-wrapper">
-  
+
   <!-- VIEW 1: CAREERS LISTING -->
-  <!-- This is only visible when no job is selected (User hasn't clicked apply yet) -->
-  <div class="careers-view" *ngIf="!selectedJob">
-    
-    <!-- Hero Section -->
+  <div class="careers-view">
+
     <section class="career-hero">
+      <div class="hero-overlay"></div>
       <div class="hero-content">
-        <span class="badge-hiring">We are Hiring! 🚀</span>
-        <h1>Join the <span class="highlight">Quenrix</span> Revolution</h1>
-        <p>Help us shape the future of tech education. Whether you are a coder, a mentor, or a visionary administrator, there is a place for you here.</p>
-        <button class="explore-btn" (click)="scrollToJobs()">View Openings</button>
-      </div>
-      <div class="bg-shape shape-1"></div>
-      <div class="bg-shape shape-2"></div>
-    </section>
-
-    <!-- Jobs List -->
-    <section class="jobs-section" id="openings">
-      <div class="container">
-        <div class="section-header">
-          <h2>Current Opportunities</h2>
-          <div class="filter-tabs">
-            <button 
-              *ngFor="let dept of departments" 
-              [class.active]="selectedDepartment === dept"
-              (click)="setDepartment(dept)">
-              {{ dept }}
-            </button>
-          </div>
-        </div>
-
-        <div class="jobs-grid">
-          <div *ngFor="let job of filteredJobs" class="job-card fade-in">
-            <div class="job-header">
-              <span class="job-dept">{{ job.department }}</span>
-              <span class="job-type">{{ job.type }}</span>
-            </div>
-            
-            <h3 class="job-title">{{ job.title }}</h3>
-            
-            <div class="job-meta">
-              <span>📍 {{ job.location }}</span>
-              <span>💼 {{ job.experience }}</span>
-            </div>
-
-            <p class="job-desc">{{ job.description }}</p>
-
-            <div class="job-skills">
-              <span *ngFor="let skill of job.skills" class="skill-tag">{{ skill }}</span>
-            </div>
-
-            <div class="card-footer">
-              <span class="posted-date">Posted: {{ job.posted_date | date:'mediumDate' }}</span>
-              <!-- Triggers the view swap -->
-              <button class="apply-btn" (click)="openApplication(job)">Apply Now →</button>
-            </div>
-          </div>
-
-          <div *ngIf="filteredJobs.length === 0" class="empty-state">
-             <h3>No openings found.</h3>
-          </div>
+        <h1>Find your next great role</h1>
+        <div class="hero-search">
+          <label for="departmentSelect">I'm interested in</label>
+          <select
+            id="departmentSelect"
+            [value]="selectedDepartment"
+            (change)="setDepartment($any($event.target).value)">
+            <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+          </select>
+          <button class="explore-btn" (click)="scrollToJobs()">See Jobs</button>
         </div>
       </div>
     </section>
 
-    <!-- Culture Section -->
-    <section class="culture-section">
-      <div class="container culture-container">
-        <div class="culture-text">
-          <h2>Why Work With Us?</h2>
-          <ul class="benefits-list">
-            <li>✅ <strong>Impact:</strong> Shape careers of thousands of students.</li>
-            <li>✅ <strong>Growth:</strong> Continuous learning & development budget.</li>
-            <li>✅ <strong>Community:</strong> Be part of a passionate tech family.</li>
-          </ul>
+    <section class="about-section">
+      <h2>What we're about</h2>
+      <p>
+        We build practical learning experiences and career pathways in tech. From mentorship to real-world projects,
+        our teams work together to create outcomes that matter for students and companies alike.
+      </p>
+    </section>
+
+    <section class="story-section" id="openings" *ngIf="jobs.length > 0">
+      <article class="story-card" *ngFor="let job of jobs | slice:0:4; let i = index" [class.reverse]="i % 2 === 1">
+        <div class="story-media">
+          <img class="story-image" [src]="getJobImage(job)" [alt]="job.title">
+          <div class="story-media-overlay">
+            <div class="media-initials">{{ getDepartmentInitials(job.department) }}</div>
+            <p>{{ job.department }}</p>
+          </div>
         </div>
-        <div class="culture-image">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team">
+        <div class="story-content">
+          <h3>{{ job.title }}</h3>
+          <p>{{ job.description }}</p>
+          <button type="button" class="learn-link" (click)="openApplication(job)">Learn More</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="impact-heading-block">
+      <span class="impact-heading-kicker">Culture & Growth</span>
+      <h2>Why people enjoy working with us</h2>
+      <p>
+        We keep the environment focused, collaborative, and meaningful so every role creates real value.
+      </p>
+    </section>
+
+    <section class="impact-section">
+      <div class="impact-shell">
+        <div class="impact-media">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80" alt="Team collaboration">
+        </div>
+        <div class="impact-content">
+          <span class="impact-kicker">Why Work With Us</span>
+          <h2>Build your career with purpose</h2>
+          <p>
+            We are building outcomes-first products for learners and educators. You will work with a focused team,
+            ship meaningful projects, and grow fast in a supportive environment.
+          </p>
+
+          <div class="impact-points">
+            <article class="impact-point">
+              <h3>Impact</h3>
+              <p>Shape the careers of thousands of students with practical, job-ready learning experiences.</p>
+            </article>
+            <article class="impact-point">
+              <h3>Growth</h3>
+              <p>Get continuous mentorship, weekly feedback loops, and opportunities to own real initiatives.</p>
+            </article>
+            <article class="impact-point">
+              <h3>Community</h3>
+              <p>Join a collaborative culture where people support each other and celebrate shipped work.</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
+
   </div>
 
-  <!-- VIEW 2: JOB APPLICATION (FULL PAGE) -->
-  <!-- This completely replaces the content above when selectedJob is true -->
-  <app-job-application 
-    *ngIf="selectedJob" 
-    [job]="selectedJob" 
-    (close)="closeApplication()">
-  </app-job-application>
+  <!-- VIEW 2: JOB APPLICATION OVERLAY -->
+  <div class="application-overlay" *ngIf="selectedJob">
+    <app-job-application
+      [job]="selectedJob"
+      (close)="closeApplication()">
+    </app-job-application>
+  </div>
 
 </div>

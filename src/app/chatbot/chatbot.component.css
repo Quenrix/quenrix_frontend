@@ -1,5 +1,4 @@
 :host {
-    /* Ensures the component fills the parent space (the popup container) */
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -12,16 +11,49 @@
   border: none;
   border-radius: 0;
   padding: 15px;
-  background: #fafafa;
+  background: linear-gradient(180deg, #f8f9ff 0%, #f4f6ff 100%);
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
+  min-height: 0;
+}
+
+.quick-questions {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.quick-questions::-webkit-scrollbar { display: none; }
+
+.quick-chip {
+  border: 1px solid rgba(124, 58, 237, 0.28);
+  background: rgba(255, 255, 255, 0.9);
+  color: #4c1d95;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.quick-chip:hover {
+  transform: translateY(-1px);
+  background: rgba(237, 233, 254, 0.95);
+  border-color: rgba(106, 67, 197, 0.55);
 }
 
 .chat-box {
   /* Takes all available vertical space for scrollable chat history */
   flex-grow: 1; 
-  min-height: 200px;
+  min-height: 0;
   overflow-y: auto;
   margin-bottom: 10px;
   padding-right: 10px;
@@ -37,37 +69,65 @@
 /* Chat Bubbles Styling */
 .user {
   text-align: right;
-  color: #2e86de;
+  color: #5a34b9;
   margin: 0.5rem 0;
 }
 .user p {
-    background-color: #e6f0ff;
+    background: linear-gradient(135deg, #6a43c5 0%, #5a34b9 100%);
+    color: #fff;
     padding: 8px 12px;
     border-radius: 15px 15px 0 15px;
     display: inline-block;
     max-width: 80%;
     word-wrap: break-word;
+    box-shadow: 0 8px 18px rgba(90, 52, 185, 0.18);
 }
 
 .bot {
   text-align: left;
-  color: #27ae60;
+  color: #334155;
   margin: 0.5rem 0;
 }
 .bot p {
-    background-color: #e5fbe9;
+    background: #ffffff;
     padding: 8px 12px;
     border-radius: 15px 15px 15px 0;
     display: inline-block;
     max-width: 80%;
     word-wrap: break-word;
+    border: 1px solid rgba(167, 139, 250, 0.22);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.bot.typing p {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 48px;
+}
+
+.bot.typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  display: inline-block;
+  animation: typingBounce 1s infinite ease-in-out;
+}
+
+.bot.typing span:nth-child(2) { animation-delay: 0.12s; }
+.bot.typing span:nth-child(3) { animation-delay: 0.24s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-4px); opacity: 1; }
 }
 
 .input-box {
   display: flex;
   gap: 10px;
   padding-top: 10px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid rgba(167, 139, 250, 0.2);
   flex-shrink: 0;
 }
 
@@ -81,24 +141,34 @@ input {
   font-size: 0.95rem;
 }
 input:focus {
-    border-color: var(--primary-color, #e03a3e);
-    box-shadow: 0 0 0 2px rgba(224, 58, 62, 0.2);
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.18);
+}
+
+input:disabled {
+  background: #f1f5f9;
+  cursor: not-allowed;
 }
 
 button {
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
-  background-color: #2e86de;
+  background: linear-gradient(135deg, #6a43c5 0%, #5a34b9 100%);
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: background-color 0.2s, transform 0.1s, opacity 0.2s;
   font-size: 0.95rem;
 }
 button:hover {
-    background-color: #226dc7;
+    background: linear-gradient(135deg, #5f37bf 0%, #4f2faa 100%);
 }
 button:active {
     transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
