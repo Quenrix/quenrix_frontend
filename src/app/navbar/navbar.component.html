@@ -5,13 +5,13 @@
 <div class="dashboard-tabs-wrapper">
   <div class="dashboard-tabs">
     <button class="tab-btn" [class.active]="selectedFeature === 'batch'" (click)="selectFeature('batch')">
-      <span class="tab-icon">📅</span> <span class="tab-text">Upcoming Batches</span>
+      <span class="tab-icon">📅</span> <span class="tab-text">{{ t('nav.tab.batch') }}</span>
     </button>
     <button class="tab-btn" [class.active]="selectedFeature === 'notes'" (click)="selectFeature('notes')">
-      <span class="tab-icon">📚</span> <span class="tab-text">Study Notes</span>
+      <span class="tab-icon">📚</span> <span class="tab-text">{{ t('nav.tab.notes') }}</span>
     </button>
     <button class="tab-btn" [class.active]="selectedFeature === 'success'" (click)="selectFeature('success')">
-      <span class="tab-icon">🏆</span> <span class="tab-text">Success Stories</span>
+      <span class="tab-icon">🏆</span> <span class="tab-text">{{ t('nav.tab.success') }}</span>
     </button>
   </div>
 </div>
@@ -22,17 +22,17 @@
   <!-- VIEW A: Upcoming Batches (Real Time) -->
   <div *ngIf="selectedFeature === 'batch'" class="content-view batch-view fade-in">
     
-    <div *ngIf="isLoading" class="loading-state"><p>Loading active batches...</p></div>
+    <div *ngIf="isLoading" class="loading-state"><p>{{ t('nav.loadingBatches') }}</p></div>
 
     <div *ngIf="!isLoading && (!upcomingBatches || upcomingBatches.length === 0)" class="empty-state">
-      <h3>No Active Batches</h3>
-      <p>Please check back later for new course announcements.</p>
+      <h3>{{ t('nav.noActiveBatches') }}</h3>
+      <p>{{ t('nav.noActiveBatchesDesc') }}</p>
     </div>
 
     <div *ngIf="!isLoading && featuredBatch" class="batch-card-hero">
       <div class="batch-image-side">
         <img [src]="featuredBatch.imageUrl" alt="Batch Cover" class="batch-img">
-        <div class="live-badge"><span class="live-dot"></span> Enrolling Now</div>
+  <div class="live-badge"><span class="live-dot"></span> {{ t('nav.enrollingNow') }}</div>
       </div>
       <div class="batch-info-side">
         <div class="tags-row">
@@ -43,22 +43,22 @@
         
         <div class="batch-meta-grid">
           <div class="meta-item">
-            <span class="meta-label">Start Date</span>
+            <span class="meta-label">{{ t('nav.startDate') }}</span>
             <span class="meta-val" *ngIf="featuredBatch.startDate">{{ featuredBatch.startDate | date:'mediumDate' }}</span>
-            <span class="meta-val" *ngIf="!featuredBatch.startDate">Coming Soon</span>
+            <span class="meta-val" *ngIf="!featuredBatch.startDate">{{ t('nav.comingSoon') }}</span>
           </div>
           <div class="meta-item">
-            <span class="meta-label">Time</span>
+            <span class="meta-label">{{ t('nav.time') }}</span>
             <span class="meta-val">{{ featuredBatch.time }}</span>
           </div>
           <div class="meta-item">
-            <span class="meta-label">Mode</span>
+            <span class="meta-label">{{ t('nav.mode') }}</span>
             <span class="meta-val">{{ featuredBatch.mode }}</span>
           </div>
         </div>
 
         <!-- BUTTON CLICK OPENS INQUIRY FORM -->
-        <button class="action-btn-primary" (click)="openInquiryForm(featuredBatch.courseName)">Book Demo Seat →</button>
+        <button class="action-btn-primary" (click)="openInquiryForm(featuredBatch.courseName)">{{ t('nav.bookDemo') }}</button>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@
   <!-- VIEW B: Notes -->
   <div *ngIf="selectedFeature === 'notes'" class="content-view notes-view fade-in">
      <div class="notes-control-bar">
-      <div class="header-text"><h3>Study Material</h3><p>Select subject to load notes.</p></div>
+  <div class="header-text"><h3>{{ t('nav.studyMaterial') }}</h3><p>{{ t('nav.selectSubject') }}</p></div>
       <div class="controls-group">
         <div class="control-item">
           <select [(ngModel)]="selectedSyllabus" (ngModelChange)="onSyllabusChange($event)" class="modern-select">
@@ -75,13 +75,13 @@
         </div>
         <div class="control-item search-container">
           <span class="search-icon">🔍</span>
-          <input type="text" placeholder="Search topics..." class="search-input" (input)="onNoteSearch($event)">
+          <input type="text" [placeholder]="t('nav.searchTopics')" class="search-input" [(ngModel)]="noteSearchTerm" (input)="onNoteSearch(noteSearchTerm)">
         </div>
       </div>
     </div>
     <div class="notes-ticker-container" #noteScrollContainer (mouseenter)="pauseNoteScroll()" (mouseleave)="resumeNoteScroll()" (touchstart)="pauseNoteScroll()" (touchend)="resumeNoteScroll()">
-      <div *ngIf="isLoadingNotes" class="loading-state"><div class="spinner"></div><p>Fetching notes...</p></div>
-      <div *ngIf="!isLoadingNotes && notesList.length === 0" class="empty-state"><p>No notes found for {{ selectedSyllabus }}.</p></div>
+      <div *ngIf="isLoadingNotes" class="loading-state"><div class="spinner"></div><p>{{ t('nav.fetchingNotes') }}</p></div>
+      <div *ngIf="!isLoadingNotes && notesList.length === 0" class="empty-state"><p>{{ t('nav.noNotesForSubject', { subject: selectedSyllabus }) }}</p></div>
       <ng-container *ngIf="!isLoadingNotes && notesList.length > 0">
         <div *ngFor="let note of notesList" class="note-list-item">
           <div class="note-info">
@@ -92,7 +92,7 @@
             </div>
           </div>
           <div class="note-actions">
-            <button class="action-btn download-btn" (click)="openPreviewModal(note)">Preview 👁️</button>
+            <button class="action-btn download-btn" (click)="openPreviewModal(note)">{{ t('nav.preview') }}</button>
           </div>
         </div>
       </ng-container>
@@ -101,8 +101,8 @@
 
   <!-- VIEW C: Success Stories -->
   <div *ngIf="selectedFeature === 'success'" class="content-view success-view fade-in">
-    <div class="section-title-center"><h3>Our Wall of Fame</h3><p>Inspiring stories from our alumni.</p></div>
-    <div *ngIf="isLoadingStories" class="loading-state"><p>Loading success stories...</p></div>
+  <div class="section-title-center"><h3>{{ t('nav.wallOfFame') }}</h3><p>{{ t('nav.wallOfFameSub') }}</p></div>
+  <div *ngIf="isLoadingStories" class="loading-state"><p>{{ t('nav.loadingStories') }}</p></div>
     
     <div *ngIf="!isLoadingStories" class="stories-grid-modern">
       <div *ngFor="let story of visibleStories" class="success-card" (click)="openStoryModal(story)">
@@ -134,51 +134,51 @@
 
     <div *ngIf="!submissionSuccess">
       <div class="modal-header">
-        <h3>Book Your Demo Seat</h3>
-        <p>Fill out the form below to reserve your spot for <strong>{{ inquiryForm.get('course_name')?.value }}</strong>.</p>
+        <h3>{{ t('nav.bookDemoTitle') }}</h3>
+        <p>{{ t('nav.bookDemoDesc', { course: inquiryForm.get('course_name')?.value }) }}</p>
       </div>
 
       <form [formGroup]="inquiryForm" (ngSubmit)="submitInquiry()">
         <div class="form-group">
-          <label class="form-label">Full Name</label>
-          <input type="text" formControlName="name" placeholder="Enter your full name" class="form-input">
+          <label class="form-label">{{ t('nav.fullName') }}</label>
+          <input type="text" formControlName="name" [placeholder]="t('nav.enterFullName')" class="form-input">
           <div *ngIf="inquiryForm.get('name')?.invalid && inquiryForm.get('name')?.touched" class="error-text">
-            Name is required.
+            {{ t('nav.nameRequired') }}
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Phone Number</label>
-          <input type="tel" formControlName="phone_number" placeholder="Enter mobile number" class="form-input">
+          <label class="form-label">{{ t('nav.phone') }}</label>
+          <input type="tel" formControlName="phone_number" [placeholder]="t('nav.enterPhone')" class="form-input">
           <div *ngIf="inquiryForm.get('phone_number')?.invalid && inquiryForm.get('phone_number')?.touched" class="error-text">
-            Valid phone number is required.
+            {{ t('nav.phoneRequired') }}
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Email (Optional)</label>
-          <input type="email" formControlName="email" placeholder="example@email.com" class="form-input">
+          <label class="form-label">{{ t('nav.emailOptional') }}</label>
+          <input type="email" formControlName="email" [placeholder]="t('nav.enterEmail')" class="form-input">
           <div *ngIf="inquiryForm.get('email')?.invalid && inquiryForm.get('email')?.touched" class="error-text">
-            Please enter a valid email.
+            {{ t('nav.emailInvalid') }}
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Selected Course</label>
-          <input type="text" formControlName="course_name" readonly class="form-input" style="background-color: #f1f5f9;">
+          <label class="form-label">{{ t('nav.selectedCourse') }}</label>
+          <input type="text" formControlName="course_name" readonly class="form-input">
         </div>
 
         <button type="submit" class="submit-btn" [disabled]="inquiryForm.invalid || isSubmitting">
-          {{ isSubmitting ? 'Booking Seat...' : 'Confirm Booking' }}
+          {{ isSubmitting ? t('nav.bookingSeat') : t('nav.confirmBooking') }}
         </button>
       </form>
     </div>
 
     <div *ngIf="submissionSuccess" class="success-message">
       <span class="success-icon">🎉</span>
-      <h4>Seat Booked Successfully!</h4>
-      <p>Thank you for your interest. Our team will contact you shortly to confirm your demo schedule.</p>
-      <button class="submit-btn" style="margin-top: 2rem;" (click)="closeInquiryForm()">Close</button>
+      <h4>{{ t('nav.seatBooked') }}</h4>
+      <p>{{ t('nav.seatBookedDesc') }}</p>
+      <button class="submit-btn" style="margin-top: 2rem;" (click)="closeInquiryForm()">{{ t('nav.close') }}</button>
     </div>
 
   </div>
@@ -194,7 +194,7 @@
   <img [src]="selectedStory.image" [alt]="selectedStory.name" class="story-img-large">
   <h3 class="story-name-large">{{ selectedStory.name }}</h3>
   <p class="story-role-large">{{ selectedStory.role }} @ <strong>{{ selectedStory.company }}</strong></p>
-  <div class="story-badge">Package: {{ selectedStory.package }}</div>
+  <div class="story-badge">{{ t('nav.package', { package: selectedStory.package }) }}</div>
 </div>
 
 <div class="story-modal-body">
@@ -215,7 +215,12 @@
       <button class="close-pdf-btn" (click)="closePreviewModal()">×</button>
     </div>
     <div class="pdf-body">
-      <iframe [src]="previewUrl" class="pdf-frame" frameborder="0"></iframe>
+      <iframe *ngIf="previewUrl" [src]="previewUrl" class="pdf-frame" frameborder="0"></iframe>
+
+      <div *ngIf="!previewUrl" class="note-preview-fallback">
+        <p *ngIf="previewDescription">{{ previewDescription }}</p>
+        <div>{{ previewTextContent }}</div>
+      </div>
     </div>
   </div>
 </div>

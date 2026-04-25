@@ -8,6 +8,7 @@ import { ManageNotesService, Note } from '../services/manage-notes.service';
 import { UiStateService } from '../services/ui-state.service'; 
 import { InquiryService } from '../services/inquiry.service'; 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-navbar',
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private ngZone = inject(NgZone);
   private fb = inject(FormBuilder);
   private sanitizer = inject(DomSanitizer);
+  private languageService = inject(LanguageService);
 
   selectedFeature: 'batch' | 'notes' | 'success' = 'batch';
   isLoading = true;
@@ -53,6 +55,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   allNotes: Note[] = [];   
   notesList: Note[] = []; 
   isLoadingNotes = false;
+  noteSearchTerm = '';
   
   private noteScrollInterval: any;
   private isNoteScrollPaused = false;
@@ -67,6 +70,104 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isPreviewOpen = false;
   previewUrl: SafeResourceUrl | null = null;
   previewTitle = '';
+  previewTextContent = '';
+  previewDescription = '';
+
+  private readonly dummyNotes: Note[] = [
+    {
+      id: 9001,
+      title: 'HTML Quick Revision Sheet',
+      description: 'Semantic tags, forms, media and accessibility quick notes.',
+      category: 'Lecture Note',
+      subject: 'HTML',
+      pdf_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+      uploaded_at: '2026-04-10T10:00:00Z',
+      preview_content: 'HTML Revision Quick Notes\n• Semantic tags: header, nav, main, section, article, footer\n• Forms: label + input linking, required and pattern validation\n• Media: responsive images, alt text, accessible embeds\n• Accessibility: aria-labels, heading hierarchy, keyboard focus states'
+    },
+    {
+      id: 9002,
+      title: 'CSS Layout Practice Assignment',
+      description: 'Flexbox + Grid tasks with responsive breakpoints.',
+      category: 'Assignment',
+      subject: 'CSS',
+      pdf_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+      uploaded_at: '2026-04-11T11:00:00Z',
+      preview_content: 'CSS Layout Assignment\n• Build 3 card responsive grid with CSS Grid\n• Add sticky navbar and mobile drawer using flexbox\n• Create reusable utility classes for spacing and typography\n• Use media queries for 1200px, 768px and 480px breakpoints'
+    },
+    {
+      id: 9003,
+      title: 'JavaScript DOM Lab Manual',
+      description: 'Hands-on exercises for events, forms and validation.',
+      category: 'Lab Manual',
+      subject: 'JavaScript',
+      pdf_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+      uploaded_at: '2026-04-12T12:00:00Z',
+      preview_content: 'JavaScript DOM Lab\n• Query selectors and event listeners\n• Form validation with custom error messaging\n• Dynamic list rendering with add/edit/delete actions\n• LocalStorage integration for state persistence'
+    },
+    {
+      id: 9004,
+      title: 'Python Interview Question Bank',
+      description: 'Top beginner to intermediate questions with answers.',
+      category: 'Question Paper',
+      subject: 'Python',
+      pdf_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+      uploaded_at: '2026-04-13T13:00:00Z',
+      preview_content: 'Python Interview Set\n• OOP and decorators basics\n• File handling and exception management\n• Common DSA patterns (array, hashmap, two-pointer)\n• 25 interview questions with short answer hints'
+    },
+    {
+      id: 9005,
+      title: 'SQL Joins Cheat Sheet',
+      description: 'INNER/LEFT/RIGHT joins with visual query examples.',
+      category: 'Lecture Note',
+      subject: 'SQL',
+      pdf_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+      uploaded_at: '2026-04-14T14:00:00Z',
+      preview_content: 'SQL Joins Cheat Sheet\n• INNER vs LEFT vs RIGHT vs FULL joins\n• GROUP BY with HAVING and aggregate functions\n• Subqueries, EXISTS, and CTE usage\n• Index basics and query optimization tips'
+    }
+  ];
+
+  private readonly dummyStories: SuccessStory[] = [
+    {
+      id: 8101,
+      name: 'Aman Verma',
+      role: 'Frontend Developer',
+      company: 'Infosys',
+      package: '6.2 LPA',
+      quote: 'Quenrix ke mock interviews aur project guidance ne mera confidence totally transform kar diya.',
+      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg'
+    },
+    {
+      id: 8102,
+      name: 'Ritika Sharma',
+      role: 'Data Analyst',
+      company: 'Wipro',
+      package: '7.1 LPA',
+      quote: 'Study plan, notes aur weekly mentorship ki wajah se placement prep ka clear roadmap mila.',
+      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg'
+    },
+    {
+      id: 8103,
+      name: 'Nikhil Raj',
+      role: 'Software Engineer',
+      company: 'TCS',
+      package: '8.0 LPA',
+      quote: 'Batch sessions + revision notes + coding practice set ne meri interview hit-rate kaafi improve ki.',
+      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Tata_Consultancy_Services_Logo.svg'
+    },
+    {
+      id: 8104,
+      name: 'Sneha Gupta',
+      role: 'Backend Developer',
+      company: 'Capgemini',
+      package: '9.4 LPA',
+      quote: 'Real-world assignments aur mentor feedback ne mujhe production-level coding soch di.',
+      image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=500&q=80',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Capgemini_201x_logo.svg'
+    }
+  ];
 
   ngOnInit() {
     this.initForm();
@@ -151,7 +252,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error('Inquiry submission failed', error);
           this.isSubmitting = false;
-          alert('Something went wrong. Please try again later.');
+          alert(this.t('nav.submitFailed'));
         }
       });
     } else {
@@ -163,12 +264,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
   loadSubjects() {
     this.notesService.getAllSubjects().subscribe({
       next: (subjects) => {
-        this.syllabusOptions = subjects;
+        this.syllabusOptions = subjects && subjects.length > 0
+          ? subjects
+          : [...new Set(this.dummyNotes.map(note => note.subject))];
         if (this.syllabusOptions.length > 0) {
            this.selectedSyllabus = this.syllabusOptions[0];
         }
       },
-      error: (err) => console.error('Failed to load subjects', err)
+      error: (err) => {
+        console.error('Failed to load subjects', err);
+        this.syllabusOptions = [...new Set(this.dummyNotes.map(note => note.subject))];
+        this.selectedSyllabus = this.syllabusOptions[0] || '';
+      }
     });
   }
 
@@ -198,24 +305,47 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     this.notesService.getNotes(subject).subscribe({
       next: (data) => {
-        this.allNotes = data; 
-        this.notesList = data; 
+        const fallbackNotes = this.getDummyNotesBySubject(subject);
+        this.allNotes = data && data.length > 0 ? data : fallbackNotes;
+        this.applyNoteFilter();
         this.isLoadingNotes = false;
         setTimeout(() => this.startNoteScroll(), 500);
       },
       error: (err) => {
         console.error('Error fetching notes:', err);
+        this.allNotes = this.getDummyNotesBySubject(subject);
+        this.applyNoteFilter();
         this.isLoadingNotes = false;
+        setTimeout(() => this.startNoteScroll(), 300);
       }
     });
   }
 
-  onNoteSearch(event: any) {
-    const term = event.target.value.toLowerCase();
-    this.notesList = this.allNotes.filter(n => 
-      n.title.toLowerCase().includes(term) || 
-      (n.description && n.description.toLowerCase().includes(term))
-    );
+  onNoteSearch(termOrEvent: string | Event) {
+    const term = typeof termOrEvent === 'string'
+      ? termOrEvent
+      : ((termOrEvent.target as HTMLInputElement)?.value ?? '');
+
+    this.noteSearchTerm = term;
+    this.applyNoteFilter();
+    setTimeout(() => this.startNoteScroll(), 120);
+  }
+
+  private applyNoteFilter(): void {
+    const term = this.noteSearchTerm.trim().toLowerCase();
+
+    if (!term) {
+      this.notesList = [...this.allNotes];
+      return;
+    }
+
+    this.notesList = this.allNotes.filter((note) => {
+      const title = note.title?.toLowerCase() ?? '';
+      const description = note.description?.toLowerCase() ?? '';
+      const category = note.category?.toLowerCase() ?? '';
+      const subject = note.subject?.toLowerCase() ?? '';
+      return title.includes(term) || description.includes(term) || category.includes(term) || subject.includes(term);
+    });
   }
 
   getCategoryClass(category: string): string {
@@ -230,23 +360,41 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   // --- Preview Modal Logic ---
   openPreviewModal(note: Note) {
+    if (!note.id || note.id >= 9000) {
+      this.previewTitle = note.title;
+      this.previewDescription = note.description || '';
+      this.previewTextContent = note.preview_content || this.buildDefaultPreview(note);
+      this.previewUrl = null;
+      this.isPreviewOpen = true;
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+
     this.notesService.getDownloadLink(note.id).subscribe({
       next: (res) => {
         if (res.download_url) {
            this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.download_url);
            this.previewTitle = note.title;
+           this.previewDescription = note.description || '';
+           this.previewTextContent = '';
            this.isPreviewOpen = true;
            document.body.style.overflow = 'hidden'; // Lock scroll
         }
       },
-      error: () => alert('Could not load preview.')
+      error: () => alert(this.t('nav.previewLoadFailed'))
     });
   }
 
   closePreviewModal() {
     this.isPreviewOpen = false;
     this.previewUrl = null;
+    this.previewTextContent = '';
+    this.previewDescription = '';
     document.body.style.overflow = 'auto'; // Unlock scroll
+  }
+
+  private buildDefaultPreview(note: Note): string {
+    return `${note.title}\n• Subject: ${note.subject}\n• Category: ${note.category}\n• Summary: ${note.description}`;
   }
 
   startNoteScroll() {
@@ -371,16 +519,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.upcomingBatches = validBatches.map((batch, index) => {
       const bAny = batch as any;
       const finalStartDate = batch.startDate || bAny.start_date || bAny.startDate || null;
-      const finalTiming = batch.timing || bAny.timing || 'Flexible';
-      const finalMode = batch.mode || bAny.mode || 'Online';
+      const finalTiming = batch.timing || bAny.timing || this.t('nav.defaultTime');
+      const finalMode = batch.mode || bAny.mode || this.t('nav.defaultMode');
 
       return {
-        courseName: batch.course?.coursename || batch.batchName || 'Advanced Course',
+        courseName: batch.course?.coursename || batch.batchName || this.t('nav.defaultCourse'),
         startDate: finalStartDate, 
         time: finalTiming,
         mode: finalMode, 
-        description: `Join the active batch "${batch.batchName}". Comprehensive curriculum with ${finalMode} sessions.`,
-        tags: ['Active', finalMode, 'Placement Assist'],
+        description: this.t('nav.batchDesc', { batch: batch.batchName, mode: finalMode }),
+        tags: [this.t('nav.enrollingNow'), finalMode, this.t('nav.tagPlacement')],
         imageUrl: defaultImages[index % defaultImages.length]
       };
     });
@@ -414,7 +562,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.isLoadingStories = true;
       this.successService.getStories().subscribe({
           next: (data) => { 
-            this.successStories = data; 
+            this.successStories = data && data.length > 0 ? data : [...this.dummyStories];
             this.isLoadingStories = false; 
             
             if (this.successStories.length > 0) {
@@ -424,9 +572,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             console.error('Error fetching stories', err);
+            this.successStories = [...this.dummyStories];
+            this.updateVisibleStories();
+            this.startStoryRotation();
             this.isLoadingStories = false;
           }
       });
+  }
+
+  private getDummyNotesBySubject(subject: string): Note[] {
+    const normalized = (subject || '').trim().toLowerCase();
+    const filtered = this.dummyNotes.filter(note => note.subject.toLowerCase() === normalized);
+    return filtered.length > 0 ? filtered : [...this.dummyNotes];
   }
 
   updateVisibleStories() {
@@ -465,5 +622,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.selectedStory = null;
     this.startStoryRotation(); 
     document.body.style.overflow = 'auto'; // Unlock scroll
+  }
+  t(key: string, params?: Record<string, string | number>): string {
+    return this.languageService.t(key, params);
   }
 }

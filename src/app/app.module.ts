@@ -46,6 +46,11 @@ import { QuestionsComponent } from './codexa/questions/questions.component';
 import { CodeEditorComponent } from './codexa/code-editor/code-editor.component';
 import { TrainerDashboardComponent } from './trainer-dashboard/trainer-dashboard.component';
 import { SetupProfileComponent } from './setup-profile/setup-profile.component';
+import { HeroSectionComponent } from './hero-section/hero-section.component';
+import { StatsSectionComponent } from './stats-section/stats-section.component';
+import { CoursePreviewSectionComponent } from './course-preview-section/course-preview-section.component';
+import { FinalCtaSectionComponent } from './final-cta-section/final-cta-section.component';
+import { DemoClassesSectionComponent } from './demo-classes-section/demo-classes-section.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +88,12 @@ import { SetupProfileComponent } from './setup-profile/setup-profile.component';
     QuestionsComponent,
     CodeEditorComponent,
     TrainerDashboardComponent,
-    SetupProfileComponent
+    SetupProfileComponent,
+    HeroSectionComponent,
+    StatsSectionComponent,
+    CoursePreviewSectionComponent,
+    FinalCtaSectionComponent,
+    DemoClassesSectionComponent
   ],
   imports: [
     MonacoEditorModule.forRoot({

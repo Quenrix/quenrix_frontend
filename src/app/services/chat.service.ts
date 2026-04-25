@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+export interface ChatResponse {
+  reply: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +15,7 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
-  sendMessage(message: string): Observable<any> {
-    return this.http.post<any>(this.apiUrl, { message });
+  sendMessage(message: string): Observable<ChatResponse> {
+    return this.http.post<ChatResponse>(this.apiUrl, { message });
   }
 }
