@@ -39,10 +39,83 @@ interface ScheduleItem {
   joinButton?: boolean;
 }
 
+interface AttendanceRecord {
+  course: string;
+  attended: number;
+  total: number;
+  lastUpdated: string;
+}
+
+interface AssignmentItem {
+  title: string;
+  subject: string;
+  dueDate: string;
+  priority: 'High' | 'Medium' | 'Low';
+  status: 'Pending' | 'In Progress' | 'Submitted';
+}
+
+interface StudyPlanItem {
+  day: string;
+  topic: string;
+  durationMinutes: number;
+  completed: boolean;
+}
+
+interface GoalItem {
+  title: string;
+  category: string;
+  progress: number;
+  targetDate: string;
+}
+
+interface LmsCourseProgress {
+  title: string;
+  instructor: string;
+  completedTopics: number;
+  totalTopics: number;
+  progress: number;
+  level: 'Beginner' | 'Intermediate' | 'Advanced';
+}
+
+interface LearningModule {
+  title: string;
+  course: string;
+  duration: string;
+  status: 'Completed' | 'In Progress' | 'Locked';
+}
+
+interface AnnouncementItem {
+  title: string;
+  message: string;
+  createdAt: string;
+  priority: 'Info' | 'Important' | 'Urgent';
+  read: boolean;
+}
+
+interface GradebookItem {
+  subject: string;
+  assessment: string;
+  score: number;
+  maxScore: number;
+  status: 'Published' | 'Pending';
+}
+
+interface LiveSessionItem {
+  topic: string;
+  faculty: string;
+  startTime: string;
+  mode: 'Live' | 'Recorded';
+  joinUrl: string;
+}
+
 export interface StudentProfileData {
   full_name: string;
   email: string; 
   student_id: string; 
+  phone: string;
+  location: string;
+  linkedin: string;
+  experience_type: string;
   profileImageUrl: string;
   profileInitial: string;
   profileImagePlaceholder: boolean; 
@@ -99,6 +172,10 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
     full_name: 'Loading...',
     email: 'loading@example.com',
     student_id: '', 
+    phone: '',
+    location: '',
+    linkedin: '',
+    experience_type: '',
     profileImageUrl: '',
     profileInitial: '',
     profileImagePlaceholder: true, 
@@ -166,6 +243,218 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
   studentBatchesForFilter: FilterBatch[] = [];
 
   shortsList: any[] = [];
+
+  attendanceRecords: AttendanceRecord[] = [
+    { course: 'Data Structures', attended: 18, total: 20, lastUpdated: '2 days ago' },
+    { course: 'Web Development', attended: 14, total: 16, lastUpdated: 'Yesterday' },
+    { course: 'Database Systems', attended: 10, total: 12, lastUpdated: 'Today' },
+  ];
+
+  assignmentItems: AssignmentItem[] = [
+    { title: 'Build REST API Integration', subject: 'Web Development', dueDate: '2026-04-29', priority: 'High', status: 'In Progress' },
+    { title: 'Binary Tree Practice Set', subject: 'Data Structures', dueDate: '2026-05-01', priority: 'Medium', status: 'Pending' },
+    { title: 'Normalization Case Study', subject: 'Database Systems', dueDate: '2026-05-03', priority: 'Low', status: 'Pending' },
+  ];
+
+  weeklyStudyPlan: StudyPlanItem[] = [
+    { day: 'Monday', topic: 'Arrays and Strings Revision', durationMinutes: 60, completed: true },
+    { day: 'Tuesday', topic: 'SQL Joins and Aggregations', durationMinutes: 75, completed: true },
+    { day: 'Wednesday', topic: 'Angular Components Practice', durationMinutes: 90, completed: false },
+    { day: 'Thursday', topic: 'Mock Test and Analysis', durationMinutes: 60, completed: false },
+    { day: 'Friday', topic: 'Resume and LinkedIn Updates', durationMinutes: 40, completed: false },
+  ];
+
+  goalItems: GoalItem[] = [
+    { title: 'Reach 90% attendance this term', category: 'Academic', progress: 82, targetDate: '2026-06-30' },
+    { title: 'Complete 3 mock interviews', category: 'Placement', progress: 34, targetDate: '2026-07-15' },
+    { title: 'Publish one strong capstone project', category: 'Portfolio', progress: 56, targetDate: '2026-08-05' },
+  ];
+
+  recommendedResources: Array<{ title: string; type: string; duration: string; action: string }> = [
+    { title: 'System Design Basics for Students', type: 'Video', duration: '22 min', action: 'Watch' },
+    { title: 'Top 50 SQL Interview Questions', type: 'Practice', duration: '45 min', action: 'Start Practice' },
+    { title: 'Resume Bullet Improvement Checklist', type: 'Guide', duration: '10 min', action: 'Open Guide' },
+  ];
+
+  lmsCourses: LmsCourseProgress[] = [
+    { title: 'Frontend Fundamentals', instructor: 'Aarav Mehta', completedTopics: 14, totalTopics: 20, progress: 70, level: 'Beginner' },
+    { title: 'Data Structures in JavaScript', instructor: 'Ritika Sharma', completedTopics: 10, totalTopics: 18, progress: 56, level: 'Intermediate' },
+    { title: 'Database and API Design', instructor: 'Neel Joshi', completedTopics: 7, totalTopics: 15, progress: 47, level: 'Intermediate' },
+  ];
+
+  learningModules: LearningModule[] = [
+    { title: 'Semantic HTML Layout', course: 'Frontend Fundamentals', duration: '25 min', status: 'Completed' },
+    { title: 'Flexbox Practice Challenge', course: 'Frontend Fundamentals', duration: '20 min', status: 'In Progress' },
+    { title: 'REST API Error Handling', course: 'Database and API Design', duration: '30 min', status: 'In Progress' },
+    { title: 'Time Complexity Drill Set', course: 'Data Structures in JavaScript', duration: '35 min', status: 'Locked' },
+  ];
+
+  announcements: AnnouncementItem[] = [
+    {
+      title: 'Mock Assessment Window Open',
+      message: 'Mock assessment for frontend track is open till Sunday 10:00 PM.',
+      createdAt: '2026-04-25T08:00:00',
+      priority: 'Important',
+      read: false,
+    },
+    {
+      title: 'Profile Review Slots Released',
+      message: 'Book your profile review slot to get resume and portfolio feedback.',
+      createdAt: '2026-04-24T13:15:00',
+      priority: 'Info',
+      read: false,
+    },
+    {
+      title: 'Attendance Policy Reminder',
+      message: 'Maintain minimum 85% attendance to remain eligible for placement drives.',
+      createdAt: '2026-04-23T11:30:00',
+      priority: 'Urgent',
+      read: true,
+    },
+  ];
+
+  gradebookItems: GradebookItem[] = [
+    { subject: 'Frontend', assessment: 'Flexbox Mini Test', score: 41, maxScore: 50, status: 'Published' },
+    { subject: 'Data Structures', assessment: 'Array and String Quiz', score: 34, maxScore: 40, status: 'Published' },
+    { subject: 'Database', assessment: 'SQL Assignment 2', score: 0, maxScore: 30, status: 'Pending' },
+  ];
+
+  liveSessions: LiveSessionItem[] = [
+    { topic: 'Flexbox and Grid Doubt Class', faculty: 'Aarav Mehta', startTime: 'Today, 6:30 PM', mode: 'Live', joinUrl: '' },
+    { topic: 'SQL Joins Revision', faculty: 'Neel Joshi', startTime: 'Tomorrow, 7:00 PM', mode: 'Live', joinUrl: '' },
+    { topic: 'Interview Problem Solving', faculty: 'Ritika Sharma', startTime: 'Saturday, 5:00 PM', mode: 'Recorded', joinUrl: '' },
+  ];
+
+  learningStreakDays: number = 6;
+
+  get activeBatchName(): string {
+    return this.studentAssignedBatches.length > 0
+      ? this.studentAssignedBatches[0].batch_name
+      : 'Not Assigned';
+  }
+
+  get todayClassCount(): number {
+    const todayIso = new Date().toISOString().split('T')[0];
+    return this.fullScheduleDetails.filter(item => item.date === todayIso && item.type !== 'study').length;
+  }
+
+  get nextClassLabel(): string {
+    const todayIso = new Date().toISOString().split('T')[0];
+    const todayItem = this.fullScheduleDetails.find(item => item.date === todayIso && item.type !== 'study');
+    return todayItem?.desc || 'No class scheduled';
+  }
+
+  get pendingActionsCount(): number {
+    let pending = 0;
+    if (!this.isProfileComplete) pending += 1;
+    if (this.studentAssignedBatches.length === 0) pending += 1;
+    if (!this.notificationsEnabled) pending += 1;
+    return pending;
+  }
+
+  get readinessScore(): number {
+    let score = 40;
+    if (this.isProfileComplete) score += 20;
+    if (this.studentAssignedBatches.length > 0) score += 20;
+    if (this.notificationsEnabled) score += 10;
+    if (this.upcomingExams.length > 0) score += 10;
+    return Math.min(score, 100);
+  }
+
+  get focusRecommendations(): string[] {
+    const recommendations: string[] = [];
+
+    if (!this.isProfileComplete) {
+      recommendations.push('Complete your profile so mentors can track your learning goals.');
+    }
+
+    if (this.todayClassCount > 0) {
+      recommendations.push(`Attend ${this.todayClassCount} class session${this.todayClassCount > 1 ? 's' : ''} today without missing start time.`);
+    } else {
+      recommendations.push('No live class today. Use this slot for self-study and revision.');
+    }
+
+    if (this.upcomingExams.length > 0) {
+      recommendations.push(`Prepare for ${this.upcomingExams.length} upcoming exam${this.upcomingExams.length > 1 ? 's' : ''}.`);
+    } else {
+      recommendations.push('No active exams right now. Strengthen weak topics from previous modules.');
+    }
+
+    return recommendations.slice(0, 3);
+  }
+
+  get overallAttendancePercentage(): number {
+    const totalClasses = this.attendanceRecords.reduce((sum, item) => sum + item.total, 0);
+    const attendedClasses = this.attendanceRecords.reduce((sum, item) => sum + item.attended, 0);
+    if (totalClasses === 0) return 0;
+    return Math.round((attendedClasses / totalClasses) * 100);
+  }
+
+  get pendingAssignmentsCount(): number {
+    return this.assignmentItems.filter(item => item.status !== 'Submitted').length;
+  }
+
+  get submittedAssignmentsCount(): number {
+    return this.assignmentItems.filter(item => item.status === 'Submitted').length;
+  }
+
+  get completedStudySessions(): number {
+    return this.weeklyStudyPlan.filter(item => item.completed).length;
+  }
+
+  get goalProgressAverage(): number {
+    if (this.goalItems.length === 0) return 0;
+    const total = this.goalItems.reduce((sum, goal) => sum + goal.progress, 0);
+    return Math.round(total / this.goalItems.length);
+  }
+
+  get todayStudyTargetMinutes(): number {
+    const today = new Date().toLocaleString('en-US', { weekday: 'long' });
+    const plan = this.weeklyStudyPlan.find(item => item.day === today);
+    return plan?.durationMinutes || 60;
+  }
+
+  get studyMinutesCompletedThisWeek(): number {
+    return this.weeklyStudyPlan
+      .filter(item => item.completed)
+      .reduce((sum, item) => sum + item.durationMinutes, 0);
+  }
+
+  get upcomingDeadlines(): AssignmentItem[] {
+    return [...this.assignmentItems]
+      .filter(item => item.status !== 'Submitted')
+      .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
+      .slice(0, 3);
+  }
+
+  get learningStreakScore(): number {
+    return Math.min(this.learningStreakDays * 12, 100);
+  }
+
+  get profileCompletionScore(): number {
+    return this.isProfileComplete ? 100 : 35;
+  }
+
+  get lmsOverallProgress(): number {
+    if (this.lmsCourses.length === 0) return 0;
+    const total = this.lmsCourses.reduce((sum, course) => sum + course.progress, 0);
+    return Math.round(total / this.lmsCourses.length);
+  }
+
+  get completedModuleCount(): number {
+    return this.learningModules.filter(module => module.status === 'Completed').length;
+  }
+
+  get unreadAnnouncementCount(): number {
+    return this.announcements.filter(item => !item.read).length;
+  }
+
+  get averageGradePercent(): number {
+    const published = this.gradebookItems.filter(item => item.status === 'Published' && item.maxScore > 0);
+    if (published.length === 0) return 0;
+    const achieved = published.reduce((sum, item) => sum + (item.score / item.maxScore) * 100, 0);
+    return Math.round(achieved / published.length);
+  }
 
   constructor(
       private cdr: ChangeDetectorRef, 
@@ -253,15 +542,30 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
 
   private setProfileInfoFromStorage(loginData: any): void {
       let fullName = loginData?.info?.full_name || loginData?.username || 'Student'; 
+      let email = loginData?.info?.email || '';
+      let phone = loginData?.info?.phone || '';
+      let location = loginData?.info?.location || '';
+      let linkedin = loginData?.info?.linkedin || '';
+      let experienceType = loginData?.info?.experience_type || '';
       const stored = window.localStorage.getItem('STUDENT_DATA');
       if (stored) {
           const parsed = JSON.parse(stored);
           if (parsed.info?.full_name) fullName = parsed.info.full_name;
+        if (parsed.info?.email) email = parsed.info.email;
+        if (parsed.info?.phone) phone = parsed.info.phone;
+        if (parsed.info?.location) location = parsed.info.location;
+        if (parsed.info?.linkedin) linkedin = parsed.info.linkedin;
+        if (parsed.info?.experience_type) experienceType = parsed.info.experience_type;
       }
       this.studentName = fullName; 
       this.profileInitial = this.getProfileInitial(fullName);
       this.studentProfileData.full_name = fullName;
       this.studentProfileData.student_id = loginData.userId;
+      this.studentProfileData.email = email || 'Not Available';
+      this.studentProfileData.phone = phone || 'Not Available';
+      this.studentProfileData.location = location || 'Not Available';
+      this.studentProfileData.linkedin = linkedin || 'Not Available';
+      this.studentProfileData.experience_type = experienceType || 'Not Available';
   }
 
   // ✅ Debug logs added to help trace empty exam issues
@@ -390,6 +694,65 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
     else this.setActivePage(route);
   }
 
+  markAssignmentSubmitted(index: number): void {
+    const selected = this.assignmentItems[index];
+    if (!selected) return;
+    this.assignmentItems[index] = { ...selected, status: 'Submitted' };
+    this.showMessage('Assignment marked as submitted.', 'success');
+  }
+
+  toggleStudyPlanCompletion(index: number): void {
+    const selected = this.weeklyStudyPlan[index];
+    if (!selected) return;
+    this.weeklyStudyPlan[index] = { ...selected, completed: !selected.completed };
+    this.showMessage('Study plan status updated.', 'success');
+  }
+
+  toggleModuleStatus(index: number): void {
+    const selected = this.learningModules[index];
+    if (!selected || selected.status === 'Locked') return;
+    const nextStatus: LearningModule['status'] = selected.status === 'Completed' ? 'In Progress' : 'Completed';
+    this.learningModules[index] = { ...selected, status: nextStatus };
+    this.showMessage('Module status updated.', 'success');
+  }
+
+  markAnnouncementAsRead(index: number): void {
+    const selected = this.announcements[index];
+    if (!selected || selected.read) return;
+    this.announcements[index] = { ...selected, read: true };
+  }
+
+  openLmsResource(action: string): void {
+    this.showMessage(`${action} is available in this LMS section.`, 'success');
+  }
+
+  joinLmsSession(session: LiveSessionItem): void {
+    if (session.mode === 'Recorded') {
+      this.showMessage('This is a recorded session. Open Learning Shorts for video playback.', 'warning');
+      return;
+    }
+    this.openJoinMeetingModal();
+  }
+
+  runPlannerAction(action: 'profile' | 'batch' | 'class' | 'exam'): void {
+    if (action === 'profile') {
+      this.goToProfileSetupForm();
+      return;
+    }
+
+    if (action === 'batch') {
+      this.setActivePage('batches');
+      return;
+    }
+
+    if (action === 'class') {
+      this.openJoinMeetingModal();
+      return;
+    }
+
+    this.openExamModal();
+  }
+
   openJoinMeetingModal(): void {
     if (this.studentAssignedBatches.length === 0) {
         this.showMessage('No batches assigned.', 'warning');
@@ -485,6 +848,11 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
                 this.studentName = fetchedName;
                 this.profileInitial = this.getProfileInitial(this.studentName);
                 this.studentProfileData.full_name = this.studentName;
+              this.studentProfileData.email = res.email || this.studentProfileData.email || 'Not Available';
+              this.studentProfileData.phone = res.phone || this.studentProfileData.phone || 'Not Available';
+              this.studentProfileData.location = res.location || this.studentProfileData.location || 'Not Available';
+              this.studentProfileData.linkedin = res.linkedin || this.studentProfileData.linkedin || 'Not Available';
+              this.studentProfileData.experience_type = res.experience_type || this.studentProfileData.experience_type || 'Not Available';
                 this.cdr.detectChanges();
                 
                 const stored = window.localStorage.getItem('STUDENT_DATA');

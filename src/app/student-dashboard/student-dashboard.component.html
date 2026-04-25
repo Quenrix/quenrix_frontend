@@ -10,13 +10,13 @@
           <img src="assets/logo.webp" alt="Logo" class="institute-logo">
         </div>
         <div class="search-wrapper">
-          <input type="search" placeholder="Search Courses, Assignments..." [formControl]="searchControl" />
+          <input type="search" placeholder="Search courses and assignments..." [formControl]="searchControl" />
           <i class="fas fa-search"></i>
         </div>
       </div>
       <div class="header-right">
-        <button class="btn-request" (click)="goToProfileSetupForm()" style="background-color: #F43F5E;">
-          <i class="fas fa-user-edit"></i> <span>Setup Profile</span>
+        <button class="btn-request" (click)="goToProfileSetupForm()">
+          <i class="fas fa-user-edit"></i> <span>Profile Setup</span>
         </button>
       </div>
     </header>
@@ -28,24 +28,69 @@
       <aside class="sidebar">
         <nav class="sidebar-nav">
           <a [class.active]="activePage === 'dashboard'" (click)="setActivePage('dashboard')">
-              <i class="fas fa-home"></i> <span>Home</span>
+              <i class="fas fa-home"></i> <span>Dashboard Home</span>
           </a>
           <a [class.active]="activePage === 'batches'" (click)="setActivePage('batches')">
               <i class="fas fa-book-reader"></i> <span>My Batches</span>
           </a>
-          <a [class.active]="activePage === 'shorts'" (click)="setActivePage('shorts')" style="color: #ec4899;">
-              <i class="fas fa-play-circle" style="font-size: 26px;"></i> <span>Shorts</span>
+            <a [class.active]="activePage === 'lms-courses'" (click)="setActivePage('lms-courses')">
+              <i class="fas fa-graduation-cap"></i> <span>LMS Courses</span>
+            </a>
+            <a [class.active]="activePage === 'lms-announcements'" (click)="setActivePage('lms-announcements')">
+              <i class="fas fa-bullhorn"></i> <span>Announcements</span>
+            </a>
+            <a [class.active]="activePage === 'gradebook'" (click)="setActivePage('gradebook')">
+              <i class="fas fa-chart-line"></i> <span>Gradebook</span>
+            </a>
+            <a [class.active]="activePage === 'attendance'" (click)="setActivePage('attendance')">
+              <i class="fas fa-user-check"></i> <span>Attendance</span>
+            </a>
+            <a [class.active]="activePage === 'assignments'" (click)="setActivePage('assignments')">
+              <i class="fas fa-tasks"></i> <span>Assignments</span>
+            </a>
+            <a [class.active]="activePage === 'study-plan'" (click)="setActivePage('study-plan')">
+              <i class="fas fa-calendar-check"></i> <span>Study Plan</span>
+            </a>
+            <a [class.active]="activePage === 'goals'" (click)="setActivePage('goals')">
+              <i class="fas fa-bullseye"></i> <span>Goals</span>
+            </a>
+            <a [class.active]="activePage === 'resources'" (click)="setActivePage('resources')">
+              <i class="fas fa-layer-group"></i> <span>Resources</span>
+            </a>
+            <a class="menu-shorts" [class.active]="activePage === 'shorts'" (click)="setActivePage('shorts')">
+              <i class="fas fa-play-circle"></i> <span>Learning Shorts</span>
           </a>
           <a [class.active]="activePage === 'generate-resume'" (click)="goToResumeView()">
-              <i class="fas fa-file-alt"></i> <span>Resume</span>
+              <i class="fas fa-file-alt"></i> <span>Resume Builder</span>
           </a>
           <a [class.active]="activePage === 'syntaxshare'" (click)="setActivePage('syntaxshare')">
-              <i class="fas fa-comments"></i> <span>Doubt Hub</span>
+              <i class="fas fa-comments"></i> <span>Doubt Support</span>
           </a>
-          <a (click)="logout()" style="color: #ef4444;">
-              <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+            <a class="menu-logout" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i> <span>Log Out</span>
           </a>
         </nav>
+
+        <section class="sidebar-study-pulse">
+          <h4>Study Pulse</h4>
+          <div class="pulse-metric">
+            <span>Current Streak</span>
+            <strong>{{ learningStreakDays }} days</strong>
+          </div>
+          <div class="pulse-metric">
+            <span>Today Target</span>
+            <strong>{{ todayStudyTargetMinutes }} min</strong>
+          </div>
+          <div class="pulse-metric">
+            <span>Alerts</span>
+            <strong>{{ notificationsEnabled ? 'Enabled' : 'Disabled' }}</strong>
+          </div>
+          <div class="pulse-actions">
+            <button (click)="setActivePage('study-plan')">Open Plan</button>
+            <button (click)="setActivePage('assignments')">View Tasks</button>
+          </div>
+        </section>
+
         <div class="sidebar-bottom">
           <div class="toggle-switch" [class.active]="notificationsEnabled" (click)="notificationsEnabled = !notificationsEnabled">
             <span></span>
@@ -56,51 +101,480 @@
       <!-- CENTER CONTENT -->
       <main class="main-content">
         <ng-container *ngIf="activePage === 'dashboard'">
-          <!-- PROFILE CARD -->
-          <section class="premium-profile-card">
-              <div class="card-bg-decoration">
-                  <div class="circle circle-1"></div>
-                  <div class="circle circle-2"></div>
+          <section class="dashboard-home-shell">
+            <section class="dashboard-title-row">
+              <div>
+                <h2>Student Dashboard</h2>
+                <p>Your daily classes, progress, and learning tools in one place.</p>
               </div>
-              <div class="profile-content-wrapper">
-                <div class="profile-upload-container" (click)="triggerProfileUpload()">
-                    <div class="premium-profile-ring">
-                        <div class="attractive-profile-circle" 
-                             [style.backgroundColor]="uploadedProfileImage ? 'transparent' : '#ffffff20'">
-                            <img *ngIf="uploadedProfileImage" [src]="uploadedProfileImage" alt="Profile" class="uploaded-profile-img">
-                            <span *ngIf="!uploadedProfileImage" class="profile-initial-text">{{ profileInitial }}</span>
-                            <div class="camera-icon-overlay"><i class="fas fa-camera"></i></div>
-                        </div>
-                    </div>
-                    <input type="file" #fileInput (change)="onProfileImageSelected($event)" accept="image/*" style="display: none;">
-                </div>
-                <div class="profile-text-content">
-                    <span class="status-badge"><i class="fas fa-star"></i>Student</span>
-                    <h2 class="student-name-text">{{ studentName }}</h2> 
-                    <p class="greeting-message">{{ greeting }}</p>
-                    <div class="date-badge">
-                        <i class="far fa-calendar-alt"></i>
-                        <span>{{ currentDayOfWeek }}, {{ currentDay }} {{ currentMonth }}</span>
-                    </div>
-                </div>
-              </div>
-          </section>
+            </section>
 
-          <!-- STAT CARDS -->
-          <section class="stats-cards-container">
-              <div *ngFor="let card of quickAccessCards; let i = index" 
-                  class="stat-card" 
-                  [ngClass]="card.colorClass"
-                  (click)="handleQuickCardClick(card.route)">
-                <p class="title">{{ card.title }}</p>
-                <!-- Display logic for batches -->
-                <p class="value" *ngIf="card.route === 'batches'">{{ studentAssignedBatches.length > 0 ? studentAssignedBatches[0].batch_name : 'No Batch' }}</p>
-                <p class="value" *ngIf="card.route !== 'batches'">{{ card.value }}</p>
-                <div class="footer-info">
-                  <span>{{ card.subText }}</span>
-                  <i [class]="card.icon" [ngStyle]="{'color': card.color}"></i>
+            <section class="dashboard-overview-bar">
+              <div class="overview-item">
+                <p>Profile Status</p>
+                <h4>{{ isProfileComplete ? 'Complete' : 'Incomplete' }}</h4>
+              </div>
+              <div class="overview-item">
+                <p>Active Batch</p>
+                <h4>{{ activeBatchName }}</h4>
+              </div>
+              <div class="overview-item">
+                <p>Upcoming Exams</p>
+                <h4>{{ upcomingExams.length }} Upcoming</h4>
+              </div>
+              <div class="overview-item">
+                <p>Readiness</p>
+                <h4>{{ readinessScore }}% Ready</h4>
+              </div>
+            </section>
+
+            <section class="lms-overview-strip">
+              <article class="lms-strip-card">
+                <div class="lms-strip-head">
+                  <h3>LMS Learning Progress</h3>
+                  <span>{{ lmsOverallProgress }}% Complete</span>
+                </div>
+                <div class="lms-progress-track">
+                  <div [style.width.%]="lmsOverallProgress"></div>
+                </div>
+                <p>{{ completedModuleCount }}/{{ learningModules.length }} modules completed this week.</p>
+              </article>
+              <article class="lms-strip-card mini">
+                <p>Unread Announcements</p>
+                <h4>{{ unreadAnnouncementCount }}</h4>
+                <button class="small-action-btn" (click)="setActivePage('lms-announcements')">Open</button>
+              </article>
+              <article class="lms-strip-card mini">
+                <p>Average Grade</p>
+                <h4>{{ averageGradePercent }}%</h4>
+                <button class="small-action-btn" (click)="setActivePage('gradebook')">View Gradebook</button>
+              </article>
+            </section>
+
+            <section class="hero-bento-grid">
+              <article class="premium-profile-card profile-hero-card">
+                <div class="card-bg-decoration">
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                </div>
+                <div class="profile-content-wrapper">
+                  <div class="profile-upload-container" (click)="triggerProfileUpload()">
+                      <div class="premium-profile-ring">
+                          <div class="attractive-profile-circle" 
+                               [style.backgroundColor]="uploadedProfileImage ? 'transparent' : '#ffffff20'">
+                              <img *ngIf="uploadedProfileImage" [src]="uploadedProfileImage" alt="Profile" class="uploaded-profile-img">
+                              <span *ngIf="!uploadedProfileImage" class="profile-initial-text">{{ profileInitial }}</span>
+                              <div class="camera-icon-overlay"><i class="fas fa-camera"></i></div>
+                          </div>
+                      </div>
+                      <input type="file" #fileInput (change)="onProfileImageSelected($event)" accept="image/*" style="display: none;">
+                  </div>
+                  <div class="profile-text-content">
+                      <span class="status-badge"><i class="fas fa-star"></i>Student</span>
+                      <h2 class="student-name-text">{{ studentName }}</h2>
+                      <p class="greeting-message">{{ greeting }}</p>
+                      <div class="date-badge">
+                          <i class="far fa-calendar-alt"></i>
+                          <span>{{ currentDayOfWeek }}, {{ currentDay }} {{ currentMonth }}</span>
+                      </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="hero-side-card">
+                <p class="hero-side-label">Student Information</p>
+                <h3>Your Profile Details</h3>
+                <div class="student-info-list">
+                  <div class="student-info-item">
+                    <span class="student-info-key">Student ID</span>
+                    <span class="student-info-value">{{ studentProfileData.student_id || 'Not Available' }}</span>
+                  </div>
+                  <div class="student-info-item">
+                    <span class="student-info-key">Email</span>
+                    <span class="student-info-value">{{ studentProfileData.email || 'Not Available' }}</span>
+                  </div>
+                  <div class="student-info-item">
+                    <span class="student-info-key">Phone</span>
+                    <span class="student-info-value">{{ studentProfileData.phone || 'Not Available' }}</span>
+                  </div>
+                  <div class="student-info-item">
+                    <span class="student-info-key">Location</span>
+                    <span class="student-info-value">{{ studentProfileData.location || 'Not Available' }}</span>
+                  </div>
+                  <div class="student-info-item">
+                    <span class="student-info-key">Batch</span>
+                    <span class="student-info-value">{{ activeBatchName }}</span>
+                  </div>
+                  <div class="student-info-item">
+                    <span class="student-info-key">Profile</span>
+                    <span class="student-info-value">{{ isProfileComplete ? 'Complete' : 'Incomplete' }}</span>
+                  </div>
+                </div>
+              </article>
+            </section>
+
+            <section class="classroom-priority-grid">
+              <article class="priority-panel">
+                <div class="priority-panel-head">
+                  <h3>Today in Class</h3>
+                  <span class="live-pill">Live Update</span>
+                </div>
+                <div class="priority-metric-grid">
+                  <div class="priority-metric-item">
+                    <p>Classes Today</p>
+                    <h4>{{ todayClassCount }} Session{{ todayClassCount !== 1 ? 's' : '' }}</h4>
+                  </div>
+                  <div class="priority-metric-item">
+                    <p>Pending Assignments</p>
+                    <h4>{{ pendingAssignmentsCount }} Task{{ pendingAssignmentsCount !== 1 ? 's' : '' }}</h4>
+                  </div>
+                  <div class="priority-metric-item">
+                    <p>Nearest Deadline</p>
+                    <h4>{{ upcomingDeadlines.length > 0 ? (upcomingDeadlines[0].dueDate | date:'dd MMM') : 'None' }}</h4>
+                  </div>
+                </div>
+                <div class="priority-highlight">
+                  <span>Next Class Focus:</span>
+                  <strong>{{ nextClassLabel }}</strong>
+                </div>
+              </article>
+
+              <article class="priority-panel planner-panel">
+                <div class="priority-panel-head">
+                  <h3>Today Action Plan</h3>
+                  <span class="pending-pill">{{ pendingActionsCount }} Pending</span>
+                </div>
+
+                <div class="planner-actions">
+                  <button class="planner-action-btn" (click)="runPlannerAction('profile')">
+                    <span>Complete Profile</span>
+                    <small>{{ isProfileComplete ? 'Done' : 'Required' }}</small>
+                  </button>
+                  <button class="planner-action-btn" (click)="runPlannerAction('class')">
+                    <span>Join Live Class</span>
+                    <small>{{ notificationsEnabled ? 'Ready' : 'Enable Alerts' }}</small>
+                  </button>
+                  <button class="planner-action-btn" (click)="runPlannerAction('exam')">
+                    <span>Prepare for Exam</span>
+                    <small>{{ upcomingExams.length }} Upcoming</small>
+                  </button>
+                </div>
+
+                <ul class="focus-list">
+                  <li *ngFor="let tip of focusRecommendations">{{ tip }}</li>
+                </ul>
+              </article>
+            </section>
+
+            <section class="feature-hub-section">
+              <div class="feature-hub-head">
+                <h3>LMS Workspace</h3>
+                <p>Structured learning modules, announcements, and performance tools.</p>
+              </div>
+              <div class="insight-grid">
+                <article class="insight-card">
+                  <i class="fas fa-layer-group"></i>
+                  <div>
+                    <h4>Learning Modules</h4>
+                    <p>Track module completion and maintain consistency in daily LMS tasks.</p>
+                  </div>
+                  <button class="small-action-btn" (click)="setActivePage('lms-courses')">Open Modules</button>
+                </article>
+                <article class="insight-card">
+                  <i class="fas fa-bullhorn"></i>
+                  <div>
+                    <h4>Academic Notices</h4>
+                    <p>{{ unreadAnnouncementCount }} update{{ unreadAnnouncementCount !== 1 ? 's' : '' }} need your attention in announcements.</p>
+                  </div>
+                  <button class="small-action-btn" (click)="setActivePage('lms-announcements')">Open Notices</button>
+                </article>
+                <article class="insight-card">
+                  <i class="fas fa-chart-line"></i>
+                  <div>
+                    <h4>Assessment Performance</h4>
+                    <p>Current published performance is {{ averageGradePercent }}% across available assessments.</p>
+                  </div>
+                  <button class="small-action-btn" (click)="setActivePage('gradebook')">View Scores</button>
+                </article>
+              </div>
+            </section>
+
+            <section class="lms-activity-grid">
+              <article class="lms-block-card">
+                <div class="lms-block-head">
+                  <h3>Module Tracker</h3>
+                  <button (click)="setActivePage('lms-courses')">All Modules</button>
+                </div>
+                <div class="module-list">
+                  <div class="module-item" *ngFor="let module of learningModules; let i = index">
+                    <div>
+                      <h4>{{ module.title }}</h4>
+                      <p>{{ module.course }} • {{ module.duration }}</p>
+                    </div>
+                    <button class="small-action-btn" [disabled]="module.status === 'Locked'" (click)="toggleModuleStatus(i)">
+                      {{ module.status }}
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="lms-block-card">
+                <div class="lms-block-head">
+                  <h3>Upcoming Live Sessions</h3>
+                  <button (click)="openJoinMeetingModal()">Open Class Lobby</button>
+                </div>
+                <div class="session-list">
+                  <div class="session-item" *ngFor="let session of liveSessions">
+                    <div>
+                      <h4>{{ session.topic }}</h4>
+                      <p>{{ session.faculty }} • {{ session.startTime }}</p>
+                    </div>
+                    <button class="small-action-btn" (click)="joinLmsSession(session)">
+                      {{ session.mode === 'Recorded' ? 'View Recording' : 'Join' }}
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </section>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'lms-courses'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>LMS Courses</h2>
+              <p>Track your active courses, topic coverage, and completion status in one place.</p>
+            </div>
+            <div class="lms-course-grid">
+              <article class="lms-course-card" *ngFor="let course of lmsCourses">
+                <div class="lms-course-head">
+                  <h4>{{ course.title }}</h4>
+                  <span>{{ course.level }}</span>
+                </div>
+                <p>Instructor: {{ course.instructor }}</p>
+                <p>{{ course.completedTopics }}/{{ course.totalTopics }} topics completed</p>
+                <div class="lms-progress-track">
+                  <div [style.width.%]="course.progress"></div>
+                </div>
+                <strong>{{ course.progress }}%</strong>
+              </article>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'lms-announcements'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>LMS Announcements</h2>
+              <p>Stay updated with important academic notifications and deadlines.</p>
+            </div>
+            <div class="feature-list-card">
+              <div class="announcement-item" *ngFor="let item of announcements; let i = index" [class.unread]="!item.read">
+                <div>
+                  <h4>{{ item.title }}</h4>
+                  <p>{{ item.message }}</p>
+                  <small>{{ item.createdAt | date:'dd MMM, h:mm a' }}</small>
+                </div>
+                <div class="announcement-actions">
+                  <span class="priority-chip" [class.high]="item.priority === 'Urgent'" [class.medium]="item.priority === 'Important'" [class.low]="item.priority === 'Info'">{{ item.priority }}</span>
+                  <button class="small-action-btn" [disabled]="item.read" (click)="markAnnouncementAsRead(i)">
+                    {{ item.read ? 'Read' : 'Mark Read' }}
+                  </button>
                 </div>
               </div>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'gradebook'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>Gradebook</h2>
+              <p>Review published assessment scores and monitor your performance trend.</p>
+            </div>
+            <div class="gradebook-table-wrap">
+              <table class="gradebook-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Assessment</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of gradebookItems">
+                    <td>{{ row.subject }}</td>
+                    <td>{{ row.assessment }}</td>
+                    <td>{{ row.score }}/{{ row.maxScore }}</td>
+                    <td>
+                      <span class="grade-status" [class.pending]="row.status === 'Pending'">{{ row.status }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'attendance'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>Attendance Tracker</h2>
+              <p>Review your attendance by subject and keep your term percentage above target.</p>
+            </div>
+            <div class="feature-summary-grid">
+              <article class="summary-card">
+                <p>Overall Attendance</p>
+                <h3>{{ overallAttendancePercentage }}%</h3>
+              </article>
+              <article class="summary-card">
+                <p>Target Benchmark</p>
+                <h3>90%</h3>
+              </article>
+              <article class="summary-card">
+                <p>Subjects Tracked</p>
+                <h3>{{ attendanceRecords.length }}</h3>
+              </article>
+            </div>
+            <div class="feature-list-card">
+              <div class="attendance-row" *ngFor="let item of attendanceRecords">
+                <div>
+                  <h4>{{ item.course }}</h4>
+                  <p>Last updated: {{ item.lastUpdated }}</p>
+                </div>
+                <div class="attendance-right">
+                  <span>{{ item.attended }}/{{ item.total }}</span>
+                  <strong>{{ (item.attended / item.total) * 100 | number:'1.0-0' }}%</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'assignments'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>Assignment Manager</h2>
+              <p>Keep deadlines under control and update submission status quickly.</p>
+            </div>
+            <div class="feature-summary-grid">
+              <article class="summary-card">
+                <p>Pending</p>
+                <h3>{{ pendingAssignmentsCount }}</h3>
+              </article>
+              <article class="summary-card">
+                <p>Submitted</p>
+                <h3>{{ submittedAssignmentsCount }}</h3>
+              </article>
+              <article class="summary-card">
+                <p>Total Assignments</p>
+                <h3>{{ assignmentItems.length }}</h3>
+              </article>
+            </div>
+            <div class="feature-list-card">
+              <div class="assignment-row" *ngFor="let item of assignmentItems; let i = index">
+                <div>
+                  <h4>{{ item.title }}</h4>
+                  <p>{{ item.subject }} | Due: {{ item.dueDate | date:'dd MMM yyyy' }}</p>
+                </div>
+                <div class="assignment-right">
+                  <span class="priority-chip" [class.high]="item.priority === 'High'" [class.medium]="item.priority === 'Medium'" [class.low]="item.priority === 'Low'">{{ item.priority }}</span>
+                  <button class="small-action-btn" [disabled]="item.status === 'Submitted'" (click)="markAssignmentSubmitted(i)">
+                    {{ item.status === 'Submitted' ? 'Submitted' : 'Mark Submitted' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'study-plan'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>Weekly Study Plan</h2>
+              <p>Follow a structured schedule to stay consistent with your learning goals.</p>
+            </div>
+            <div class="feature-summary-grid">
+              <article class="summary-card">
+                <p>Completed Sessions</p>
+                <h3>{{ completedStudySessions }}/{{ weeklyStudyPlan.length }}</h3>
+              </article>
+              <article class="summary-card">
+                <p>Today Target</p>
+                <h3>{{ todayStudyTargetMinutes }} min</h3>
+              </article>
+              <article class="summary-card">
+                <p>Completion Rate</p>
+                <h3>{{ (completedStudySessions / weeklyStudyPlan.length) * 100 | number:'1.0-0' }}%</h3>
+              </article>
+            </div>
+            <div class="feature-list-card">
+              <div class="study-row" *ngFor="let item of weeklyStudyPlan; let i = index">
+                <div>
+                  <h4>{{ item.day }} - {{ item.topic }}</h4>
+                  <p>{{ item.durationMinutes }} minutes planned</p>
+                </div>
+                <button class="small-action-btn" (click)="toggleStudyPlanCompletion(i)">
+                  {{ item.completed ? 'Completed' : 'Mark Complete' }}
+                </button>
+              </div>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'goals'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>Goal Progress</h2>
+              <p>Track your milestone progress across academics, placement, and projects.</p>
+            </div>
+            <div class="feature-summary-grid">
+              <article class="summary-card">
+                <p>Average Progress</p>
+                <h3>{{ goalProgressAverage }}%</h3>
+              </article>
+              <article class="summary-card">
+                <p>Active Goals</p>
+                <h3>{{ goalItems.length }}</h3>
+              </article>
+              <article class="summary-card">
+                <p>Highest Progress</p>
+                <h3>{{ goalItems.length > 0 ? goalItems[0].progress : 0 }}%</h3>
+              </article>
+            </div>
+            <div class="feature-list-card">
+              <div class="goal-row" *ngFor="let goal of goalItems">
+                <div>
+                  <h4>{{ goal.title }}</h4>
+                  <p>{{ goal.category }} | Target: {{ goal.targetDate | date:'dd MMM yyyy' }}</p>
+                </div>
+                <div class="goal-progress-wrap">
+                  <div class="goal-progress-track">
+                    <div class="goal-progress-fill" [style.width.%]="goal.progress"></div>
+                  </div>
+                  <strong>{{ goal.progress }}%</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-container *ngIf="activePage === 'resources'">
+          <section class="feature-page-shell">
+            <div class="feature-page-head">
+              <h2>Learning Resources</h2>
+              <p>Use curated content for revision, interview preparation, and profile growth.</p>
+            </div>
+            <div class="feature-list-card">
+              <div class="resource-row" *ngFor="let item of recommendedResources">
+                <div>
+                  <h4>{{ item.title }}</h4>
+                  <p>{{ item.type }} | {{ item.duration }}</p>
+                </div>
+                <button class="small-action-btn">{{ item.action }}</button>
+              </div>
+            </div>
           </section>
         </ng-container>
 
@@ -142,7 +616,7 @@
         </div>
         <div class="right-schedule-header">
           <h3>My Schedule</h3>
-          <button (click)="openExamModal()" style="color: #F59E0B; font-size: 16px;">
+          <button (click)="openExamModal()" style="color: #7352e1; font-size: 16px;">
               <i class="fas fa-edit"></i> Exams
           </button>
         </div>
@@ -171,6 +645,67 @@
               <p class="desc">{{ item.desc }}</p>
             </div>
           </div>
+        </div>
+
+        <div class="right-utility-stack">
+          <article class="utility-card">
+            <div class="utility-head">
+              <h4>Upcoming Deadlines</h4>
+              <button (click)="setActivePage('assignments')">Open</button>
+            </div>
+            <div class="utility-list" *ngIf="upcomingDeadlines.length > 0; else noDeadlineData">
+              <div class="utility-item" *ngFor="let item of upcomingDeadlines">
+                <p>{{ item.title }}</p>
+                <span>{{ item.dueDate | date:'dd MMM' }}</span>
+              </div>
+            </div>
+            <ng-template #noDeadlineData>
+              <p class="utility-empty">No upcoming deadlines.</p>
+            </ng-template>
+          </article>
+
+          <article class="utility-card">
+            <div class="utility-head">
+              <h4>Consistency Snapshot</h4>
+              <button (click)="setActivePage('dashboard')">Refresh</button>
+            </div>
+            <div class="stat-line">
+              <span>Learning Streak</span>
+              <strong>{{ learningStreakDays }} days</strong>
+            </div>
+            <div class="mini-track"><div [style.width.%]="learningStreakScore"></div></div>
+
+            <div class="stat-line">
+              <span>Profile Completion</span>
+              <strong>{{ isProfileComplete ? 'Complete' : 'Pending' }}</strong>
+            </div>
+            <div class="mini-track"><div [style.width.%]="profileCompletionScore"></div></div>
+
+            <div class="stat-line">
+              <span>Notification Status</span>
+              <strong>{{ notificationsEnabled ? 'On' : 'Off' }}</strong>
+            </div>
+            <div class="mini-track"><div [style.width.%]="notificationsEnabled ? 100 : 25"></div></div>
+          </article>
+
+          <article class="utility-card">
+            <div class="utility-head">
+              <h4>This Week Focus</h4>
+              <button (click)="setActivePage('study-plan')">Plan</button>
+            </div>
+            <div class="utility-item condensed">
+              <p>Completed Study Minutes</p>
+              <span>{{ studyMinutesCompletedThisWeek }} min</span>
+            </div>
+            <div class="utility-item condensed">
+              <p>Completed Sessions</p>
+              <span>{{ completedStudySessions }}/{{ weeklyStudyPlan.length }}</span>
+            </div>
+            <div class="utility-item condensed">
+              <p>Next Step</p>
+              <span>{{ upcomingDeadlines.length > 0 ? 'Finish nearest assignment' : 'Continue topic revision' }}</span>
+            </div>
+          </article>
         </div>
       </section>
     </div>
@@ -224,7 +759,7 @@
         <div class="modal-content premium-exam-modal" style="max-width: 500px;">
             <button class="modal-close-btn" (click)="closeJoinMeetingModal()"><i class="fas fa-times"></i></button>
             <div class="exam-modal-header">
-                <div class="header-icon" style="background: #10B981;"><i class="fas fa-video"></i></div>
+                <div class="header-icon" style="background: #7352e1;"><i class="fas fa-video"></i></div>
                 <div class="header-titles">
                     <h3>Join Live Class</h3>
                     <p>Select your batch to attend the session.</p>
@@ -242,7 +777,7 @@
                             <p style="font-size: 12px; color: #64748b;">{{ batch.timing || 'No timing set' }}</p>
                         </div>
                         <button class="btn-primary-gradient" 
-                                style="padding: 8px 16px; font-size: 12px; background: #10B981;"
+                                style="padding: 8px 16px; font-size: 12px; background: #7352e1;"
                                 (click)="joinMeeting(batch.zoom_join_url)">
                             Join Now
                         </button>
