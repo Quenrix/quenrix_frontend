@@ -47,6 +47,11 @@
             {{ successMessage }}
         </div>
 
+        <div style="background: #f0f4ff; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 0.85rem; color: #5331bf; border-left: 3px solid #5331bf;">
+            <strong>Test Mode:</strong> Use any email ending with <code style="background: #fff; padding: 2px 4px; border-radius: 2px;">@test.com</code> to bypass authentication.
+            <br/>Example: <code style="background: #fff; padding: 2px 4px; border-radius: 2px;">student@test.com</code> (for student view)
+        </div>
+
         <form *ngIf="!isForgotPasswordMode" (ngSubmit)="login()" class="auth-form">
             <div class="form-group">
                 <label for="email">Email Address</label>

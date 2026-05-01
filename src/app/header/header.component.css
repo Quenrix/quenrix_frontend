@@ -205,7 +205,7 @@
   font-size: 0.9rem; 
   padding: 0.6rem 1.4rem; 
   border-radius: 50px;
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: 0.5rem; 
   background: linear-gradient(135deg, var(--accent-color), var(--primary-hover));
@@ -498,4 +498,11 @@
   .main-nav.desktop-nav-links { display: none; }
   .desktop-only { display: none; } 
   .hamburger-menu { display: block; }
+}
+
+/* Desktop Breakpoint - Ensure login button is visible */
+@media (min-width: 1025px) {
+  .desktop-only { display: flex !important; }
+  .hamburger-menu { display: none !important; }
+  .mobile-nav { display: none !important; }
 }

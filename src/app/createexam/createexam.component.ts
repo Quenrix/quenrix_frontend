@@ -129,7 +129,7 @@ export class CreateExamComponent implements OnInit {
   // ── Navigation ───────────────────────────────────────────────────────────────
 
   goBack(): void {
-    this.router.navigate(['/admin-panel']);
+    this.router.navigate(['/admin/admin-panel']);
   }
 
   // ── Helpers ──────────────────────────────────────────────────────────────────

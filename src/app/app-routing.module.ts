@@ -1,96 +1,59 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { LoginFormComponent } from './login-form/login-form.component';
-import { AdminPanelComponent } from './admin-panel/admin-panel.component';
-import { TrainerFormComponent } from './trainer-form/trainer-form.component';
-import { ChatbotComponent } from './chatbot/chatbot.component';
-import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
-import { CreateBatchComponent } from './create-batch/create-batch.component';
-import { GenerateAtsResumeComponent } from './generate-ats-resume/generate-ats-resume.component';
-import { CreateCourseComponent } from './create-course/create-course.component';
-import { CreateUserComponent } from './create-user/create-user.component';
-import { AssignUserToBatchComponent } from './assign-user-to-batch/assign-user-to-batch.component';
-import { CreateJobComponent } from './create-job/create-job.component';
-import { CreateExamComponent } from './createexam/createexam.component';
-import { AttendExamComponent } from './attend-exam/attend-exam.component';
-import { ContactComponent } from './contact/contact.component';
-import { CreateSuccessStoryComponent } from './admin-panel/create-success-story/create-success-story.component';
-import { BlogComponent } from './blog/blog.component';
-import { UploadBlogComponent } from './admin-panel/upload-blog/upload-blog.component';
-import { UploadNotesComponent } from './upload-notes/upload-notes.component';
-import { CareersComponent } from './careers/careers.component';
-import { SyntaxshareComponent } from './syntaxshare/syntaxshare.component';
-import { JobApplicationComponent } from './job-application/job-application.component';
-import { HomeComponent } from './codexa/home/home.component';
-import { CourseBatchManagementComponent } from './course-batch-management/course-batch-management.component';
-import { SetupProfileComponent } from './setup-profile/setup-profile.component';
-import { TrainerDashboardComponent } from './trainer-dashboard/trainer-dashboard.component';
 import { GuestGuard } from './guest.guard';
 import { AuthGuard } from './auth.guard';
 
-
-
 const routes: Routes = [
-  // Guest Routes (Accessible only if NOT logged in)
-  { 
-    path: '', 
-    component: LandingPageComponent, 
-    pathMatch: 'full',
-    canActivate: [GuestGuard] 
-  },
-  { 
-    path: 'landing-page', 
-    component: LandingPageComponent,
-    canActivate: [GuestGuard] 
-  },
-  { 
-    path: 'login', 
-    component: LoginFormComponent,
-    canActivate: [GuestGuard]
+  // Public Routes loaded via PublicModule
+  {
+    path: '',
+    loadChildren: () => import('./modules/public/public.module').then(m => m.PublicModule)
   },
 
-  // Protected Routes (Accessible only if logged in)
-  { 
-    path: 'admin-panel', 
-    component: AdminPanelComponent,
-    canActivate: [AuthGuard]
+  // Lazy-loaded Admin Module
+  {
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'admin' }
   },
-  { 
-    path: 'student-dashboard', 
-    component: StudentDashboardComponent,
-    canActivate: [AuthGuard]
+
+  // Lazy-loaded Student Module
+  {
+    path: 'student',
+    loadChildren: () => import('./modules/student/student.module').then(m => m.StudentModule),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'student' }
   },
-  { 
-    path: 'trainer-dashboard', 
-    component: TrainerDashboardComponent,
-    canActivate: [AuthGuard]
+
+  // Lazy-loaded Trainer Module
+  {
+    path: 'trainer',
+    loadChildren: () => import('./modules/trainer/trainer.module').then(m => m.TrainerModule),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'trainer' }
   },
-  {path:'setup-profile', component:SetupProfileComponent},
-  {path:'trainer-form',component:TrainerFormComponent},
-  {path:'chatbot',component:ChatbotComponent},
-  {path: 'generate-ats-resume', component: GenerateAtsResumeComponent},
-  {path:'create-batch',component:CreateBatchComponent},
-  {path:'create-course',component:CreateCourseComponent},
-  {path:'create-user',component:CreateUserComponent},
-  {path:'assign-user-to-batch',component:AssignUserToBatchComponent},
-  {path:'create-job',component:CreateJobComponent},
-  {path:'create-exam',component:CreateExamComponent},
-  {path:'attend-exam',component:AttendExamComponent},
-  { path: 'contact', component: ContactComponent },
-  {path:'create-success-story',component:CreateSuccessStoryComponent},
-  {path:'job-application',component:JobApplicationComponent},
-  {path:'blog',component:BlogComponent},
-  {path:'upload-blog',component:UploadBlogComponent},
-  {path:'upload-notes',component:UploadNotesComponent},
-  {path:'careers',component:CareersComponent},
-  {path:'course-batch-management',component:CourseBatchManagementComponent},
-  {path:'syntaxshare',component:SyntaxshareComponent},
-  {path:'home',component:HomeComponent}
+
+  // Standalone route for SetupProfileComponent (shared between student & trainer)
+  {
+    path: 'setup-profile',
+    canActivate: [AuthGuard],
+    loadComponent: () => import('./setup-profile/setup-profile.component').then(m => m.SetupProfileComponent)
+  },
+
+  // Legacy redirects
+  { path: 'login', redirectTo: '' },
+  { path: 'landing-page', redirectTo: '' },
+  { path: 'admin-panel', redirectTo: '/admin/admin-panel' },
+  { path: 'student-dashboard', redirectTo: '/student/student-dashboard' },
+  { path: 'trainer-dashboard', redirectTo: '/trainer/trainer-dashboard' },
+
+  // Wildcard
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

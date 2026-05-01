@@ -83,7 +83,7 @@ export class CreateSuccessStoryComponent {
                 this.alertService.success('Success Story Added! It is now live on the Wall of Fame.', 'Published');
                 this.resetForm();
                 // Redirecting to admin-panel after successful save
-                this.router.navigate(['/admin-panel']);
+                this.router.navigate(['/admin/admin-panel']);
               },
               error: (err) => this.handleError(err)
             });
@@ -132,6 +132,6 @@ export class CreateSuccessStoryComponent {
    * Navigation back to dashboard
    */
   goBack() {
-    this.router.navigate(['/admin-panel']);
+    this.router.navigate(['/admin/admin-panel']);
   }
 }

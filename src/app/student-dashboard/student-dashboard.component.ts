@@ -1,11 +1,14 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { interval, Subscription, timer, Observable, of, throwError, forkJoin } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ApiService, LoginResponse, StudentBatchDetails } from '../services/api.service'; 
+import { ApiService, LoginResponse, StudentBatchDetails } from '../services/api.service';
+import { NavigationService } from '../services/navigation.service'; 
 import { examAPi } from '../services/createexam.service'; 
 import { ResumeService } from '../services/create-resume.service'; 
 import { CreateBatchService } from '../services/create-batch.service';
+import { CodexaChatService } from '../services/codexa-chat.service';
 import { catchError, map, switchMap, tap, finalize } from 'rxjs/operators';
 
 // --- Interfaces ---
@@ -151,6 +154,14 @@ interface FilterBatch {
     course_id: number; 
 }
 
+interface JoinBatchDetail {
+  batchId: number;
+  batchName: string;
+  timing?: string;
+  mode?: string;
+  zoom_join_url?: string;
+}
+
 @Component({
   selector: 'app-student-dashboard',
   templateUrl: './student-dashboard.component.html',
@@ -203,7 +214,7 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
   isProfileComplete: boolean = false; 
   showProfileCompletionModal: boolean = false; 
   showJoinMeetingModal: boolean = false;
-  selectedBatchDetails: any[] = []; 
+  selectedBatchDetails: JoinBatchDetail[] = []; 
 
   // --- Feature Cards ---
   quickAccessCards: FeatureCard[] = [
@@ -243,6 +254,30 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
   studentBatchesForFilter: FilterBatch[] = [];
 
   shortsList: any[] = [];
+
+  // --- Codexa AI Ask Box ---
+  codexaPrompt: string = '';
+  codexaQuestionCount: number = 10;
+  codexaReply: string = '';
+  codexaError: string = '';
+  isCodexaLoading: boolean = false;
+
+  // --- New Feature States ---
+  studentRankInBatch: number = 3;
+  studyNoteText: string = '';
+  studyTimerSeconds: number = 25 * 60;
+  studyTimerRunning: boolean = false;
+  private timerInterval: any;
+
+  weeklyHeatmapData: { day: string, level: number }[] = [
+    { day: 'Mon', level: 1 },
+    { day: 'Tue', level: 3 },
+    { day: 'Wed', level: 2 },
+    { day: 'Thu', level: 0 },
+    { day: 'Fri', level: 1 },
+    { day: 'Sat', level: 0 },
+    { day: 'Sun', level: 2 },
+  ];
 
   attendanceRecords: AttendanceRecord[] = [
     { course: 'Data Structures', attended: 18, total: 20, lastUpdated: '2 days ago' },
@@ -319,11 +354,7 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
     { subject: 'Database', assessment: 'SQL Assignment 2', score: 0, maxScore: 30, status: 'Pending' },
   ];
 
-  liveSessions: LiveSessionItem[] = [
-    { topic: 'Flexbox and Grid Doubt Class', faculty: 'Aarav Mehta', startTime: 'Today, 6:30 PM', mode: 'Live', joinUrl: '' },
-    { topic: 'SQL Joins Revision', faculty: 'Neel Joshi', startTime: 'Tomorrow, 7:00 PM', mode: 'Live', joinUrl: '' },
-    { topic: 'Interview Problem Solving', faculty: 'Ritika Sharma', startTime: 'Saturday, 5:00 PM', mode: 'Recorded', joinUrl: '' },
-  ];
+  liveSessions: LiveSessionItem[] = [];
 
   learningStreakDays: number = 6;
 
@@ -456,20 +487,43 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
     return Math.round(achieved / published.length);
   }
 
+  get notificationBellCount(): number {
+    return this.unreadAnnouncementCount + this.pendingAssignmentsCount;
+  }
+
+  openNotifications(): void {
+    this.setActivePage('lms-announcements');
+  }
+
+  get aiStudyTip(): string {
+    const published = this.gradebookItems.filter(item => item.status === 'Published' && item.maxScore > 0);
+    if (published.length === 0) return "Consistency is key. Try dedicating 30 minutes a day to learning.";
+    
+    // Find the subject with the lowest score percentage
+    const lowest = published.reduce((prev, curr) => 
+      (curr.score / curr.maxScore) < (prev.score / prev.maxScore) ? curr : prev
+    );
+
+    return `Focus on ${lowest.subject}. Review the ${lowest.assessment} topics to improve your score.`;
+  }
+
   constructor(
       private cdr: ChangeDetectorRef, 
       private apiService: ApiService, 
       private examService: examAPi, 
       private resumeService: ResumeService,
       private batchService: CreateBatchService,
-      private sanitizer: DomSanitizer
-  ) {}
+      private codexaChatService: CodexaChatService,
+      private sanitizer: DomSanitizer,
+       private navigationService: NavigationService
+) {}
 
   ngOnInit(): void {
     this.updateClock();
     this.timeSubscription = interval(1000).subscribe(() => this.updateClock());
     this.initCalendarData();
     this.initializeShorts();
+    this.studyNoteText = localStorage.getItem('studentDashboardNote') || '';
 
     this.fetchStudentDataFromStorage().subscribe({
       next: () => {
@@ -530,6 +584,7 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
                 this.selectedCourseId = firstBatch.course_id;
                 this.updateBatchCard(firstBatch.batch_name);
             }
+        this.loadJoinBatchDetails();
             this.loadingDashboardData = false;
             this.cdr.detectChanges();
         }),
@@ -664,28 +719,27 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
     else this.greeting = 'Good Evening! Final Push.';
   }
 
+
   logout(): void {
+    this.navigationService.clearUser();
     localStorage.clear();
     sessionStorage.clear();
     window.location.href = 'login';
   }
 
-  setActivePage(page: string): void {
-    this.activePage = page;
-  }
 
   goToResumeView(): void {
       this.setActivePage('generate-resume');
       this.showMessage('Resume Viewer opened.', 'success');
   }
 
-  joinMeeting(url: string): void {
+    joinMeeting(url?: string): void {
       if (!url) {
-          this.showMessage('Meeting link not available for this batch.', 'error');
-          return;
+        this.showMessage('Meeting link not available for this batch.', 'error');
+        return;
       }
       window.open(url, '_blank');
-  }
+    }
 
   handleQuickCardClick(route: string): void {
     if (route === 'live-sessions') this.openJoinMeetingModal();
@@ -722,13 +776,105 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
     this.announcements[index] = { ...selected, read: true };
   }
 
+  // --- Kanban & Heatmap Methods ---
+  saveNote(): void {
+    // Note is two-way bound to studyNoteText, would save to API/localStorage here
+    localStorage.setItem('studentDashboardNote', this.studyNoteText);
+  }
+
+  getKanbanTasks(status: string): AssignmentItem[] {
+    return this.assignmentItems.filter(item => item.status === status);
+  }
+
+  advanceKanbanTask(task: AssignmentItem): void {
+    if (task.status === 'Pending') task.status = 'In Progress';
+    else if (task.status === 'In Progress') task.status = 'Submitted';
+    this.showMessage(`Task moved to ${task.status}`, 'success');
+  }
+
+  // --- Study Timer Methods ---
+  toggleStudyTimer(): void {
+    if (this.studyTimerRunning) {
+      clearInterval(this.timerInterval);
+      this.studyTimerRunning = false;
+    } else {
+      this.studyTimerRunning = true;
+      this.timerInterval = setInterval(() => {
+        if (this.studyTimerSeconds > 0) {
+          this.studyTimerSeconds--;
+        } else {
+          this.resetStudyTimer();
+          this.showMessage('Study session complete!', 'success');
+        }
+      }, 1000);
+    }
+  }
+
+  resetStudyTimer(): void {
+    clearInterval(this.timerInterval);
+    this.studyTimerRunning = false;
+    this.studyTimerSeconds = 25 * 60; // 25 minutes default
+  }
+
+  formatTimer(totalSeconds: number): string {
+    const m = Math.floor(totalSeconds / 60);
+    const s = totalSeconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
   openLmsResource(action: string): void {
     this.showMessage(`${action} is available in this LMS section.`, 'success');
+  }
+
+  setCodexaPrompt(prompt: string): void {
+    this.codexaPrompt = prompt;
+  }
+
+  askCodexaQuestion(): void {
+    const prompt = this.codexaPrompt.trim();
+    if (!prompt || this.isCodexaLoading) {
+      return;
+    }
+
+    const count = Math.min(50, Math.max(1, Number(this.codexaQuestionCount) || 10));
+    this.codexaQuestionCount = count;
+
+    this.isCodexaLoading = true;
+    this.codexaError = '';
+
+    this.codexaChatService
+      .sendMessage({
+        message: `Generate ${count} coding practice questions for topic: ${prompt}. Return as a numbered list.`,
+        question: prompt
+      })
+      .pipe(
+        finalize(() => {
+          this.isCodexaLoading = false;
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.codexaReply = res?.reply || 'No response received from Codexa AI.';
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 401 || error.status === 403) {
+            this.codexaError = 'Please login first. Codexa AI requires an active student session.';
+            return;
+          }
+
+          this.codexaError = error?.error?.detail || error?.error?.message || 'Codexa AI se question load nahi hua. Please try again.';
+        }
+      });
   }
 
   joinLmsSession(session: LiveSessionItem): void {
     if (session.mode === 'Recorded') {
       this.showMessage('This is a recorded session. Open Learning Shorts for video playback.', 'warning');
+      return;
+    }
+    if (session.joinUrl) {
+      this.joinMeeting(session.joinUrl);
       return;
     }
     this.openJoinMeetingModal();
@@ -759,19 +905,76 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
         return;
     }
     this.showJoinMeetingModal = true;
-    this.selectedBatchDetails = [];
-    
-    const requests = this.studentAssignedBatches.map(b => 
-        this.batchService.getBatchesByCourse(b.course_id).pipe(
-            map(list => list.find(x => x.batchId === b.batchid)),
-            catchError(() => of(null))
-        )
+    if (this.selectedBatchDetails.length === 0) {
+      this.loadJoinBatchDetails();
+    }
+  }
+
+  private loadJoinBatchDetails(): void {
+    if (this.studentAssignedBatches.length === 0) {
+      this.selectedBatchDetails = [];
+      this.liveSessions = [];
+      return;
+    }
+
+    const courseIds = Array.from(new Set(this.studentAssignedBatches.map(b => b.course_id)));
+    const requests = courseIds.map(courseId =>
+      this.batchService.getBatchesByCourse(courseId).pipe(
+        catchError(() => of([]))
+      )
     );
-    
-    forkJoin(requests).subscribe(results => {
-        this.selectedBatchDetails = results.filter(r => !!r);
+
+    forkJoin(requests).subscribe({
+      next: (results) => {
+        const courseMap = new Map<number, any[]>();
+        results.forEach((list, index) => courseMap.set(courseIds[index], list));
+
+        const merged = this.studentAssignedBatches
+          .map(batch => this.mergeJoinBatchDetail(batch, courseMap.get(batch.course_id) || []))
+          .filter((item): item is JoinBatchDetail => !!item);
+
+        this.selectedBatchDetails = merged;
+        this.liveSessions = this.buildLiveSessions(merged);
         this.cdr.detectChanges();
+      },
+      error: () => {
+        this.selectedBatchDetails = [];
+        this.liveSessions = [];
+        this.cdr.detectChanges();
+      }
     });
+  }
+
+  private mergeJoinBatchDetail(assigned: StudentBatchDetails, batchList: any[]): JoinBatchDetail | null {
+    const matched = batchList.find(item => this.getBatchId(item) === assigned.batchid);
+    const batchId = this.getBatchId(matched) ?? assigned.batchid;
+    const batchName = matched?.batchName || matched?.batch_name || assigned.batch_name;
+    if (!batchId || !batchName) return null;
+
+    return {
+      batchId,
+      batchName,
+      timing: matched?.timing,
+      mode: matched?.mode,
+      zoom_join_url: matched?.zoom_join_url || assigned.zoom_join_url
+    };
+  }
+
+  private getBatchId(batch: any): number | null {
+    const value = batch?.batchId ?? batch?.batchid ?? batch?.batch_id;
+    if (value === undefined || value === null) return null;
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  private buildLiveSessions(batches: JoinBatchDetail[]): LiveSessionItem[] {
+    return batches.map(batch => ({
+      topic: `${batch.batchName} Live Class`,
+      faculty: 'Batch Trainer',
+      startTime: batch.timing || 'Schedule to be announced',
+      mode: batch.zoom_join_url ? 'Live' : 'Recorded',
+      joinUrl: batch.zoom_join_url || ''
+    }));
   }
 
   private updateBatchCard(name: string): void {
@@ -871,7 +1074,7 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
   }
 
   dismissProfileCompletionModal() { this.showProfileCompletionModal = false; }
-  goToProfileSetupForm() { window.location.href = 'setup-profile'; }
+  goToProfileSetupForm() { window.location.href = '/setup-profile'; }
   triggerProfileUpload() { this.fileInputRef.nativeElement.click(); }
   onProfileImageSelected(e: any) { /* Image handling */ }
   
@@ -888,13 +1091,19 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
   
   closeJoinMeetingModal() { this.showJoinMeetingModal = false; }
 
-  startExam(): void {
-    if (!this.selectedExamId) {
+  setActivePage(page: string): void {
+    this.activePage = page;
+  }
+
+  startExam(examId?: number): void {
+    const id = examId || this.selectedExamId;
+    
+    if (!id) {
       this.showMessage('Please select an exam first.', 'warning');
       return;
     }
 
-    const exam = this.upcomingExams.find(e => e.examId === this.selectedExamId);
+    const exam = this.upcomingExams.find(e => e.examId === id);
     if (!exam) {
       this.showMessage('Selected exam not found. Please try again.', 'error');
       return;
@@ -919,3 +1128,8 @@ export class StudentDashboardComponent implements OnInit, OnDestroy {
   
   updateFilterOptions() { /* Sync dropdowns */ }
 }
+
+
+
+
+

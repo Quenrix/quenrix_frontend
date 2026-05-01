@@ -14,7 +14,13 @@
           <i class="fas fa-search"></i>
         </div>
       </div>
-      <div class="header-right">
+      <div class="header-right" style="display:flex;align-items:center;gap:8px;">
+        <div class="notif-bell-wrap">
+          <button class="notif-bell-btn" title="Notifications" (click)="openNotifications()">
+            <i class="fas fa-bell"></i>
+          </button>
+          <span class="notif-badge" *ngIf="notificationBellCount > 0">{{ notificationBellCount }}</span>
+        </div>
         <button class="btn-request" (click)="goToProfileSetupForm()">
           <i class="fas fa-user-edit"></i> <span>Profile Setup</span>
         </button>
@@ -39,20 +45,14 @@
             <a [class.active]="activePage === 'lms-announcements'" (click)="setActivePage('lms-announcements')">
               <i class="fas fa-bullhorn"></i> <span>Announcements</span>
             </a>
-            <a [class.active]="activePage === 'gradebook'" (click)="setActivePage('gradebook')">
-              <i class="fas fa-chart-line"></i> <span>Gradebook</span>
-            </a>
             <a [class.active]="activePage === 'attendance'" (click)="setActivePage('attendance')">
               <i class="fas fa-user-check"></i> <span>Attendance</span>
             </a>
             <a [class.active]="activePage === 'assignments'" (click)="setActivePage('assignments')">
               <i class="fas fa-tasks"></i> <span>Assignments</span>
             </a>
-            <a [class.active]="activePage === 'study-plan'" (click)="setActivePage('study-plan')">
-              <i class="fas fa-calendar-check"></i> <span>Study Plan</span>
-            </a>
-            <a [class.active]="activePage === 'goals'" (click)="setActivePage('goals')">
-              <i class="fas fa-bullseye"></i> <span>Goals</span>
+            <a [class.active]="activePage === 'codexaai'" (click)="setActivePage('codexaai')">
+              <i class="fas fa-laptop-code"></i> <span>Codexa AI</span>
             </a>
             <a [class.active]="activePage === 'resources'" (click)="setActivePage('resources')">
               <i class="fas fa-layer-group"></i> <span>Resources</span>
@@ -108,6 +108,40 @@
                 <p>Your daily classes, progress, and learning tools in one place.</p>
               </div>
             </section>
+
+            <!-- Quick Stats Bar -->
+            <section class="quick-stats-bar">
+              <div class="quick-stat-card">
+                <div class="quick-stat-icon"><i class="fas fa-fire"></i></div>
+                <div class="quick-stat-info">
+                  <p>Study Streak</p>
+                  <h4>{{ learningStreakDays }} Days</h4>
+                </div>
+              </div>
+              <div class="quick-stat-card">
+                <div class="quick-stat-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="quick-stat-info">
+                  <p>Avg Grade</p>
+                  <h4>{{ averageGradePercent }}%</h4>
+                </div>
+              </div>
+              <div class="quick-stat-card">
+                <div class="quick-stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="quick-stat-info">
+                  <p>Study This Week</p>
+                  <h4>{{ studyMinutesCompletedThisWeek }} min</h4>
+                </div>
+              </div>
+            </section>
+
+            <!-- AI Study Tip Card -->
+            <div class="ai-tip-card">
+              <div class="ai-tip-icon"><i class="fas fa-robot"></i></div>
+              <div class="ai-tip-content">
+                <p>AI Study Tip</p>
+                <span>{{ aiStudyTip }}</span>
+              </div>
+            </div>
 
             <section class="dashboard-overview-bar">
               <div class="overview-item">
@@ -210,6 +244,30 @@
                     <span class="student-info-value">{{ isProfileComplete ? 'Complete' : 'Incomplete' }}</span>
                   </div>
                 </div>
+
+                <!-- Leaderboard Widget -->
+                <div class="leaderboard-card" style="margin-top:16px;">
+                  <div class="leaderboard-head">
+                    <h4>Batch Leaderboard</h4>
+                  </div>
+                  <div class="leaderboard-list">
+                    <div class="leaderboard-item">
+                      <span class="lb-rank gold">1</span>
+                      <span class="lb-name">Ayesha K.</span>
+                      <span class="lb-score">98%</span>
+                    </div>
+                    <div class="leaderboard-item">
+                      <span class="lb-rank silver">2</span>
+                      <span class="lb-name">Rahul M.</span>
+                      <span class="lb-score">94%</span>
+                    </div>
+                    <div class="leaderboard-item is-you">
+                      <span class="lb-rank bronze">{{ studentRankInBatch }}</span>
+                      <span class="lb-name">You</span>
+                      <span class="lb-score">{{ averageGradePercent }}%</span>
+                    </div>
+                  </div>
+                </div>
               </article>
             </section>
 
@@ -264,6 +322,48 @@
                   <li *ngFor="let tip of focusRecommendations">{{ tip }}</li>
                 </ul>
               </article>
+            </section>
+
+            <section class="exam-center-section">
+              <div class="exam-center-heading">
+                <h3><i class="fas fa-book-open"></i> Exam Center</h3>
+                <p>{{ upcomingExams.length }} upcoming exam{{ upcomingExams.length !== 1 ? 's' : '' }} • Start your preparation now</p>
+              </div>
+              
+              <div class="exam-cards-grid">
+                <div *ngIf="upcomingExams.length === 0" class="no-exams-message-full">
+                  <p><i class="fas fa-check-circle"></i> No upcoming exams</p>
+                </div>
+                <div class="exam-card-large" *ngFor="let exam of upcomingExams">
+                  <div class="exam-card-header">
+                    <h5>{{ exam.examName }}</h5>
+                    <span class="exam-status" [class.active]="exam.is_active">{{ exam.is_active ? 'Active' : 'Inactive' }}</span>
+                  </div>
+                  <div class="exam-card-body">
+                    <div class="exam-detail">
+                      <span class="detail-label">Subject:</span>
+                      <span class="detail-value">{{ exam.subject.subjectname || 'N/A' }}</span>
+                    </div>
+                    <div class="exam-detail">
+                      <span class="detail-label">Date:</span>
+                      <span class="detail-value">{{ exam.start_datetime | date:'dd MMM, hh:mm a' }}</span>
+                    </div>
+                    <div class="exam-detail">
+                      <span class="detail-label">Duration:</span>
+                      <span class="detail-value">{{ exam.durationMinutes || 'N/A' }} min</span>
+                    </div>
+                    <div class="exam-detail">
+                      <span class="detail-label">Questions:</span>
+                      <span class="detail-value">{{ exam.totalQuestions }}</span>
+                    </div>
+                  </div>
+                  <div class="exam-card-footer">
+                    <button class="small-action-btn" (click)="startExam(exam.examId)" [disabled]="!exam.is_active">
+                      <i class="fas fa-play"></i> Start Exam
+                    </button>
+                  </div>
+                </div>
+              </div>
             </section>
 
             <section class="feature-hub-section">
@@ -336,14 +436,45 @@
                 </div>
               </article>
             </section>
+
+            <!-- Heatmap and Notes Section -->
+            <section class="classroom-priority-grid" style="margin-top:0;">
+              <article class="heatmap-section leaderboard-card">
+                <div class="heatmap-head">
+                  <h4>Weekly Activity Map</h4>
+                </div>
+                <div class="heatmap-grid">
+                  <div class="heatmap-cell" *ngFor="let h of weeklyHeatmapData" [ngClass]="'level-' + h.level">
+                    <span class="day-label">{{ h.day }}</span>
+                  </div>
+                </div>
+              </article>
+              <article class="note-widget">
+                <div class="note-widget-head">
+                  <h4>Quick Notes</h4>
+                  <span>Saved locally</span>
+                </div>
+                <textarea class="note-textarea" placeholder="Type a quick note..." [(ngModel)]="studyNoteText" (ngModelChange)="saveNote()"></textarea>
+              </article>
+            </section>
+
           </section>
         </ng-container>
 
         <ng-container *ngIf="activePage === 'lms-courses'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>LMS Courses</h2>
-              <p>Track your active courses, topic coverage, and completion status in one place.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-graduation-cap"></i></span>
+                <div>
+                  <h2>LMS Courses</h2>
+                  <p>Track your active courses, topic coverage, and completion status in one place.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip">{{ lmsCourses.length }} Courses</span>
+                <span class="feature-kpi-chip">{{ lmsOverallProgress }}% Progress</span>
+              </div>
             </div>
             <div class="lms-course-grid">
               <article class="lms-course-card" *ngFor="let course of lmsCourses">
@@ -365,8 +496,17 @@
         <ng-container *ngIf="activePage === 'lms-announcements'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>LMS Announcements</h2>
-              <p>Stay updated with important academic notifications and deadlines.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-bullhorn"></i></span>
+                <div>
+                  <h2>LMS Announcements</h2>
+                  <p>Stay updated with important academic notifications and deadlines.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip">{{ announcements.length }} Total</span>
+                <span class="feature-kpi-chip accent">{{ unreadAnnouncementCount }} Unread</span>
+              </div>
             </div>
             <div class="feature-list-card">
               <div class="announcement-item" *ngFor="let item of announcements; let i = index" [class.unread]="!item.read">
@@ -389,8 +529,17 @@
         <ng-container *ngIf="activePage === 'gradebook'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>Gradebook</h2>
-              <p>Review published assessment scores and monitor your performance trend.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-chart-line"></i></span>
+                <div>
+                  <h2>Gradebook</h2>
+                  <p>Review published assessment scores and monitor your performance trend.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip">{{ averageGradePercent }}% Avg</span>
+                <span class="feature-kpi-chip">{{ gradebookItems.length }} Assessments</span>
+              </div>
             </div>
             <div class="gradebook-table-wrap">
               <table class="gradebook-table">
@@ -420,8 +569,17 @@
         <ng-container *ngIf="activePage === 'attendance'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>Attendance Tracker</h2>
-              <p>Review your attendance by subject and keep your term percentage above target.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-user-check"></i></span>
+                <div>
+                  <h2>Attendance Tracker</h2>
+                  <p>Review your attendance by subject and keep your term percentage above target.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip">{{ overallAttendancePercentage }}% Overall</span>
+                <span class="feature-kpi-chip">{{ attendanceRecords.length }} Subjects</span>
+              </div>
             </div>
             <div class="feature-summary-grid">
               <article class="summary-card">
@@ -437,16 +595,15 @@
                 <h3>{{ attendanceRecords.length }}</h3>
               </article>
             </div>
-            <div class="feature-list-card">
-              <div class="attendance-row" *ngFor="let item of attendanceRecords">
-                <div>
-                  <h4>{{ item.course }}</h4>
-                  <p>Last updated: {{ item.lastUpdated }}</p>
-                </div>
-                <div class="attendance-right">
-                  <span>{{ item.attended }}/{{ item.total }}</span>
-                  <strong>{{ (item.attended / item.total) * 100 | number:'1.0-0' }}%</strong>
-                </div>
+            <div class="attendance-ring-grid">
+              <div class="attendance-ring-card" *ngFor="let item of attendanceRecords">
+                <svg class="ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-track" cx="40" cy="40" r="35"></circle>
+                  <circle class="ring-fill" cx="40" cy="40" r="35" [style.strokeDashoffset]="220 - (220 * (item.attended / item.total))"></circle>
+                  <text class="ring-pct" x="40" y="40">{{ (item.attended / item.total) * 100 | number:'1.0-0' }}%</text>
+                </svg>
+                <h5>{{ item.course }}</h5>
+                <p>{{ item.attended }}/{{ item.total }} Classes</p>
               </div>
             </div>
           </section>
@@ -455,8 +612,17 @@
         <ng-container *ngIf="activePage === 'assignments'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>Assignment Manager</h2>
-              <p>Keep deadlines under control and update submission status quickly.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-tasks"></i></span>
+                <div>
+                  <h2>Assignment Manager</h2>
+                  <p>Keep deadlines under control and update submission status quickly.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip accent">{{ pendingAssignmentsCount }} Pending</span>
+                <span class="feature-kpi-chip">{{ submittedAssignmentsCount }} Submitted</span>
+              </div>
             </div>
             <div class="feature-summary-grid">
               <article class="summary-card">
@@ -472,17 +638,38 @@
                 <h3>{{ assignmentItems.length }}</h3>
               </article>
             </div>
-            <div class="feature-list-card">
-              <div class="assignment-row" *ngFor="let item of assignmentItems; let i = index">
-                <div>
-                  <h4>{{ item.title }}</h4>
-                  <p>{{ item.subject }} | Due: {{ item.dueDate | date:'dd MMM yyyy' }}</p>
+            <div class="kanban-board">
+              <div class="kanban-col">
+                <div class="kanban-col-head">
+                  <h4>Pending</h4>
+                  <span class="kanban-count">{{ getKanbanTasks('Pending').length }}</span>
                 </div>
-                <div class="assignment-right">
-                  <span class="priority-chip" [class.high]="item.priority === 'High'" [class.medium]="item.priority === 'Medium'" [class.low]="item.priority === 'Low'">{{ item.priority }}</span>
-                  <button class="small-action-btn" [disabled]="item.status === 'Submitted'" (click)="markAssignmentSubmitted(i)">
-                    {{ item.status === 'Submitted' ? 'Submitted' : 'Mark Submitted' }}
-                  </button>
+                <div class="kanban-card" *ngFor="let task of getKanbanTasks('Pending')" (click)="advanceKanbanTask(task)">
+                  <h5>{{ task.title }}</h5>
+                  <p>{{ task.subject }}</p>
+                  <span class="due-label">Due: {{ task.dueDate | date:'dd MMM' }}</span>
+                </div>
+              </div>
+              <div class="kanban-col">
+                <div class="kanban-col-head">
+                  <h4>In Progress</h4>
+                  <span class="kanban-count">{{ getKanbanTasks('In Progress').length }}</span>
+                </div>
+                <div class="kanban-card" *ngFor="let task of getKanbanTasks('In Progress')" (click)="advanceKanbanTask(task)">
+                  <h5>{{ task.title }}</h5>
+                  <p>{{ task.subject }}</p>
+                  <span class="due-label">Due: {{ task.dueDate | date:'dd MMM' }}</span>
+                </div>
+              </div>
+              <div class="kanban-col">
+                <div class="kanban-col-head">
+                  <h4>Submitted</h4>
+                  <span class="kanban-count">{{ getKanbanTasks('Submitted').length }}</span>
+                </div>
+                <div class="kanban-card" *ngFor="let task of getKanbanTasks('Submitted')" style="opacity:0.6;">
+                  <h5>{{ task.title }}</h5>
+                  <p>{{ task.subject }}</p>
+                  <span class="due-label" style="color:#10b981;">Done</span>
                 </div>
               </div>
             </div>
@@ -492,8 +679,17 @@
         <ng-container *ngIf="activePage === 'study-plan'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>Weekly Study Plan</h2>
-              <p>Follow a structured schedule to stay consistent with your learning goals.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-calendar-check"></i></span>
+                <div>
+                  <h2>Weekly Study Plan</h2>
+                  <p>Follow a structured schedule to stay consistent with your learning goals.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip">{{ completedStudySessions }}/{{ weeklyStudyPlan.length }} Done</span>
+                <span class="feature-kpi-chip">{{ todayStudyTargetMinutes }} Min Target</span>
+              </div>
             </div>
             <div class="feature-summary-grid">
               <article class="summary-card">
@@ -509,7 +705,16 @@
                 <h3>{{ (completedStudySessions / weeklyStudyPlan.length) * 100 | number:'1.0-0' }}%</h3>
               </article>
             </div>
-            <div class="feature-list-card">
+            <div class="study-timer-card">
+              <div class="timer-label">Focus Timer</div>
+              <div class="timer-display">{{ formatTimer(studyTimerSeconds) }}</div>
+              <div class="timer-controls">
+                <button class="timer-btn start" (click)="toggleStudyTimer()">{{ studyTimerRunning ? 'Pause' : 'Start Focus' }}</button>
+                <button class="timer-btn" (click)="resetStudyTimer()">Reset</button>
+              </div>
+            </div>
+
+            <div class="feature-list-card" style="margin-top:16px;">
               <div class="study-row" *ngFor="let item of weeklyStudyPlan; let i = index">
                 <div>
                   <h4>{{ item.day }} - {{ item.topic }}</h4>
@@ -526,8 +731,17 @@
         <ng-container *ngIf="activePage === 'goals'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>Goal Progress</h2>
-              <p>Track your milestone progress across academics, placement, and projects.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-bullseye"></i></span>
+                <div>
+                  <h2>Goal Progress</h2>
+                  <p>Track your milestone progress across academics, placement, and projects.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip">{{ goalProgressAverage }}% Avg</span>
+                <span class="feature-kpi-chip">{{ goalItems.length }} Goals</span>
+              </div>
             </div>
             <div class="feature-summary-grid">
               <article class="summary-card">
@@ -563,8 +777,17 @@
         <ng-container *ngIf="activePage === 'resources'">
           <section class="feature-page-shell">
             <div class="feature-page-head">
-              <h2>Learning Resources</h2>
-              <p>Use curated content for revision, interview preparation, and profile growth.</p>
+              <div class="feature-head-main">
+                <span class="feature-head-icon"><i class="fas fa-layer-group"></i></span>
+                <div>
+                  <h2>Learning Resources</h2>
+                  <p>Use curated content for revision, interview preparation, and profile growth.</p>
+                </div>
+              </div>
+              <div class="feature-head-metrics">
+                <span class="feature-kpi-chip">{{ recommendedResources.length }} Resources</span>
+                <span class="feature-kpi-chip">Career + Technical</span>
+              </div>
             </div>
             <div class="feature-list-card">
               <div class="resource-row" *ngFor="let item of recommendedResources">
@@ -579,6 +802,58 @@
         </ng-container>
 
         <!-- Pages Integration -->
+        <ng-container *ngIf="activePage === 'codexaai'">
+          <section class="dashboard-home-shell">
+            <section class="dashboard-title-row">
+              <div>
+                <h2>CodexaAI Question Generator</h2>
+                <p>Ask CodexaAI for coding practice questions on any topic.</p>
+              </div>
+            </section>
+
+            <section class="codexa-ai-section">
+              <div class="codexa-ai-head">
+                <h3><i class="fas fa-robot"></i> CodexaAI Question Generator</h3>
+                <p>Topic do, aur AI se coding practice question lo.</p>
+              </div>
+
+              <div class="codexa-ai-body">
+                <input
+                  class="codexa-input"
+                  type="text"
+                  placeholder="e.g. Binary Tree, SQL Joins, Angular RxJS"
+                  [(ngModel)]="codexaPrompt"
+                  (keyup.enter)="askCodexaQuestion()"
+                />
+                <input
+                  class="codexa-count-input"
+                  type="number"
+                  min="1"
+                  max="50"
+                  [(ngModel)]="codexaQuestionCount"
+                  aria-label="Number of questions"
+                />
+                <button class="small-action-btn codexa-ask-btn" [disabled]="isCodexaLoading || !codexaPrompt.trim() || codexaQuestionCount < 1" (click)="askCodexaQuestion()">
+                  {{ isCodexaLoading ? 'Generating...' : 'Ask CodexaAI' }}
+                </button>
+              </div>
+
+              <div class="codexa-suggestion-row">
+                <button class="codexa-chip" (click)="setCodexaPrompt('DSA beginner question')">DSA Beginner</button>
+                <button class="codexa-chip" (click)="setCodexaPrompt('SQL interview question')">SQL Interview</button>
+                <button class="codexa-chip" (click)="setCodexaPrompt('Angular component lifecycle question')">Angular</button>
+              </div>
+
+              <div class="codexa-reply" *ngIf="codexaReply">
+                <h4>Generated Question</h4>
+                <pre>{{ codexaReply }}</pre>
+              </div>
+
+              <p class="codexa-error" *ngIf="codexaError">{{ codexaError }}</p>
+            </section>
+          </section>
+        </ng-container>
+
         <ng-container *ngIf="activePage === 'batches'">
           <!-- COMPILATION FIX: Using userId property matched with updated component logic -->
           <app-course-batch-management 
@@ -614,11 +889,9 @@
         <div class="current-time-display">
           <p class="current-time-text">Current Time: {{ currentTime }}</p>
         </div>
+
         <div class="right-schedule-header">
           <h3>My Schedule</h3>
-          <button (click)="openExamModal()" style="color: #7352e1; font-size: 16px;">
-              <i class="fas fa-edit"></i> Exams
-          </button>
         </div>
         <div class="calendar-controls">
           <button (click)="navigateCalendar(-1)">&lt;</button>

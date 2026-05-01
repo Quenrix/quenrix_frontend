@@ -5,19 +5,14 @@ import { ManageCourseComponent } from './manage-course/manage-course.component';
 import { BatchManagementComponent } from './batch-management/batch-management.component';
 import { CareerService } from '../services/careers.service'; 
 import { InquiryService, InquiryPayload } from '../services/inquiry.service'; 
-import { AlertService } from '../services/alert.service'; // Import AlertService
+import { AlertService } from '../services/alert.service'; 
+import { AdminConfigService, NavLink } from '../services/admin-config.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { NavigationService } from '../services/navigation.service';
 
-type TabId = 'dashboard' | 'users' | 'courses' | 'batches' | 'settings' | 'upload-careers' | 'applicants' | 'inquiries'; 
-
-interface NavLink {
-  id: TabId; 
-  label: string;
-  icon: string; 
-  route: string;
-}
+type TabId = 'dashboard' | 'users' | 'courses' | 'batches' | 'settings' | 'upload-careers' | 'applicants' | 'inquiries';
 
 interface AdminCard {
   title: string;
@@ -29,111 +24,6 @@ interface AdminCard {
   targetTab?: TabId; 
 }
 
-const ADMIN_CONFIG = {
-  SEARCH_PLACEHOLDER: "Search Users, Batches...", 
-  HEADER_BUTTON: {
-    label: "View Reports", 
-    icon: "fas fa-chart-bar"
-  },
-  ADMIN_DETAILS: {
-    name: 'Admin Head',
-    role: 'System Administrator',
-    profileUrl: 'https://placehold.co/80x80/4f46e5/ffffff?text=AD' 
-  },
-  SIDEBAR_LINKS: [
-    { id: 'dashboard', label: 'Home', icon: 'fas fa-home', route: '/admin-panel' }, 
-    { id: 'users', label: 'Users', icon: 'fas fa-users', route: '/users' }, 
-    { id: 'courses', label: 'Courses', icon: 'fas fa-book-open', route: '/courses' }, 
-    { id: 'batches', label: 'Batches', icon: 'fas fa-graduation-cap', route: '/batches' }, 
-    { id: 'applicants', label: 'Applicants', icon: 'fas fa-file-alt', route: '/applicants' },
-    { id: 'inquiries', label: 'Inquiries', icon: 'fas fa-question-circle', route: '/inquiries' },
-  ] as NavLink[],
-  
-  ADMIN_CARDS: [
-    { 
-      title: 'Create New User', 
-      subtitle: 'Register new users (Admin, Trainer, Student) and assign roles.', 
-      iconImage: 'new_user.png',
-      buttonText: 'Create User', 
-      colorClass: 'indigo', 
-      route: '/create-user' 
-    },
-    { 
-      title: 'New Batch', 
-      subtitle: 'Manage batch start dates, capacity, and student allocations.', 
-      iconImage: 'batch.png',
-      buttonText: 'Create Batch', 
-      colorClass: 'violet', 
-      route: '/create-batch' 
-    },
-    { 
-      title: 'New Course', 
-      subtitle: 'Define new course structure, duration, and assign a dedicated trainer.', 
-      iconImage: 'course.png',
-      buttonText: 'Create Course', 
-      colorClass: 'violet', 
-      route: '/create-course' 
-    },
-    { 
-      title: 'Assign to Batch', 
-      subtitle: 'Map users (Student/Trainer) to specific batches and roles.', 
-      iconImage: 'assign-user (1).png',
-      buttonText: 'Assign Users', 
-      colorClass: 'teal', 
-      route: '/assign-user-to-batch' 
-    },
-    { 
-      title: 'Create Exam', 
-      subtitle: 'Design, configure, and schedule new tests and assessments.', 
-      iconImage: 'exam.png',
-      buttonText: 'Create Exam', 
-      colorClass: 'amber', 
-      route: '/create-exam' 
-    },
-    { 
-      title: 'Create Jobs', 
-      subtitle: 'Post and manage new job openings for ongoing placement drives.', 
-      iconImage: 'upload-job.png', 
-      buttonText: 'Manage Jobs', 
-      colorClass: 'red', 
-      route: '/create-job' 
-    },
-    { 
-      title: 'Post Careers', 
-      subtitle: 'Post internal job openings for the main Careers website page.', 
-      iconImage: 'career_web.png', 
-      buttonText: 'Website Careers', 
-      colorClass: 'indigo', 
-      route: '/upload-careers',
-      targetTab: 'upload-careers' 
-    },
-    { 
-      title: 'Success Stories', 
-      subtitle: 'Share student placement stories and achievements on the wall of fame.', 
-      iconImage: 'success-story.png',
-      buttonText: 'Add Story', 
-      colorClass: 'teal', 
-      route: '/create-success-story' 
-    },
-    { 
-      title: 'Upload Blog', 
-      subtitle: 'Upload and manage PDF blogs to share with students.', 
-      iconImage: 'blog.png', 
-      buttonText: 'Manage Blog', 
-      colorClass: 'red', 
-      route: '/upload-blog' 
-    },
-    { 
-      title: 'Upload Notes', 
-      subtitle: 'Upload lecture notes, assignments, and study materials.', 
-      iconImage: 'notes.png', 
-      buttonText: 'Upload Notes', 
-      colorClass: 'violet', 
-      route: '/upload-notes' 
-    }
-  ] as AdminCard[]
-};
-
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
@@ -142,7 +32,7 @@ const ADMIN_CONFIG = {
   providers: [DatePipe]
 })
 export class AdminPanelComponent implements OnInit, AfterViewInit {
-  config = ADMIN_CONFIG;
+  config = inject(AdminConfigService).getAdminConfig();
   darkModeActive = signal(false);
   activeTab = signal<TabId>('dashboard');
   
@@ -164,7 +54,8 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
 
   private careerService = inject(CareerService);
   private inquiryService = inject(InquiryService); 
-  private alertService = inject(AlertService); // Inject AlertService
+  private alertService = inject(AlertService);
+  private navigationService = inject(NavigationService);
 
   @ViewChild(UserManagementComponent) userManagementComponent!: UserManagementComponent; 
   @ViewChild(ManageCourseComponent) manageCourseComponent!: ManageCourseComponent;
@@ -178,7 +69,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     const endDate = this.filterEndDate();
     const courseFilter = this.filterCourseName().toLowerCase();
 
-    // 1. Global Search (Header)
     if (query) {
       data = data.filter(item => 
         item.name.toLowerCase().includes(query) || 
@@ -187,12 +77,10 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       );
     }
 
-    // 2. Course Name Filter
     if (courseFilter) {
       data = data.filter(item => item.course_name.toLowerCase().includes(courseFilter));
     }
 
-    // 3. Date Range Filter
     if (startDate) {
       data = data.filter(item => item.created_at && new Date(item.created_at) >= new Date(startDate));
     }
@@ -205,13 +93,13 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     return data;
   });
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     const path = this.router.url.split('?')[0];
     const matchingLink = this.config.SIDEBAR_LINKS.find(link => link.route === path);
     if (matchingLink) {
-        this.activeTab.set(matchingLink.id);
+        this.activeTab.set(matchingLink.id as TabId);
         
         if (matchingLink.id === 'applicants') {
           this.fetchApplicants();
@@ -244,9 +132,9 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     this.searchTerms.next(term);
   }
 
-  navigateTo(route: string, tabId?: TabId): void { 
+  navigateTo(route: string, tabId?: string | TabId): void { 
     if (tabId) {
-        this.activeTab.set(tabId);
+        this.activeTab.set(tabId as TabId);
         
         if (tabId === 'applicants') {
           this.fetchApplicants();
@@ -306,7 +194,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Use AlertService confirm instead of browser confirm
     this.alertService.confirm('Are you sure?', 'You want to delete this inquiry?')
       .then((result) => {
         if (result.isConfirmed) {
@@ -359,11 +246,9 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // Demo action for "Mark as Contacted"
   markAsContacted() {
       this.alertService.success('Marked as contacted (Demo)', 'Done');
   }
-
 
   // --- ACTIONS ---
 
@@ -375,15 +260,17 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   }
 
   logoutUser(): void {
-    // Clear all stored data (Auth tokens, user info, etc.)
+    this.navigationService.clearUser();
     localStorage.clear();
     sessionStorage.clear();
-
+    
     this.alertService.success('Logged out successfully. Redirecting...', 'Goodbye');
     
     setTimeout(() => {
-        // Force reload to clear memory state and redirect
         window.location.href = '/login'; 
     }, 1500); 
   }
 }
+
+
+
