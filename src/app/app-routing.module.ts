@@ -44,9 +44,9 @@ const routes: Routes = [
   // Legacy redirects
   { path: 'login', redirectTo: '' },
   { path: 'landing-page', redirectTo: '' },
-  { path: 'admin-panel', redirectTo: '/admin/admin-panel' },
-  { path: 'student-dashboard', redirectTo: '/student/student-dashboard' },
-  { path: 'trainer-dashboard', redirectTo: '/trainer/trainer-dashboard' },
+  { path: 'admin-panel', redirectTo: '/admin' },
+  { path: 'student-dashboard', redirectTo: '/student' },
+  { path: 'trainer-dashboard', redirectTo: '/trainer' },
 
   // Wildcard
   { path: '**', redirectTo: '' }

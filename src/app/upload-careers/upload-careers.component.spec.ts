@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadCareersComponent } from './upload-careers.component';
+import { UploadCareerComponent } from './upload-careers.component';
 
-describe('UploadCareersComponent', () => {
-  let component: UploadCareersComponent;
-  let fixture: ComponentFixture<UploadCareersComponent>;
+describe('UploadCareerComponent', () => {
+  let component: UploadCareerComponent;
+  let fixture: ComponentFixture<UploadCareerComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UploadCareersComponent]
+      declarations: [UploadCareerComponent]
     });
-    fixture = TestBed.createComponent(UploadCareersComponent);
+    fixture = TestBed.createComponent(UploadCareerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

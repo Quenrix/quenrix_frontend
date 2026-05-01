@@ -59,11 +59,11 @@ export class LoginFormComponent {
         
         setTimeout(() => {
           if (testRole === 'admin') {
-            this.router.navigate(['/admin/admin-panel']);
+            this.router.navigate(['/admin']);
           } else if (testRole === 'trainer') {
-            this.router.navigate(['/trainer/trainer-dashboard']);
+            this.router.navigate(['/trainer']);
           } else {
-            this.router.navigate(['/student/student-dashboard']);
+            this.router.navigate(['/student']);
           }
         }, 500);
       }, 1000);
@@ -91,11 +91,11 @@ export class LoginFormComponent {
 
         // Redirect based on role using new lazy-loaded routes
         if (role === 'admin') { 
-          this.router.navigate(['/admin/admin-panel']);
+          this.router.navigate(['/admin']);
         } else if (role === 'trainer' || role === 'itrainer') { 
-          this.router.navigate(['/trainer/trainer-dashboard']);
+          this.router.navigate(['/trainer']);
         } else if (role === 'student') { 
-          this.router.navigate(['/student/student-dashboard']);
+          this.router.navigate(['/student']);
         } else {
           this.errorMessage = `Role '\${res.role}' is unrecognized.`;
         }

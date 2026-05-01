@@ -6,7 +6,7 @@ import { BatchManagementComponent } from './batch-management/batch-management.co
 import { CareerService } from '../services/careers.service'; 
 import { InquiryService, InquiryPayload } from '../services/inquiry.service'; 
 import { AlertService } from '../services/alert.service'; 
-import { AdminConfigService, NavLink } from '../services/admin-config.service';
+import { AdminConfigService} from '../services/admin.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -32,7 +32,7 @@ interface AdminCard {
   providers: [DatePipe]
 })
 export class AdminPanelComponent implements OnInit, AfterViewInit {
-  config = inject(AdminConfigService).getAdminConfig();
+  config: any = inject(AdminConfigService).getAdminConfig();
   darkModeActive = signal(false);
   activeTab = signal<TabId>('dashboard');
   
@@ -97,7 +97,7 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     const path = this.router.url.split('?')[0];
-    const matchingLink = this.config.SIDEBAR_LINKS.find(link => link.route === path);
+    const matchingLink = this.config.SIDEBAR_LINKS.find((link: any) => link.route === path);
     if (matchingLink) {
         this.activeTab.set(matchingLink.id as TabId);
         

@@ -34,7 +34,14 @@ export class AuthGuard implements CanActivate {
     if (requiredRole) {
       const userRole = localStorage.getItem('userRole');
       if (userRole !== requiredRole) {
-        return this.router.createUrlTree(['/' + userRole + '-dashboard']);
+        if (userRole === 'admin') {
+          return this.router.createUrlTree(['/admin']);
+        } else if (userRole === 'trainer' || userRole === 'itrainer') {
+          return this.router.createUrlTree(['/trainer']);
+        } else if (userRole === 'student') {
+          return this.router.createUrlTree(['/student']);
+        }
+        return this.router.createUrlTree(['/']);
       }
     }
 
