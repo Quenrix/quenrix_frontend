@@ -1,0 +1,35 @@
+<section class="courses-showcase-section">
+  <div class="container">
+    <div class="courses-header">
+      <h2>Explore Our Courses</h2>
+      <p>Yahan aapko available courses ke saath short details milengi ki course me exactly kya cover hoga.</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">
+      <p>Loading courses...</p>
+    </div>
+
+    <div *ngIf="!isLoading && courses.length === 0" class="empty-state">
+      <h3>No courses available right now</h3>
+      <p>Please check again shortly.</p>
+    </div>
+
+    <div *ngIf="!isLoading && courses.length > 0" class="courses-grid">
+      <article class="course-card" *ngFor="let course of courses">
+        <div class="course-card-top">
+          <h3>{{ course.courseName }}</h3>
+          <span class="level-chip">{{ course.level }}</span>
+        </div>
+
+        <p class="course-description">{{ course.description }}</p>
+
+        <div class="includes-wrap">
+          <h4>What you'll learn:</h4>
+          <ul>
+            <li *ngFor="let point of course.includes">{{ point }}</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

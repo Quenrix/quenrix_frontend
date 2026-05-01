@@ -3,10 +3,20 @@
 
     <!-- Top Section -->
     <div class="footer-top">
-      <h2 class="footer-statement">
-        <span class="statement-line-1">Your Tech Journey Begins Here.</span>
-        <span class="statement-line-2">Ready to Transform? 🔥</span>
-      </h2>
+      <div class="footer-top-content">
+        <h2 class="footer-statement">
+          <span class="statement-line-1">Your Tech Journey Begins Here.</span>
+          <span class="statement-line-2">Ready to Transform? 🔥</span>
+        </h2>
+        <p class="footer-subtitle">
+          Learn with industry mentors, build real projects, and launch your career faster with Quenrix.
+        </p>
+      </div>
+
+      <div class="footer-cta-group">
+        <a href="javascript:void(0)" class="footer-cta primary" (click)="handleAction('open-courses')">Explore Courses</a>
+        <a href="javascript:void(0)" class="footer-cta secondary" (click)="handleAction('navigate-contact')">Talk to Advisor</a>
+      </div>
     </div>
 
     <!-- Divider -->
@@ -26,7 +36,7 @@
         </div>
 
         <p class="tagline">Empowering the next generation of digital leaders through world-class training and mentorship.</p>
-        <a href="mailto:quenrix46@gmail.com" class="contact-email">quenrix46@gmail.com</a>
+        <a href="mailto:kumarsaurabh95912@gmail.com" class="contact-email">quenrix46@gmail.com</a>
       </div>
 
       <!-- Quick Links -->
@@ -65,27 +75,27 @@
         <ul class="social-icons-list">
           <li>
             <a href="https://wa.me/9117642473" target="_blank" class="icon-link whatsapp" title="WhatsApp">
-              <img src="assets/whatsapp.webp" alt="WhatsApp" class="social-img-icon">
+              <img src="assets/whatsapp.png" alt="WhatsApp" class="social-img-icon">
             </a>
           </li>
           <li>
             <a href="https://www.instagram.com/" target="_blank" class="icon-link instagram" title="Instagram">
-              <img src="assets/instra.webp" alt="Instagram" class="social-img-icon">
+              <img src="assets/instra.png" alt="Instagram" class="social-img-icon">
             </a>
           </li>
           <li>
             <a href="https://x.com/kumarsaurabh603" target="_blank" class="icon-link twitter">
-              <img src="assets/twitter.webp" alt="twitter" class="social-img-icon">
+              <img src="assets/twitter.png" alt="twitter" class="social-img-icon">
             </a>
           </li>
           <li>
             <a href="https://www.facebook.com/profile.php?id=100031062127503" target="_blank" class="icon-link facebook">
-             <img src="assets/facebook.webp" alt="facebook" class="social-img-icon">
-             </a>
+             <img src="assets/facebook.png" alt="facebook" class="social-img-icon">
+            </a>
           </li>
           <li>
             <a href="https://www.youtube.com/@google.trends.saurabh" target="_blank" class="icon-link youtube">
-              <img src="assets/yt.webp" alt="facebook" class="social-img-icon">
+              <img src="assets/yt.png" alt="facebook" class="social-img-icon">
             </a>
           </li>
         </ul>
@@ -113,7 +123,7 @@
   
   <div class="chat-popup-header">
     <div class="chat-header-info">
-        <img src="assets/chatbot.webp" class="header-bot-icon" alt="Bot">
+        <img src="assets/chatbot.png" class="header-bot-icon" alt="Bot">
         <div class="header-text">
             <span class="bot-name">QUENRIX Assistant</span>
             <span class="bot-status">Online</span>
@@ -132,6 +142,6 @@
      [class.moved-up]="isScrolled" 
      [class.active]="isChatOpen"
      (click)="toggleChat()">
-    <img *ngIf="!isChatOpen" src="assets/chatbot.webp" alt="Chat" class="chat-bot-img fadeIn">
+    <img *ngIf="!isChatOpen" src="assets/chatbot.png" alt="Chat" class="chat-bot-img fadeIn">
     <span *ngIf="isChatOpen" class="close-icon fadeIn">✕</span>
 </div>

@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-about-csmit',
@@ -17,8 +18,14 @@ export class AboutCsmitComponent {
   // Output event to notify parent component to close the modal
   @Output() closeModal = new EventEmitter<void>();
 
+  constructor(private languageService: LanguageService) {}
+
   // Method to close the modal
   onClose() {
     this.closeModal.emit();
+  }
+
+  t(key: string, params?: Record<string, string | number>): string {
+    return this.languageService.t(key, params);
   }
 }

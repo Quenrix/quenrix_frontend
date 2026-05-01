@@ -1,0 +1,140 @@
+:host {
+  display: block;
+}
+
+.courses-showcase-section {
+  padding: 7.5rem 0 4.5rem;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(106, 67, 197, 0.16), transparent 32%),
+    radial-gradient(circle at 88% 84%, rgba(59, 130, 246, 0.12), transparent 30%),
+    #f9f8ff;
+}
+
+.container {
+  width: 90%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.courses-header {
+  margin-bottom: 1.8rem;
+}
+
+.courses-header h2 {
+  margin: 0;
+  color: #151531;
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.courses-header p {
+  margin: 0.7rem 0 0;
+  color: #5a6478;
+  max-width: 780px;
+  line-height: 1.65;
+}
+
+.loading-state,
+.empty-state {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  color: #4b5563;
+}
+
+.empty-state h3 {
+  margin: 0 0 0.4rem;
+  color: #111827;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.course-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 1rem 1rem 1.1rem;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.course-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.course-card-top h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.14rem;
+  line-height: 1.35;
+}
+
+.level-chip {
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #5b21b6;
+  background: #ede9fe;
+  border: 1px solid #ddd6fe;
+  white-space: nowrap;
+}
+
+.course-description {
+  margin: 0.7rem 0;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.includes-wrap h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.92rem;
+  color: #312e81;
+}
+
+.includes-wrap ul {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  color: #374151;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.includes-wrap li {
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .courses-showcase-section {
+    padding-top: 6.9rem;
+  }
+
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .courses-showcase-section {
+    padding-top: 6.4rem;
+    padding-bottom: 3.4rem;
+  }
+
+  .course-card {
+    border-radius: 14px;
+    padding: 0.9rem;
+  }
+
+  .course-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

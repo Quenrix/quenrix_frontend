@@ -1,6 +1,9 @@
 <!-- About CSMIT Full-Page Panel/Modal (Uses a full-screen, center-aligned scrollable design) -->
 <div class="about-modal-overlay" [class.open]="isVisible" (click)="onClose()">
   <div class="about-modal-content" (click)="$event.stopPropagation()">
+        <span class="ambient-orb orb-1"></span>
+        <span class="ambient-orb orb-2"></span>
+        <span class="ambient-orb orb-3"></span>
     
     <!-- Close Button -->
     <button class="modal-close-btn" (click)="onClose()">
@@ -21,7 +24,7 @@
                 <span class="title-line-2">for the Digital Age.</span>
             </h1>
             <p class="about-description">
-                CSMIT (Chatrapati Shivaji Maharaj Information Technology) is more than an institute; it's a launchpad for world-class careers. We combine intensive, hands-on training with cutting-edge professional development to transform aspiring learners into industry-ready leaders.
+                Quenrix is more than an institute; it’s a launchpad for world-class careers. We combine intensive, hands-on training with cutting-edge professional development to transform aspiring learners into industry-ready leaders.
             </p>
             <div class="key-stats-grid">
                 <div class="stat-card">
@@ -39,6 +42,8 @@
                 </div>
             </div>
         </section>
+
+        <div class="section-divider"></div>
 
         <!-- 2. FOUNDATION/MISSION SECTION -->
         <section class="section-mission">
@@ -61,6 +66,56 @@
                 </div>
             </div>
         </section>
+
+        <section class="section-story-rhythm">
+            <article class="story-row">
+                <div class="story-copy">
+                    <p class="story-kicker">Brand Ethos</p>
+                    <h3>Learning that feels structured, modern, and human.</h3>
+                    <p>We design every learning touchpoint with premium clarity — from roadmaps and projects to mock interviews and mentor check-ins.</p>
+                </div>
+                <div class="story-visual visual-code">⚡</div>
+            </article>
+
+            <article class="story-row reverse">
+                <div class="story-copy">
+                    <p class="story-kicker">Career Velocity</p>
+                    <h3>From beginner confidence to interview readiness.</h3>
+                    <p>Our framework blends deep fundamentals, guided projects, and placement strategy to keep your momentum high every week.</p>
+                </div>
+                <div class="story-visual visual-growth">📊</div>
+            </article>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="section-ai-innovation">
+            <div class="ai-heading-wrap">
+                <p class="ai-kicker">AI Powered Experience</p>
+                <h2 class="section-sub-title ai-title">Future-Ready Learning with AI</h2>
+                <p class="ai-subtitle">From adaptive study plans to real-time interview feedback, Quenrix blends human mentorship with intelligent learning tools.</p>
+            </div>
+
+            <div class="ai-capability-grid">
+                <article class="ai-capability-card">
+                    <div class="capability-icon">🧠</div>
+                    <h3>Smart Skill Mapping</h3>
+                    <p>Our AI maps your strengths and gaps, then builds a personalized weekly roadmap to speed up mastery.</p>
+                </article>
+                <article class="ai-capability-card">
+                    <div class="capability-icon">🤖</div>
+                    <h3>AI Interview Simulator</h3>
+                    <p>Practice role-based interviews with instant feedback on communication, logic, and confidence.</p>
+                </article>
+                <article class="ai-capability-card">
+                    <div class="capability-icon">📈</div>
+                    <h3>Progress Intelligence</h3>
+                    <p>Track deep insights on consistency, topic retention, and job-readiness through visual performance dashboards.</p>
+                </article>
+            </div>
+        </section>
+
+    <div class="section-divider"></div>
 
         <!-- 3. TRAINER DETAILS SECTION -->
         <section class="section-trainers">

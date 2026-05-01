@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap');
 
 /* CSS Variables */
 :host {
-  --primary-color: #6e4fe0;
-  --primary-hover: #4f35c9;
-  --accent-color: #6e4fe0;
-  --dark-color: #2f3040;
-  --text-primary: #2f3040;
-  --text-secondary: #686b7b;
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --accent-color: #e03a3e;
+  --dark-color: #1a202c;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
   --background-light: #ffffff;
-  --border-color: #e6e5f3;
+  --border-color: #edf2f7;
   --header-height: 80px;
   --transition-fast: 0.2s ease;
-  --font-family-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-family-primary: 'Inter', sans-serif;
 }
 
 /* --- IMPORTANT: Fix for Alert Appearing Behind Modal --- */
@@ -29,7 +30,7 @@
   top: 0; left: 0; right: 0;
   z-index: 10001; 
   /* Changed border to be slightly visible on white */
-  border-bottom: 1px solid rgba(111, 90, 196, 0.14);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); 
   transition: all var(--transition-fast);
   background: transparent;
 }
@@ -46,11 +47,11 @@
 
 .site-header.scrolled {
   height: 70px;
-  border-color: rgba(111, 90, 196, 0.16);
+  border-color: rgba(0,0,0,0.05);
 }
 
 .site-header.scrolled::before {
-  box-shadow: 0 10px 30px rgba(79, 53, 201, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   /* Pure white with blur */
   background-color: rgba(255, 255, 255, 0.98); 
   backdrop-filter: blur(10px);
@@ -89,7 +90,7 @@
 }
 
 .logo-text {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.6rem;
     font-weight: 800;
     color: var(--dark-color);
@@ -148,10 +149,9 @@
   top: 100%; left: 50%;
   transform: translateX(-50%) translateY(10px);
   width: 280px;
-  background-color: #ffffff;
-  border: 1px solid #e4defb;
+  background-color: #1a202c;
   border-radius: 8px;
-  box-shadow: 0 18px 40px rgba(79, 53, 201, 0.16);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   padding: 10px 0;
   opacity: 0;
   visibility: hidden;
@@ -171,13 +171,13 @@
   transform: translateX(-50%);
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 6px solid #ffffff;
+  border-bottom: 6px solid #1a202c;
 }
 
 .dropdown-item {
   display: block;
   padding: 12px 24px;
-  color: var(--text-primary);
+  color: #e2e8f0;
   text-decoration: none;
   font-size: 0.95rem;
   transition: all 0.2s;
@@ -186,7 +186,7 @@
 }
 
 .dropdown-item:hover {
-  background-color: #f5f1ff;
+  background-color: rgba(255,255,255,0.05);
   color: var(--primary-color);
   border-left-color: var(--primary-color);
   padding-left: 28px;
@@ -208,14 +208,15 @@
   display: flex !important;
   align-items: center;
   gap: 0.5rem; 
-  background: linear-gradient(135deg, var(--accent-color), var(--primary-hover));
+  background: linear-gradient(135deg, #6a43c5 0%, #5a34b9 100%);
   color: white;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(79, 53, 201, 0.32);
+  box-shadow: 0 8px 20px rgba(106, 67, 197, 0.35);
 }
 .login-btn:hover {
+  background: linear-gradient(135deg, #5f37bf 0%, #4f2faa 100%);
   transform: translateY(-2px);
-  box-shadow: 0 14px 24px rgba(79, 53, 201, 0.4);
+  box-shadow: 0 12px 28px rgba(90, 52, 185, 0.45);
 }
 .login-btn svg { width: 18px; height: 18px; }
 
@@ -249,7 +250,7 @@
   /* Changed mobile menu background to white */
   background: #ffffff; 
   z-index: 10100; 
-  box-shadow: -8px 0 24px rgba(79, 53, 201, 0.16);
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
   overflow: hidden; 
@@ -282,7 +283,7 @@
 
 .main-panel { z-index: 1; transform: translateX(0); }
 .main-panel.slide-left { transform: translateX(-30%); opacity: 0.8; pointer-events: none; }
-.sub-panel { z-index: 2; transform: translateX(100%); background: #f8f7ff; }
+.sub-panel { z-index: 2; transform: translateX(100%); background: #f8fafc; }
 .sub-panel.slide-in { transform: translateX(0); }
 
 /* Headers inside Mobile Menu */
@@ -300,7 +301,7 @@
   font-size: 1.2rem;
   font-weight: 800;
   color: var(--dark-color);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Links & Items */
@@ -315,7 +316,7 @@
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--dark-color);
-  border-bottom: 1px solid #ece9f8;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -333,13 +334,14 @@
 
 .mobile-login-btn {
   text-align: center;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  background: linear-gradient(135deg, #6a43c5 0%, #5a34b9 100%);
   color: white;
   padding: 14px;
   border-radius: 8px;
   font-weight: 700;
   text-decoration: none;
   margin-top: 1rem;
+  box-shadow: 0 8px 20px rgba(106, 67, 197, 0.35);
 }
 
 .back-btn {
@@ -413,12 +415,12 @@
 .modal-body { padding: 25px; }
 
 .enroll-message {
-  background-color: #f7f4ff;
+  background-color: #f0f9ff;
   border-left: 4px solid var(--primary-color);
   padding: 12px 15px;
   border-radius: 4px;
   margin-bottom: 20px;
-  color: #51467a;
+  color: #0c4a6e;
   font-size: 0.95rem;
 }
 
@@ -435,7 +437,7 @@
 .form-control {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd8f5;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-family: inherit;
   font-size: 1rem;
@@ -444,7 +446,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(110, 79, 224, 0.14);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 /* --- NEW: Phone Input Group Styles --- */
@@ -456,7 +458,7 @@
 .country-select {
   width: 130px; /* Fixed width for country code dropdown */
   flex-shrink: 0;
-  background-color: #faf9ff;
+  background-color: #f8fafc;
   cursor: pointer;
 }
 

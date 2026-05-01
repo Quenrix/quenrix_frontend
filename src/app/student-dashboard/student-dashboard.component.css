@@ -47,6 +47,16 @@ body {
     border: none;
 }
 
+<<<<<<< HEAD
+=======
+.exam-fullscreen-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: #f8fafc;
+}
+
+>>>>>>> f5738c77002307259614d5c0e69360f0cb5b5b37
 header {
     position: sticky;
     top: 0;
@@ -73,6 +83,7 @@ header {
     border: 2px solid rgba(255,255,255,0.15);
 }
 
+<<<<<<< HEAD
 .search-wrapper {
     position: relative;
     width: 320px;
@@ -101,6 +112,13 @@ header {
     transform: translateY(-50%);
     color: rgba(255,255,255,0.5);
     font-size: 13px;
+=======
+.search-wrapper { position: relative; width: min(400px, 42vw); }
+.search-wrapper input {
+    width: 100%; padding: 10px 18px 10px 45px;
+    border-radius: 50px; border: 1px solid transparent;
+    background: #f3f4f6; outline: none;
+>>>>>>> f5738c77002307259614d5c0e69360f0cb5b5b37
 }
 
 .btn-request {
@@ -133,6 +151,19 @@ header {
     align-items: start;
 }
 
+<<<<<<< HEAD
+=======
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 120px 1fr 300px;
+        gap: 16px;
+        padding: 18px;
+    }
+
+    .premium-profile-card {
+        padding: 28px;
+    }
+>>>>>>> f5738c77002307259614d5c0e69360f0cb5b5b37
 .main-content {
     min-width: 0;
 }
@@ -532,6 +563,7 @@ header {
 .profile-text-content {
     min-width: 0;
 }
+
 
 .status-badge {
     display: inline-flex;
@@ -2022,11 +2054,129 @@ header {
     overflow: hidden;
 }
 
+<<<<<<< HEAD
 .shorts-container {
     height: 100%;
     overflow-y: auto;
     scroll-snap-type: y mandatory;
     scrollbar-width: none;
+=======
+@media (max-width: 768px) {
+    header { padding: 0 15px; height: 60px; }
+    .search-wrapper { display: none; }
+    .btn-request span { display: none; } 
+    .btn-request { padding: 8px; border-radius: 50%; width: 36px; height: 36px; justify-content: center; }
+
+    .dashboard-grid { 
+        display: block !important; 
+        padding: 15px 15px 85px 15px !important; 
+    }
+
+    .sidebar {
+        position: fixed !important; 
+        bottom: 0 !important; 
+        top: auto !important;
+        left: 0 !important; 
+        width: 100% !important; 
+        height: 70px !important; 
+        background: rgba(255, 255, 255, 0.98) !important; 
+        backdrop-filter: blur(15px);
+        border-radius: 0 !important; 
+        border-top: 1px solid #e5e7eb;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.08); 
+        z-index: 2000 !important; 
+        padding: 0 !important; 
+        margin: 0 !important; 
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center;
+        align-items: center;
+        min-height: auto !important;
+    }
+
+    .sidebar-nav { 
+        flex-direction: row !important; 
+        justify-content: space-around !important; 
+        align-items: center !important; 
+        width: 100% !important; 
+        height: 100% !important;
+        gap: 0 !important;
+    }
+
+    .sidebar-nav a { 
+        padding: 8px 5px !important; 
+        font-size: 10px !important; 
+        border-radius: 0 !important; 
+        gap: 3px !important; 
+        color: #9ca3af !important; 
+        flex: 1;
+        height: 100%;
+        justify-content: center;
+        transition: none;
+    }
+
+    .sidebar-nav a.active { 
+        color: var(--primary-indigo) !important; 
+        background: transparent !important; 
+        box-shadow: none !important;
+    }
+
+    .sidebar-nav a.active i,
+    .sidebar-nav a.active span {
+        color: var(--primary-indigo) !important;
+    }
+
+    .sidebar-bottom, 
+    .sidebar-nav a[style*="color: #ef4444"] { 
+        display: none !important; 
+    }
+
+    .main-content {
+        padding-bottom: 20px;
+    }
+
+    .premium-exam-modal {
+        max-width: 92vw;
+        border-radius: 20px;
+    }
+
+    .exam-modal-header,
+    .exam-list-container,
+    .exam-modal-footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .premium-profile-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    .student-name-text {
+        font-size: 1.55rem;
+        line-height: 1.2;
+    }
+
+    .attractive-profile-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .exam-entry-card {
+        padding: 14px;
+        gap: 12px;
+    }
+
+    .exam-main-info h4 {
+        font-size: 0.95rem;
+    }
+
+    .exam-modal-footer {
+        flex-direction: column;
+    }
+>>>>>>> f5738c77002307259614d5c0e69360f0cb5b5b37
 }
 
 .shorts-container::-webkit-scrollbar {
@@ -2874,6 +3024,7 @@ header {
     color: #6b6892;
 }
 
+<<<<<<< HEAD
 /* --- Lms-block-card and module-items consistent theme --- */
 .lms-block-card {
     border: 1px solid var(--line);
@@ -3027,3 +3178,11 @@ header {
         justify-content: flex-start;
     }
 }
+=======
+/* Specific styling for Join Meeting buttons in the list */
+.btn-primary-gradient:disabled {
+    background: #cbd5e1;
+    box-shadow: none;
+}
+}
+>>>>>>> f5738c77002307259614d5c0e69360f0cb5b5b37
