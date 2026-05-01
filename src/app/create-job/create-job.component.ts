@@ -118,7 +118,7 @@ export class CreateJobComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/admin-panel']);
+    this.router.navigate(['/admin/admin-panel']);
   }
 
   togglePanel(): void {
