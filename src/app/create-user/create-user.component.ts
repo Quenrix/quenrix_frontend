@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { UserService } from '../services/user.service'; 
 import { AlertService } from '../services/alert.service'; // Import AlertService
+import { ModalService } from '../services/modal.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,25 +10,42 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
+  @Input() isModalMode: boolean = false;
+  @Input() modalData: any;
+  @Input() closeModal!: () => void;
+
   username: string = '';
   password?: string = '';
-  roleid: number = 1; 
+  roleid: number = 1;
+  profileImage: string | ArrayBuffer | null = null; 
 
   roles = [
     { id: 4, name: 'Admin' },
     { id: 5, name: 'Trainer' },
     { id: 6, name: 'Student' }
   ];
+
+  onProfileImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profileImage = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
   
   // Flags for loading state and password visibility
   isLoading: boolean = false;
   showPassword: boolean = false;
 
-  constructor(
-    private userService: UserService, 
-    private alertService: AlertService, // Inject AlertService
-    private router: Router
-  ) {}
+  private userService = inject(UserService);
+  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
+  private router = inject(Router);
+
+  constructor() {}
 
   ngOnInit(): void {
   }
@@ -68,7 +86,8 @@ export class CreateUserComponent implements OnInit {
     const payload = {
         username: this.username,
         password: this.password,
-        roleid: this.roleid
+        roleid: this.roleid,
+        profileImage: this.profileImage
     };
 
     // Start loading state
@@ -90,6 +109,12 @@ export class CreateUserComponent implements OnInit {
         this.username = '';
         this.password = ''; 
         this.roleid = 1;
+        this.profileImage = null;
+
+        // Close modal if in modal mode
+        if (this.isModalMode) {
+          setTimeout(() => this.closeModal?.(), 1500);
+        }
       },
       error: (err) => {
         // Stop loading state
@@ -122,6 +147,10 @@ export class CreateUserComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/admin-panel']); 
+    if (this.isModalMode) {
+      this.closeModal?.();
+    } else {
+      this.router.navigate(['/admin-panel']);
+    }
   }
 }

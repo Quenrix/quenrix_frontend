@@ -2,19 +2,21 @@
 
 /* --- Colors & Variables --- */
 :host {
-    --primary-green: #554451;
-    --accent-color: #e09f3e;
+    --primary-color: #6c3ef4;
+    --primary-hover: #5a2fd6;
+    --primary-green: #6c3ef4;
+    --accent-color: #6c3ef4;
     --text-dark: #333333;
-    --text-light: #666666;
+    --text-light: #6b7280;
     --input-background: #ffffff;
     --card-background: #ffffff;
-    --border-light: #e0e0e0;
+    --border-light: #d1d5db;
 
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f4f7f9;
+    background-color: #e9e7f2;
     font-family: 'Roboto', sans-serif;
     padding: 20px;
     box-sizing: border-box;
@@ -25,16 +27,16 @@
     width: 100%;
     max-width: 600px; /* Slightly wider for this form */
     background-color: var(--card-background);
-    padding: 40px 30px 30px 30px;
-    border-radius: 12px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+    padding: 36px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 25px -3px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     position: relative; 
     z-index: 1;
 }
 
 .form-card:hover {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Back Button --- */
@@ -45,7 +47,7 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background-color: var(--card-background);
+    background-color: #f9fafb;
     border: 1px solid var(--border-light);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     display: flex;
@@ -59,9 +61,9 @@
 
 .back-button:hover {
     color: white;
-    background-color: var(--primary-green);
+    background-color: var(--primary-color);
     transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(85, 68, 81, 0.2);
+    box-shadow: 0 6px 15px rgba(108, 62, 244, 0.18);
 }
 
 .back-button svg {
@@ -80,18 +82,15 @@
 }
 
 .header-section h2 {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--primary-green);
-    margin-bottom: 5px;
-    border-bottom: 3px solid var(--accent-color); 
-    display: inline-block; 
-    padding-bottom: 4px;
-    letter-spacing: 1px;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    letter-spacing: -0.025em;
 }
 
 .header-section p {
-    font-size: 0.95rem;
+    font-size: 14px;
     color: var(--text-light);
     margin-top: 8px;
 }
@@ -103,21 +102,22 @@
 
 .form-group label {
     display: block;
-    font-size: 0.95rem;
+    font-size: 13px;
     font-weight: 500;
     color: var(--text-dark);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .form-control {
     width: 100%;
-    padding: 12px 15px;
+    height: 46px;
+    padding: 0 14px;
     border: 1px solid var(--border-light);
     border-radius: 8px;
-    font-size: 1rem;
-    color: var(--text-dark);
+    font-size: 14px;
+    color: #111827;
     background-color: var(--input-background);
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     appearance: none;
     -webkit-appearance: none;
     box-sizing: border-box; 
@@ -132,8 +132,8 @@
 
 .form-control:focus {
     outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(224, 159, 62, 0.4);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(108, 62, 244, 0.12);
 }
 
 .form-control:disabled {
@@ -201,22 +201,23 @@
 
 .btn-submit {
     width: 100%;
-    padding: 14px;
+    height: 46px;
+    padding: 0 20px;
     border: none;
-    border-radius: 10px;
-    background-color: var(--primary-green);
+    border-radius: 8px;
+    background-color: var(--primary-color);
     color: white;
-    font-size: 1.1rem;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(85, 68, 81, 0.4);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(108, 62, 244, 0.18);
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .btn-submit:hover:not([disabled]) {
-    background-color: #3e313b;
+    background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(85, 68, 81, 0.5);
+    box-shadow: 0 8px 18px rgba(108, 62, 244, 0.24);
 }
 
 .btn-submit:disabled {
@@ -230,15 +231,15 @@
 .loading-spinner {
     text-align: center;
     padding: 40px 0;
-    color: var(--primary-green);
+    color: var(--primary-color);
 }
 
 .spinner {
     width: 30px;
     height: 30px;
-    border: 3px solid rgba(85, 68, 81, 0.2);
+    border: 3px solid rgba(108, 62, 244, 0.2);
     border-radius: 50%;
-    border-top-color: var(--accent-color);
+    border-top-color: var(--primary-color);
     animation: spin 1s ease-in-out infinite;
     margin: 0 auto 10px;
 }
@@ -248,15 +249,25 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+    :host { padding: 16px; }
+    .form-card { max-width: 100%; padding: 32px 24px; border-radius: 18px; }
+    .header-section h2 { font-size: 1.8rem; }
+}
+
 @media (max-width: 480px) {
-    .form-card {
-        padding: 30px 20px;
-    }
-    .back-button {
-        top: 15px;
-        left: 15px;
-    }
-    .header-section h2 {
-        font-size: 1.6rem;
-    }
+    :host { padding: 12px; align-items: flex-start; justify-content: flex-start; padding-top: 16px; }
+    .form-card { padding: 24px 18px; border-radius: 16px; }
+    .back-button { width: 36px; height: 36px; top: 12px; left: 12px; border-radius: 6px; }
+    .header-section h2 { font-size: 1.5rem; }
+    .header-section p { font-size: 12px; }
+    .input-field { height: 42px; font-size: 16px; border-radius: 6px; }
+}
+
+@media (max-width: 360px) {
+    :host { align-items: flex-start; justify-content: flex-start; padding-top: 12px; }
+    .form-card { padding: 20px 14px; border-radius: 14px; }
+    .back-button { width: 32px; height: 32px; }
+    .header-section h2 { font-size: 1.3rem; }
+    .input-field { height: 40px; font-size: 14px; }
 }

@@ -1,0 +1,27 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-dialog" [style.width]="modalConfig?.width || '90%'" 
+       [style.max-width]="modalConfig?.width || '600px'">
+    
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h2 class="modal-title">{{ modalConfig?.title || 'Modal' }}</h2>
+      <button class="modal-close-btn" (click)="closeModal()" 
+              type="button" aria-label="Close modal" title="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <!-- Dynamic component rendering -->
+      <ng-container *ngComponentOutlet="modalConfig?.component; 
+                                        injector: getInjector();
+                                        inputs: {
+                                          modalData: modalConfig?.data,
+                                          isModalMode: true,
+                                          closeModal: closeModal.bind(this)
+                                        }">
+      </ng-container>
+    </div>
+  </div>
+</div>

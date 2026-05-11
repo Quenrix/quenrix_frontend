@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, Observable } from 'rxjs';
 import { AssignPayload, AssignUserToBatchService, User, BatchDetail, Course } from '../services/assign-user-to-batch.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService } from '../services/alert.service';
+import { ModalService } from '../services/modal.service';
 import { Router } from '@angular/router'; // Import Router
 
 export interface DetailedUser extends User {
@@ -20,6 +21,10 @@ type InitialData = { courses: Course[], users: User[] };
   styleUrls: ['./assign-user-to-batch.component.css']
 })
 export class AssignUserToBatchComponent implements OnInit {
+  @Input() isModalMode: boolean = false;
+  @Input() modalData: any;
+  @Input() closeModal!: () => void;
+
   assignmentForm!: FormGroup;
   courses: Course[] = []; 
   batches: BatchDetail[] = []; 
@@ -34,12 +39,13 @@ export class AssignUserToBatchComponent implements OnInit {
   private ROLE_ID_TRAINER = 5;
   private ROLE_ID_STUDENT = 6;
 
-  constructor(
-    private fb: FormBuilder,
-    private assignService: AssignUserToBatchService,
-    private alertService: AlertService,
-    private router: Router // Inject Router
-  ) { }
+  private fb = inject(FormBuilder);
+  private assignService = inject(AssignUserToBatchService);
+  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
+  private router = inject(Router);
+
+  constructor() { }
 
   ngOnInit(): void {
     this.assignmentForm = this.fb.group({
@@ -72,7 +78,11 @@ export class AssignUserToBatchComponent implements OnInit {
 
   // Go Back Method
   goBack(): void {
-    this.router.navigate(['/admin-panel']); 
+    if (this.isModalMode) {
+      this.closeModal?.();
+    } else {
+      this.router.navigate(['/admin-panel']);
+    }
   }
 
   loadInitialData(): void {
@@ -206,6 +216,11 @@ export class AssignUserToBatchComponent implements OnInit {
         this.assignmentForm.get('batchId')?.disable();
         this.selectedUserDetail = null; 
         this.loading = false;
+
+        // Close modal if in modal mode
+        if (this.isModalMode) {
+          setTimeout(() => this.closeModal?.(), 1500);
+        }
       },
       error: (error: HttpErrorResponse) => {
         this.loading = false;

@@ -98,6 +98,9 @@
                     <div class="card-image-wrapper">
                         <img [src]="card.iconImage.startsWith('http') ? card.iconImage : 'assets/' + card.iconImage" [alt]="card.title" 
                              onerror="this.src='assets/course.png'">
+                        <div class="card-icon-badge" [ngClass]="'icon-' + card.colorClass">
+                            <i [ngClass]="card.icon"></i>
+                        </div>
                         <div class="card-top-row">
                             <span class="card-chip">Admin Tool</span>
                         </div>

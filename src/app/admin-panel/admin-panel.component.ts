@@ -6,6 +6,11 @@ import { BatchManagementComponent } from './batch-management/batch-management.co
 import { CareerService } from '../services/careers.service'; 
 import { InquiryService, InquiryPayload } from '../services/inquiry.service'; 
 import { AlertService } from '../services/alert.service'; // Import AlertService
+import { ModalService } from '../services/modal.service';
+import { CreateUserComponent } from '../create-user/create-user.component';
+import { CreateBatchComponent } from '../create-batch/create-batch.component';
+import { CreateCourseComponent } from '../create-course/create-course.component';
+import { AssignUserToBatchComponent } from '../assign-user-to-batch/assign-user-to-batch.component';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -22,7 +27,8 @@ interface NavLink {
 interface AdminCard {
   title: string;
   subtitle: string;
-  iconImage: string; 
+  iconImage: string;
+  icon: string;
   buttonText: string;
   colorClass: string; 
   route: string;
@@ -54,6 +60,7 @@ const ADMIN_CONFIG = {
       title: 'Create New User', 
       subtitle: 'Register new users (Admin, Trainer, Student) and assign roles.', 
       iconImage: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-user-plus',
       buttonText: 'Create User', 
       colorClass: 'indigo', 
       route: '/create-user' 
@@ -62,6 +69,7 @@ const ADMIN_CONFIG = {
       title: 'New Batch', 
       subtitle: 'Manage batch start dates, capacity, and student allocations.', 
       iconImage: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-graduation-cap',
       buttonText: 'Create Batch', 
       colorClass: 'violet', 
       route: '/create-batch' 
@@ -70,6 +78,7 @@ const ADMIN_CONFIG = {
       title: 'New Course', 
       subtitle: 'Define new course structure, duration, and assign a dedicated trainer.', 
       iconImage: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-book',
       buttonText: 'Create Course', 
       colorClass: 'violet', 
       route: '/create-course' 
@@ -78,6 +87,7 @@ const ADMIN_CONFIG = {
       title: 'Assign to Batch', 
       subtitle: 'Map users (Student/Trainer) to specific batches and roles.', 
       iconImage: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-users',
       buttonText: 'Assign Users', 
       colorClass: 'teal', 
       route: '/assign-user-to-batch' 
@@ -86,6 +96,7 @@ const ADMIN_CONFIG = {
       title: 'Create Exam', 
       subtitle: 'Design, configure, and schedule new tests and assessments.', 
       iconImage: 'https://images.pexels.com/photos/5905710/pexels-photo-5905710.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-clipboard-check',
       buttonText: 'Create Exam', 
       colorClass: 'amber', 
       route: '/create-exam' 
@@ -93,7 +104,8 @@ const ADMIN_CONFIG = {
     { 
       title: 'Create Jobs', 
       subtitle: 'Post and manage new job openings for ongoing placement drives.', 
-      iconImage: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      iconImage: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-briefcase',
       buttonText: 'Manage Jobs', 
       colorClass: 'red', 
       route: '/create-job' 
@@ -101,7 +113,8 @@ const ADMIN_CONFIG = {
     { 
       title: 'Post Careers', 
       subtitle: 'Post internal job openings for the main Careers website page.', 
-      iconImage: 'https://images.pexels.com/photos/4065624/pexels-photo-4065624.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      iconImage: 'https://images.pexels.com/photos/4065624/pexels-photo-4065624.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-globe',
       buttonText: 'Website Careers', 
       colorClass: 'indigo', 
       route: '/upload-careers',
@@ -111,6 +124,7 @@ const ADMIN_CONFIG = {
       title: 'Success Stories', 
       subtitle: 'Share student placement stories and achievements on the wall of fame.', 
       iconImage: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-star',
       buttonText: 'Add Story', 
       colorClass: 'teal', 
       route: '/create-success-story' 
@@ -118,7 +132,8 @@ const ADMIN_CONFIG = {
     { 
       title: 'Upload Blog', 
       subtitle: 'Upload and manage PDF blogs to share with students.', 
-      iconImage: 'https://images.pexels.com/photos/4861362/pexels-photo-4861362.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      iconImage: 'https://images.pexels.com/photos/4861362/pexels-photo-4861362.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-newspaper',
       buttonText: 'Manage Blog', 
       colorClass: 'red', 
       route: '/upload-blog' 
@@ -126,7 +141,8 @@ const ADMIN_CONFIG = {
     { 
       title: 'Upload Notes', 
       subtitle: 'Upload lecture notes, assignments, and study materials.', 
-      iconImage: 'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      iconImage: 'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      icon: 'fas fa-scroll',
       buttonText: 'Upload Notes', 
       colorClass: 'violet', 
       route: '/upload-notes' 
@@ -166,6 +182,7 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   private careerService = inject(CareerService);
   private inquiryService = inject(InquiryService); 
   private alertService = inject(AlertService); // Inject AlertService
+  private modalService = inject(ModalService);
 
   @ViewChild(UserManagementComponent) userManagementComponent!: UserManagementComponent; 
   @ViewChild(ManageCourseComponent) manageCourseComponent!: ManageCourseComponent;
@@ -248,6 +265,30 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   navigateTo(route: string, tabId?: TabId): void { 
     this.mobileMenuOpen.set(false);
 
+    // Define routes that should open as modals
+    const modalRoutes: { [key: string]: { component: any; title: string } } = {
+      '/create-user': { component: CreateUserComponent, title: 'Create New User' },
+      '/create-batch': { component: CreateBatchComponent, title: 'Create New Batch' },
+      '/create-course': { component: CreateCourseComponent, title: 'Create New Course' },
+      '/assign-user-to-batch': { component: AssignUserToBatchComponent, title: 'Assign User to Batch' }
+    };
+
+    // Check if this route should open as a modal
+    if (modalRoutes[route]) {
+      const modalConfig = modalRoutes[route];
+      this.modalService.open({
+        component: modalConfig.component,
+        title: modalConfig.title,
+        width: '95%',
+        onClose: () => {
+          // Optional: Refresh data after form submission
+          // This will be called when modal closes
+        }
+      });
+      return;
+    }
+
+    // Handle regular navigation
     if (tabId) {
         this.activeTab.set(tabId);
         

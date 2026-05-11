@@ -80,6 +80,19 @@
                 </div>
             </div>
 
+            <!-- Profile Image (Optional) -->
+            <div class="form-group">
+                <label for="profileImage">Profile Image (Optional)</label>
+                <input 
+                    id="profileImage" 
+                    type="file" 
+                    class="text-input"
+                    (change)="onProfileImageSelected($event)" 
+                    accept="image/*"
+                >
+                <small *ngIf="profileImage" class="text-success">Image selected</small>
+            </div>
+
             <!-- Submit Button with Loading State -->
             <div>
                 <button type="submit" class="submit-button" [disabled]="isLoading">

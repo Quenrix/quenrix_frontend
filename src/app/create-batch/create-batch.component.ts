@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Course, CreateBatchPayload, CreateBatchService } from '../services/create-batch.service';
 import { Router } from '@angular/router'; // Import Router
 import { AlertService } from '../services/alert.service'; // Import AlertService
+import { ModalService } from '../services/modal.service';
 
 interface Batch {
   batchName: string;
@@ -19,6 +20,9 @@ interface Batch {
   styleUrls: ['./create-batch.component.css']
 })
 export class CreateBatchComponent implements OnInit {
+  @Input() isModalMode: boolean = false;
+  @Input() modalData: any;
+  @Input() closeModal!: () => void;
 
   isSubmitting: boolean = false;
   courses: Course[] = []; 
@@ -35,11 +39,12 @@ export class CreateBatchComponent implements OnInit {
 
   modeOptions = ['Online', 'Offline', 'Hybrid'];
 
-  constructor(
-    private batchService: CreateBatchService,
-    private router: Router,
-    private alertService: AlertService
-  ) { } 
+  private batchService = inject(CreateBatchService);
+  private router = inject(Router);
+  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
+
+  constructor() { } 
 
   ngOnInit(): void {
     this.fetchCourseList();
@@ -57,7 +62,11 @@ export class CreateBatchComponent implements OnInit {
   
   // Go Back Method
   goBack(): void {
-    this.router.navigate(['/admin-panel']); 
+    if (this.isModalMode) {
+      this.closeModal?.();
+    } else {
+      this.router.navigate(['/admin-panel']);
+    }
   }
 
   fetchCourseList(): void {
@@ -113,6 +122,11 @@ export class CreateBatchComponent implements OnInit {
             timing: '',
             mode: 'Online'
         };
+
+        // Close modal if in modal mode
+        if (this.isModalMode) {
+          setTimeout(() => this.closeModal?.(), 1500);
+        }
       },
       error: (error: HttpErrorResponse) => {
         console.error('Batch creation API error:', error);

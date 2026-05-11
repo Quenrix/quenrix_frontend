@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CreateCourseService, Course, Subject } from '../services/create-course.service'; 
 import { HttpErrorResponse } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { Router } from '@angular/router'; 
 import { AlertService } from '../services/alert.service'; // Import AlertService
+import { ModalService } from '../services/modal.service';
 
 @Component({
   selector: 'app-create-course',
@@ -12,6 +13,9 @@ import { AlertService } from '../services/alert.service'; // Import AlertService
   styleUrls: ['./create-course.component.css']
 })
 export class CreateCourseComponent implements OnInit {
+  @Input() isModalMode: boolean = false;
+  @Input() modalData: any;
+  @Input() closeModal!: () => void;
 
   // State flags for form submission
   isSubmitting: boolean = false;
@@ -31,11 +35,12 @@ export class CreateCourseComponent implements OnInit {
     subjectsInput: ''
   };
 
-  constructor(
-    private createCourseService: CreateCourseService,
-    private router: Router,
-    private alertService: AlertService // Inject AlertService
-  ) { } 
+  private createCourseService = inject(CreateCourseService);
+  private router = inject(Router);
+  private alertService = inject(AlertService);
+  private modalService = inject(ModalService);
+
+  constructor() { } 
 
   ngOnInit(): void {
   }
@@ -44,7 +49,11 @@ export class CreateCourseComponent implements OnInit {
    * Navigates back to the previous page (e.g., admin panel)
    */
   goBack(): void {
-    this.router.navigate(['/admin-panel']); 
+    if (this.isModalMode) {
+      this.closeModal?.();
+    } else {
+      this.router.navigate(['/admin-panel']);
+    }
   }
 
   resetFormState(form: NgForm): void {
@@ -120,7 +129,12 @@ export class CreateCourseComponent implements OnInit {
             console.log('API Response:', response);
             this.isSubmitting = false;
             this.alertService.success(`Course successfully ${action}!`);
-            this.resetFormState(form); 
+            this.resetFormState(form);
+
+            // Close modal if in modal mode
+            if (this.isModalMode) {
+              setTimeout(() => this.closeModal?.(), 1500);
+            }
         },
         error: (error: HttpErrorResponse) => {
             console.error('API Error:', error);
