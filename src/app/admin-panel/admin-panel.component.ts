@@ -5,10 +5,12 @@ import { ManageCourseComponent } from './manage-course/manage-course.component';
 import { BatchManagementComponent } from './batch-management/batch-management.component';
 import { CareerService } from '../services/careers.service'; 
 import { InquiryService, InquiryPayload } from '../services/inquiry.service'; 
-import { AlertService } from '../services/alert.service'; // Import AlertService
+import { AlertService } from '../services/alert.service'; 
+import { AdminConfigService} from '../services/admin.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { NavigationService } from '../services/navigation.service';
 
 type TabId = 'dashboard' | 'users' | 'courses' | 'batches' | 'settings' | 'upload-careers' | 'applicants' | 'inquiries'; 
 
@@ -172,7 +174,7 @@ const ADMIN_CONFIG = {
   providers: [DatePipe]
 })
 export class AdminPanelComponent implements OnInit, AfterViewInit {
-  config = ADMIN_CONFIG;
+  config: any = inject(AdminConfigService).getAdminConfig();
   darkModeActive = signal(false);
   activeTab = signal<TabId>('dashboard');
   
@@ -194,7 +196,8 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
 
   private careerService = inject(CareerService);
   private inquiryService = inject(InquiryService); 
-  private alertService = inject(AlertService); // Inject AlertService
+  private alertService = inject(AlertService);
+  private navigationService = inject(NavigationService);
 
   @ViewChild(UserManagementComponent) userManagementComponent!: UserManagementComponent; 
   @ViewChild(ManageCourseComponent) manageCourseComponent!: ManageCourseComponent;
@@ -208,7 +211,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     const endDate = this.filterEndDate();
     const courseFilter = this.filterCourseName().toLowerCase();
 
-    // 1. Global Search (Header)
     if (query) {
       data = data.filter(item => 
         item.name.toLowerCase().includes(query) || 
@@ -217,12 +219,10 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       );
     }
 
-    // 2. Course Name Filter
     if (courseFilter) {
       data = data.filter(item => item.course_name.toLowerCase().includes(courseFilter));
     }
 
-    // 3. Date Range Filter
     if (startDate) {
       data = data.filter(item => item.created_at && new Date(item.created_at) >= new Date(startDate));
     }
@@ -235,7 +235,7 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     return data;
   });
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     const path = this.router.url.split('?')[0];
@@ -279,7 +279,7 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   navigateTo(route: string, tabId?: TabId): void { 
 
     if (tabId) {
-        this.activeTab.set(tabId);
+        this.activeTab.set(tabId as TabId);
         
         if (tabId === 'applicants') {
           this.fetchApplicants();
@@ -339,7 +339,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Use AlertService confirm instead of browser confirm
     this.alertService.confirm('Are you sure?', 'You want to delete this inquiry?')
       .then((result) => {
         if (result.isConfirmed) {
@@ -392,11 +391,9 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // Demo action for "Mark as Contacted"
   markAsContacted() {
       this.alertService.success('Marked as contacted (Demo)', 'Done');
   }
-
 
   // --- ACTIONS ---
 
@@ -408,15 +405,17 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   }
 
   logoutUser(): void {
-    // Clear all stored data (Auth tokens, user info, etc.)
+    this.navigationService.clearUser();
     localStorage.clear();
     sessionStorage.clear();
-
+    
     this.alertService.success('Logged out successfully. Redirecting...', 'Goodbye');
     
     setTimeout(() => {
-        // Force reload to clear memory state and redirect
         window.location.href = '/login'; 
     }, 1500); 
   }
 }
+
+
+

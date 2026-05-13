@@ -7,8 +7,7 @@
       ]
     },
     "outDir": "./dist/out-tsc",
-    "rootDir": "./src",
-    "ignoreDeprecations": "5.0",
+    "rootDir": "./src",                // ← ADD THIS (required when baseUrl is set)
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,

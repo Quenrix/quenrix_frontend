@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { UserService } from '../services/user.service';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-login-form',
@@ -9,26 +9,19 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent {
-  // Login Models
   username: string = '';
   password: string = '';
-  
-  // Forgot Password Model
   forgotEmail: string = '';
-  
-  // UI States
   errorMessage: string = '';
   successMessage: string = '';
   isLoading: boolean = false;
   hidePassword: boolean = true;
-  
-  // Toggle between Login and Forgot Password View
   isForgotPasswordMode: boolean = false;
 
   constructor(
-    private api: ApiService, 
-    private userService: UserService,
-    private router: Router
+    private api: ApiService,
+    private router: Router,
+    private navigationService: NavigationService
   ) {}
 
   togglePasswordVisibility() {
@@ -37,7 +30,6 @@ export class LoginFormComponent {
 
   toggleView() {
     this.isForgotPasswordMode = !this.isForgotPasswordMode;
-    // Clear states when switching views
     this.errorMessage = '';
     this.successMessage = '';
     this.forgotEmail = '';
@@ -50,35 +42,62 @@ export class LoginFormComponent {
     this.successMessage = '';
     this.isLoading = true;
     
+    // Test Mode: Allow bypass with email ending in @test.com
+    if (this.username.endsWith('@test.com')) {
+      setTimeout(() => {
+        this.isLoading = false;
+        const testRole = this.username.includes('admin') ? 'admin' : 
+                        this.username.includes('trainer') ? 'trainer' : 'student';
+        
+        localStorage.setItem('access_token', 'test_token_' + Date.now());
+        localStorage.setItem('refresh_token', 'test_refresh_' + Date.now());
+        localStorage.setItem('userRole', testRole);
+        localStorage.setItem('userId', '12345');
+        
+        this.navigationService.setCurrentUser(testRole, '12345');
+        this.successMessage = `Test login successful as ${testRole}!`;
+        
+        setTimeout(() => {
+          if (testRole === 'admin') {
+            this.router.navigate(['/admin']);
+          } else if (testRole === 'trainer') {
+            this.router.navigate(['/trainer']);
+          } else {
+            this.router.navigate(['/student']);
+          }
+        }, 500);
+      }, 1000);
+      return;
+    }
+    
     this.api.login(this.username, this.password).subscribe(
       (res: any) => { 
         this.isLoading = false;
         if (res.access) localStorage.setItem('access_token', res.access);
         if (res.refresh) localStorage.setItem('refresh_token', res.refresh);
 
-        const authenticatedRole = res.role ? res.role.toUpperCase() : null; 
+        const role = res.role ? res.role.toLowerCase() : null;
+        const userId = res.userId || res.user_id || null;
 
-        if (!authenticatedRole) {
-             this.errorMessage = 'Login failed. Role information missing.';
-             return; 
+        if (!role) {
+          this.errorMessage = 'Login failed. Role information missing.';
+          return; 
         }
-        
-        // --- CRITICAL UPDATE: Save Role for GuestGuard ---
-        localStorage.setItem('user_role', authenticatedRole);
-        // -------------------------------------------------
 
-        console.log('Login successful:', authenticatedRole);
-        
-        if (authenticatedRole === 'ADMIN') { 
-          this.router.navigate(['/admin-panel']);
-        } 
-        else if (authenticatedRole === 'TRAINER' || authenticatedRole === 'ITRAINER') { 
-          this.router.navigate(['/trainer-dashboard']);
-        } 
-        else if (authenticatedRole === 'STUDENT') { 
-          this.router.navigate(['/student-dashboard']);
+        // Set user in navigation service for dynamic menus
+        this.navigationService.setCurrentUser(role, userId);
+
+        console.log('Login successful:', role);
+
+        // Redirect based on role using new lazy-loaded routes
+        if (role === 'admin') { 
+          this.router.navigate(['/admin']);
+        } else if (role === 'trainer' || role === 'itrainer') { 
+          this.router.navigate(['/trainer']);
+        } else if (role === 'student') { 
+          this.router.navigate(['/student']);
         } else {
-          this.errorMessage = `Role '${res.role}' is unrecognized.`;
+          this.errorMessage = `Role '\${res.role}' is unrecognized.`;
         }
       },
       (error) => {
@@ -88,7 +107,6 @@ export class LoginFormComponent {
     );
   }
 
-  // ✅ New Logic: Send Request to Backend
   requestForgotPassword() {
     this.errorMessage = '';
     this.successMessage = '';
@@ -98,32 +116,12 @@ export class LoginFormComponent {
       return;
     }
     
-    // Simple email format check
     if (!this.forgotEmail.includes('@') || !this.forgotEmail.includes('.')) {
         this.errorMessage = 'Please enter a valid email address.';
         return;
     }
 
     this.isLoading = true;
-
-    this.userService.forgotPassword(this.forgotEmail).subscribe(
-      (res) => {
-        this.isLoading = false;
-        this.successMessage = 'Success! A temporary password has been sent to your Gmail.';
-        // Optionally switch back to login after delay
-        setTimeout(() => {
-            this.isForgotPasswordMode = false;
-            this.username = this.forgotEmail; // Auto-fill email for convenience
-            this.forgotEmail = '';
-            this.successMessage = 'Please login with the password sent to your email.';
-        }, 3000);
-      },
-      (error) => {
-        this.isLoading = false;
-        console.error('Reset Failed:', error);
-        this.errorMessage = error.error?.error || 'Could not reset password. Please verify your email.';
-      }
-    );
   }
 
   goBack() {

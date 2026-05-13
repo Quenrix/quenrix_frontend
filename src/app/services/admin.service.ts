@@ -86,3 +86,28 @@ export class AdminApiService {
 }
 
 export { AdminFormData as Admin };
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AdminConfigService {
+  getAdminConfig() {
+    return {
+      SIDEBAR_LINKS: [
+        { id: 'dashboard', label: 'Dashboard', icon: 'fas fa-chart-pie', route: '/admin/admin-panel' },
+        { id: 'users', label: 'User Mgmt', icon: 'fas fa-users', route: '/admin/admin-panel' },
+        { id: 'courses', label: 'Courses', icon: 'fas fa-book', route: '/admin/admin-panel' },
+        { id: 'batches', label: 'Batches', icon: 'fas fa-layer-group', route: '/admin/admin-panel' },
+        { id: 'applicants', label: 'Applicants', icon: 'fas fa-user-tie', route: '/admin/admin-panel' },
+        { id: 'inquiries', label: 'Inquiries', icon: 'fas fa-envelope-open-text', route: '/admin/admin-panel' },
+        { id: 'settings', label: 'Settings', icon: 'fas fa-cog', route: '/admin/admin-panel' }
+      ],
+      ADMIN_CARDS: [
+        { title: 'Create Admin', subtitle: 'Add new system administrators', iconImage: 'assets/icons/admin.png', buttonText: 'Add Admin', colorClass: 'card-blue', route: '/admin/create-user' },
+        { title: 'Create Job', subtitle: 'Post new job vacancies', iconImage: 'assets/icons/job.png', buttonText: 'Post Job', colorClass: 'card-green', route: '/admin/create-job' },
+        { title: 'Manage Courses', subtitle: 'Create and edit course details', iconImage: 'assets/icons/course.png', buttonText: 'Manage', colorClass: 'card-purple', route: '/admin/create-course' },
+        { title: 'Batch Setup', subtitle: 'Schedule new batches', iconImage: 'assets/icons/batch.png', buttonText: 'Schedule', colorClass: 'card-orange', route: '/admin/create-batch' }
+      ]
+    };
+  }
+}

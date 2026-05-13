@@ -108,7 +108,7 @@ export class GenerateAtsResumeComponent implements OnInit {
 
     if (!userId) {
       this.isLoading.set(false);
-      this.backToDashboard();
+      this.loadFallbackData('');
       return;
     }
 
@@ -119,7 +119,6 @@ export class GenerateAtsResumeComponent implements OnInit {
           this.resumeData = this.transformApiData(apiResponse);
           this.divideSkillsIntoColumns(this.resumeData.skills);
           this.calculateAtsScore(this.resumeData);
-          if (this.isDashboardEmbed) this.downloadResume();
         } else {
           this.loadFallbackData(userId);
         }
@@ -216,13 +215,14 @@ export class GenerateAtsResumeComponent implements OnInit {
           this.divideSkillsIntoColumns(this.resumeData.skills);
           this.calculateAtsScore(this.resumeData);
           this.isLoading.set(false);
-          if (this.isDashboardEmbed) this.downloadResume();
           return;
         }
       }
     }
     this.isLoading.set(false);
-    window.location.href = 'setup-profile';
+    if (!this.isDashboardEmbed) {
+      window.location.href = 'setup-profile';
+    }
   }
 
   // ─── UI helpers ──────────────────────────────────────────────────────────────

@@ -60,7 +60,7 @@ header {
     cursor: pointer;
 }
 
-.search-wrapper { position: relative; width: 400px; }
+.search-wrapper { position: relative; width: min(400px, 42vw); }
 .search-wrapper input {
     width: 100%; padding: 10px 18px 10px 45px;
     border-radius: 50px; border: 1px solid transparent;
@@ -85,7 +85,18 @@ header {
     min-height: calc(100vh - 80px); 
 }
 
-/* YAHAN FIX HAI: Resume Component ko container ke bahar nikalne se rokne ke liye */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 120px 1fr 300px;
+        gap: 16px;
+        padding: 18px;
+    }
+
+    .premium-profile-card {
+        padding: 28px;
+    }
+}
+
 .main-content {
     min-width: 0; 
     width: 100%;
@@ -724,6 +735,34 @@ header {
         padding-bottom: 20px;
     }
 
+    .premium-modal {
+        max-width: 92vw;
+        padding: 24px;
+        border-radius: 20px;
+    }
+
+
+@media (max-width: 480px) {
+    .premium-profile-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    .student-name-text {
+        font-size: 1.55rem;
+        line-height: 1.2;
+    }
+
+    .attractive-profile-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .premium-modal {
+        padding: 18px 16px;
+        border-radius: 16px;
+    }
+}
     .stats-cards-container {
         grid-template-columns: 1fr;
     }

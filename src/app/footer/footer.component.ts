@@ -13,6 +13,7 @@ import { ChatbotComponent } from '../chatbot/chatbot.component';
 export class FooterComponent {
   
   private uiService = inject(UiStateService);
+  private languageService = inject(LanguageService);
 
   isScrolled = false;
   isChatOpen = false; 
@@ -38,5 +39,19 @@ export class FooterComponent {
     if (action.startsWith('navigate') || action === 'open-courses') {
       this.scrollToTop();
     }
+  }
+
+  openExternal(url: string, event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const opened = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!opened) {
+      window.location.href = url;
+    }
+  }
+
+  t(key: string): string {
+    return this.languageService.t(key);
   }
 }

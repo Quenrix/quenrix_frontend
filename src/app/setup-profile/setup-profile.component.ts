@@ -5,10 +5,14 @@ import { debounceTime, distinctUntilChanged, takeUntil, finalize, catchError } f
 import { ResumeService, SkillMaster, ProficiencyLevel, SetupData, ApiPayload } from '../services/create-resume.service'; 
 import { AlertService } from '../services/alert.service'; 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-setup-profile',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './setup-profile.component.html',
   styleUrls: ['./setup-profile.component.css']
 })
@@ -306,11 +310,12 @@ export class SetupProfileComponent implements OnInit, OnDestroy {
   goBack(): void {
     const role = this.userRole();
     if (role === 'trainer') {
-      this.router.navigate(['/trainer-dashboard']);
+      this.router.navigate(['/trainer/trainer-dashboard']);
     } else {
-      this.router.navigate(['/student-dashboard']);
+      this.router.navigate(['/student/student-dashboard']);
     }
   }
 
   ngOnDestroy(): void { this.destroy$.next(); this.destroy$.complete(); }
 }
+

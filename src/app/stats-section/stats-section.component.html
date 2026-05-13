@@ -1,0 +1,38 @@
+<section class="stats-section">
+  <div class="stats-container">
+    <!-- Section Title -->
+    <div class="stats-header">
+      <h2 class="stats-title">Trusted by Thousands of Learners</h2>
+      <p class="stats-subtitle">Join our thriving community and transform your tech career</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div *ngFor="let stat of stats" class="stat-card" [attr.data-index]="stats.indexOf(stat)">
+        <!-- Card Background Gradient -->
+        <div class="card-gradient"></div>
+
+        <!-- Card Content -->
+        <div class="card-content">
+          <div class="stat-icon">{{ stat.icon }}</div>
+          <div class="stat-value">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-description" *ngIf="stat.description">{{ stat.description }}</div>
+        </div>
+
+        <!-- Card Border Animation -->
+        <div class="card-border"></div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="stats-cta">
+      <p>Ready to join our community?</p>
+      <button class="btn-cta">Start Learning Today</button>
+    </div>
+  </div>
+
+  <!-- Background Elements -->
+  <div class="bg-element bg-element-1"></div>
+  <div class="bg-element bg-element-2"></div>
+</section>

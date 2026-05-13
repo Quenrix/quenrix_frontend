@@ -5,6 +5,10 @@
     <div class="header-titles">
       <h2>Syntax Share</h2>
       <p>Connect with experts and resolve coding doubts live.</p>
+      <div class="header-meta-row">
+        <span class="meta-chip"><i class="fas fa-users"></i> Community Help Desk</span>
+        <span class="meta-chip soft"><i class="fas fa-bolt"></i> Live Peer Responses</span>
+      </div>
     </div>
     <button class="refresh-action" (click)="loadData(false)" [disabled]="refreshing">
       <i class="fas fa-sync-alt" [class.fa-spin]="refreshing"></i>
@@ -42,9 +46,16 @@
   </div>
 
   <!-- LOADING STATE -->
-  <div *ngIf="loading" class="modern-loader" style="text-align: center; padding: 40px;">
-    <i class="fas fa-circle-notch fa-spin" style="font-size: 24px; color: #4f46e5;"></i>
-    <p style="color: #64748b; font-size: 14px; margin-top: 10px;">Refreshing community insights...</p>
+  <div *ngIf="loading" class="modern-loader">
+    <i class="fas fa-circle-notch fa-spin"></i>
+    <p>Refreshing community insights...</p>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div *ngIf="!loading && doubts.length === 0" class="empty-state-card">
+    <div class="empty-icon"><i class="far fa-comments"></i></div>
+    <h3>No discussions yet</h3>
+    <p>Be the first one to post a doubt and start the learning conversation.</p>
   </div>
 
   <!-- DOUBTS FEED -->

@@ -1,13 +1,28 @@
 <div class="chat-container">
-  <div class="chat-box">
+  <div class="quick-questions" *ngIf="!isTyping">
+    <button
+      type="button"
+      class="quick-chip"
+      *ngFor="let q of quickQuestions"
+      (click)="askQuickQuestion(q)">
+      {{ q }}
+    </button>
+  </div>
+
+  <div class="chat-box" #chatBox>
     <div *ngFor="let msg of messages" [ngClass]="msg.sender">
-      <!-- Added a wrapper to make the chat look like bubbles -->
       <p>{{ msg.text }}</p>
+    </div>
+
+    <div class="bot typing" *ngIf="isTyping">
+      <p>
+        <span></span><span></span><span></span>
+      </p>
     </div>
   </div>
 
   <div class="input-box">
-    <input [(ngModel)]="userInput" placeholder="Ask me about courses, placements..." (keyup.enter)="sendMessage()" />
-    <button (click)="sendMessage()">Send</button>
+    <input [(ngModel)]="userInput" [placeholder]="t('chat.inputPlaceholder')" (keyup.enter)="sendMessage()" [disabled]="isTyping" />
+    <button (click)="sendMessage()" [disabled]="isTyping">{{ isTyping ? '...' : t('chat.send') }}</button>
   </div>
 </div>

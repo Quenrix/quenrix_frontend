@@ -1,0 +1,68 @@
+<section class="course-preview-wrapper">
+  <div class="course-preview-grid">
+    <aside class="tutorial-sidebar">
+      <h4>Top Tutorials</h4>
+      <ul>
+        <li *ngFor="let item of tutorials; let i = index" [class.active]="i === 0">
+          <span>{{ item }}</span>
+          <span class="arrow">›</span>
+        </li>
+      </ul>
+      <div class="guidance-card">
+        <p class="title">Need Guidance?</p>
+        <p class="sub">Not sure which tutorial to start with? Take our expert-led career assessment.</p>
+        <button>Start Assessment</button>
+      </div>
+    </aside>
+
+    <div class="lesson-panel">
+      <div class="lesson-header">
+        <h3>Preview a Lesson: <span>HTML Basics</span></h3>
+        <a href="javascript:void(0)">See All Chapters →</a>
+      </div>
+
+      <div class="lesson-content">
+        <div class="code-box">
+          <p class="label">&lt;/&gt; Example Code</p>
+          <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Quenrix&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello World&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+          <button class="light-btn">Edit &amp; Run Locally</button>
+        </div>
+
+        <div class="learn-box">
+          <h5>What you will learn:</h5>
+          <ul>
+            <li>Fundamental syntax and best practices</li>
+            <li>Document structure and semantic layouts</li>
+            <li>Responsive design principles</li>
+            <li>Career-focused practical exercises</li>
+          </ul>
+          <button class="primary-btn">Start Learning This Chapter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="success-stories">
+    <h3>Student Success Stories</h3>
+    <p>Hear from our graduates who landed their dream jobs at global tech giants.</p>
+
+    <div class="stories-grid">
+      <article class="story-card" *ngFor="let story of stories">
+        <div class="quote-mark">❝</div>
+        <p class="quote">{{ story.quote }}</p>
+        <div class="author">
+          <strong>{{ story.name }}</strong>
+          <span>{{ story.role }}</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
