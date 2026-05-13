@@ -1,9 +1,12 @@
 import { Component, HostListener, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { UiStateService } from '../services/ui-state.service';
-import { LanguageService } from '../services/language.service';
+import { ChatbotComponent } from '../chatbot/chatbot.component';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
+  imports: [CommonModule, ChatbotComponent],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })

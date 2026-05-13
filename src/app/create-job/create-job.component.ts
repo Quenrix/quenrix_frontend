@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CreateJobService, Job, JobCreatePayload } from '../services/create-job.service';
+import { CreateJobService, Job, JobCreatePayload, CareerJobPayload } from '../services/create-job.service';
 import { AlertService } from '../services/alert.service';
+import { catchError, map, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-create-job',
@@ -61,9 +62,24 @@ export class CreateJobComponent implements OnInit {
       hr_email: this.jobData.hr_email || '',
     };
 
-    this.jobService.createJob(payload).subscribe({
-      next: (response) => {
-        this.alertService.success(`Job "${this.jobData.jobtitle}" for ${this.jobData.company} successfully posted.`);
+    this.jobService.createJob(payload)
+      .pipe(
+        switchMap(() =>
+          this.jobService.postCareerJob(this.mapCreateJobToCareerPayload(payload)).pipe(
+            map(() => ({ careerSynced: true as const })),
+            catchError((syncError) => of({ careerSynced: false as const, syncError }))
+          )
+        )
+      )
+      .subscribe({
+      next: (result) => {
+        if (result.careerSynced) {
+          this.alertService.success(`Job "${this.jobData.jobtitle}" for ${this.jobData.company} posted and published on Careers page.`);
+        } else {
+          this.alertService.warning(`Job "${this.jobData.jobtitle}" created, but Careers page sync failed. Please contact tech team.`);
+          console.error('Careers Sync Error:', result.syncError);
+        }
+
         this.resetForm();
         if (this.isPanelOpen) {
           this.fetchJobs();
@@ -81,7 +97,40 @@ export class CreateJobComponent implements OnInit {
         this.alertService.error(`Posting Failed: ${errorMessage}`);
         console.error('Job Posting Error:', err);
       }
-    });
+      });
+  }
+
+  private mapCreateJobToCareerPayload(job: JobCreatePayload): CareerJobPayload {
+    const normalizedType = (job.job_type || '').replace('-', ' ').trim();
+    const experienceYears = Number.isFinite(job.reqexp) ? Math.max(0, Number(job.reqexp)) : 0;
+    const experience = experienceYears === 0 ? '0 - 1 years' : `${experienceYears}+ years`;
+
+    return {
+      title: job.jobtitle,
+      department: this.getDepartmentFromTitle(job.jobtitle),
+      type: normalizedType || 'Full Time',
+      location: job.location || 'Remote',
+      experience,
+      description: job.job_description,
+      skills: []
+    };
+  }
+
+  private getDepartmentFromTitle(title: string): string {
+    const value = (title || '').toLowerCase();
+    if (value.includes('frontend') || value.includes('backend') || value.includes('full stack') || value.includes('developer')) {
+      return 'Development';
+    }
+    if (value.includes('marketing') || value.includes('seo') || value.includes('content')) {
+      return 'Marketing';
+    }
+    if (value.includes('hr') || value.includes('recruiter')) {
+      return 'HR';
+    }
+    if (value.includes('design') || value.includes('ui') || value.includes('ux')) {
+      return 'Design';
+    }
+    return 'General';
   }
 
   validateFormData(): boolean {

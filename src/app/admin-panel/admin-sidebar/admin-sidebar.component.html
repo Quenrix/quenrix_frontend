@@ -1,0 +1,30 @@
+<aside class="admin-sidebar">
+  <div class="sidebar-header">
+    <h3>Admin Menu</h3>
+  </div>
+  <nav class="sidebar-nav">
+    <!-- Navigate via angular router, letting the parent handle init logic -->
+    <a *ngFor="let link of sidebarLinks"
+       class="sidebar-nav-item"
+       [class.active]="activeTab === link.id"
+       (click)="onNavigate(link)"
+       [title]="link.label">
+      <i [class]="link.icon"></i>
+      <span>{{ link.label }}</span>
+    </a>
+  </nav>
+</aside>
+
+<!-- Bottom Navbar for Mobile -->
+<nav class="bottom-navbar">
+  <a *ngFor="let link of sidebarLinks"
+     class="bottom-nav-item"
+     [class.active]="activeTab === link.id"
+     (click)="onNavigate(link)"
+     [title]="link.label">
+    <div class="bottom-nav-icon-wrapper">
+      <i [class]="link.icon"></i>
+    </div>
+    <span class="bottom-nav-label">{{ link.label }}</span>
+  </a>
+</nav>

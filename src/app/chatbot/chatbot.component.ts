@@ -1,12 +1,12 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from '../services/chat.service';
-import { catchError, finalize, of, timeout } from 'rxjs';
-import { Subscription } from 'rxjs';
-import { LanguageCode, LanguageService } from '../services/language.service';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chatbot',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })

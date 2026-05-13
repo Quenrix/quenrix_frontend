@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { NavigationService } from '../services/navigation.service';
 
-type TabId = 'dashboard' | 'users' | 'courses' | 'batches' | 'settings' | 'upload-careers' | 'applicants' | 'inquiries';
+type TabId = 'dashboard' | 'users' | 'courses' | 'batches' | 'settings' | 'upload-careers' | 'applicants' | 'inquiries'; 
 
 interface AdminCard {
   title: string;
@@ -23,6 +23,148 @@ interface AdminCard {
   route: string;
   targetTab?: TabId; 
 }
+
+const ADMIN_CONFIG = {
+  SEARCH_PLACEHOLDER: "Search Users, Batches...", 
+  HEADER_BUTTON: {
+    label: "View Reports", 
+    icon: "fas fa-chart-bar"
+  },
+  ADMIN_DETAILS: {
+    name: 'Admin Head',
+    role: 'System Administrator',
+    profileUrl: 'https://placehold.co/80x80/4f46e5/ffffff?text=AD' 
+  },
+  
+  ADMIN_CARDS: [
+    { 
+      title: 'Manage Users', 
+      subtitle: 'View and manage all registered users.', 
+      iconImage: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Users', 
+      colorClass: 'indigo', 
+      route: '/users',
+      targetTab: 'users'
+    },
+    { 
+      title: 'Manage Courses', 
+      subtitle: 'View and manage all institute courses.', 
+      iconImage: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Courses', 
+      colorClass: 'violet', 
+      route: '/courses',
+      targetTab: 'courses'
+    },
+    { 
+      title: 'Manage Batches', 
+      subtitle: 'View and manage student batches.', 
+      iconImage: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Batches', 
+      colorClass: 'teal', 
+      route: '/batches',
+      targetTab: 'batches'
+    },
+    { 
+      title: 'Job Applicants', 
+      subtitle: 'View and manage received applications.', 
+      iconImage: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Applicants', 
+      colorClass: 'amber', 
+      route: '/applicants',
+      targetTab: 'applicants'
+    },
+    { 
+      title: 'Course Inquiries', 
+      subtitle: 'Track and manage student inquiries.', 
+      iconImage: 'https://images.pexels.com/photos/4065624/pexels-photo-4065624.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Inquiries', 
+      colorClass: 'red', 
+      route: '/inquiries',
+      targetTab: 'inquiries'
+    },
+    { 
+      title: 'Create New User', 
+      subtitle: 'Register new users (Admin, Trainer, Student) and assign roles.', 
+      iconImage: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'Create User', 
+      colorClass: 'indigo', 
+      route: '/create-user' 
+    },
+    { 
+      title: 'New Batch', 
+      subtitle: 'Manage batch start dates, capacity, and student allocations.', 
+      iconImage: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'Create Batch', 
+      colorClass: 'violet', 
+      route: '/create-batch' 
+    },
+    { 
+      title: 'New Course', 
+      subtitle: 'Define new course structure, duration, and assign a dedicated trainer.', 
+      iconImage: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'Create Course', 
+      colorClass: 'violet', 
+      route: '/create-course' 
+    },
+    { 
+      title: 'Assign to Batch', 
+      subtitle: 'Map users (Student/Trainer) to specific batches and roles.', 
+      iconImage: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'Assign Users', 
+      colorClass: 'teal', 
+      route: '/assign-user-to-batch' 
+    },
+    { 
+      title: 'Create Exam', 
+      subtitle: 'Design, configure, and schedule new tests and assessments.', 
+      iconImage: 'https://images.pexels.com/photos/5905710/pexels-photo-5905710.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'Create Exam', 
+      colorClass: 'amber', 
+      route: '/create-exam' 
+    },
+    { 
+      title: 'Create Jobs', 
+      subtitle: 'Post and manage new job openings for ongoing placement drives.', 
+      iconImage: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      buttonText: 'Manage Jobs', 
+      colorClass: 'red', 
+      route: '/create-job' 
+    },
+    { 
+      title: 'Post Careers', 
+      subtitle: 'Post internal job openings for the main Careers website page.', 
+      iconImage: 'https://images.pexels.com/photos/4065624/pexels-photo-4065624.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      buttonText: 'Website Careers', 
+      colorClass: 'indigo', 
+      route: '/upload-careers',
+      targetTab: 'upload-careers' 
+    },
+    { 
+      title: 'Success Stories', 
+      subtitle: 'Share student placement stories and achievements on the wall of fame.', 
+      iconImage: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'Add Story', 
+      colorClass: 'teal', 
+      route: '/create-success-story' 
+    },
+    { 
+      title: 'Upload Blog', 
+      subtitle: 'Upload and manage PDF blogs to share with students.', 
+      iconImage: 'https://images.pexels.com/photos/4861362/pexels-photo-4861362.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      buttonText: 'Manage Blog', 
+      colorClass: 'red', 
+      route: '/upload-blog' 
+    },
+    { 
+      title: 'Upload Notes', 
+      subtitle: 'Upload lecture notes, assignments, and study materials.', 
+      iconImage: 'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1600', 
+      buttonText: 'Upload Notes', 
+      colorClass: 'violet', 
+      route: '/upload-notes' 
+    }
+  ] as AdminCard[]
+};
 
 @Component({
   selector: 'app-admin-panel',
@@ -97,15 +239,17 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     const path = this.router.url.split('?')[0];
-    const matchingLink = this.config.SIDEBAR_LINKS.find((link: any) => link.route === path);
-    if (matchingLink) {
-        this.activeTab.set(matchingLink.id as TabId);
+    const matchingCard = this.config.ADMIN_CARDS.find(card => card.route === path && card.targetTab);
+    if (matchingCard && matchingCard.targetTab) {
+        this.activeTab.set(matchingCard.targetTab);
         
-        if (matchingLink.id === 'applicants') {
+        if (matchingCard.targetTab === 'applicants') {
           this.fetchApplicants();
-        } else if (matchingLink.id === 'inquiries') {
+        } else if (matchingCard.targetTab === 'inquiries') {
           this.fetchInquiries();
         }
+    } else if (path === '/admin-panel') {
+        this.activeTab.set('dashboard');
     }
   }
   
@@ -132,7 +276,8 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     this.searchTerms.next(term);
   }
 
-  navigateTo(route: string, tabId?: string | TabId): void { 
+  navigateTo(route: string, tabId?: TabId): void { 
+
     if (tabId) {
         this.activeTab.set(tabId as TabId);
         

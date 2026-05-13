@@ -4,19 +4,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { SetupProfileComponent } from './setup-profile.component';
+
 describe('SetupProfileComponent', () => {
   let component: SetupProfileComponent;
   let fixture: ComponentFixture<SetupProfileComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SetupProfileComponent, 
-        HttpClientTestingModule, 
-        ReactiveFormsModule, 
-        FormsModule,
-        RouterTestingModule
-      ]
+      declarations: [SetupProfileComponent]
     });
     fixture = TestBed.createComponent(SetupProfileComponent);
     component = fixture.componentInstance;

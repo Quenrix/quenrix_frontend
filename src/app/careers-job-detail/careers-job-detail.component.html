@@ -1,0 +1,71 @@
+<app-mobile-menu></app-mobile-menu>
+
+<div class="job-detail-page">
+  <section class="detail-shell" *ngIf="!isLoading && job; else fallbackState">
+    <button type="button" class="back-btn" (click)="goBack()" title="Go back to Careers">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+      Back to Careers
+    </button>
+
+    <article class="detail-card">
+      <div class="detail-content">
+        <p class="dept">{{ job.department }}</p>
+        <h1>{{ job.title }}</h1>
+
+        <div class="meta-row">
+          <span>{{ job.type }}</span>
+          <span>{{ job.location }}</span>
+          <span>{{ job.experience }}</span>
+        </div>
+
+        <p class="posted" *ngIf="job.posted_date">Posted on {{ job.posted_date | date:'mediumDate' }}</p>
+
+        <section class="section-box">
+          <h2>Role Summary</h2>
+          <p class="description summary">{{ getDescriptionSummary(job.description) }}</p>
+        </section>
+
+        <section class="section-box" *ngIf="getDescriptionPoints(job.description).length > 0">
+          <h2>Key Details</h2>
+          <ul class="details-list">
+            <li *ngFor="let line of getDescriptionPoints(job.description)">{{ line }}</li>
+          </ul>
+        </section>
+
+        <div class="skills" *ngIf="job.skills?.length">
+          <h2>Required Skills</h2>
+          <div class="chips">
+            <span class="chip" *ngFor="let skill of job.skills">{{ skill }}</span>
+          </div>
+        </div>
+
+        <button type="button" class="apply-btn" (click)="startApply()">Apply Now</button>
+      </div>
+    </article>
+
+    <section id="apply-form" class="apply-section" *ngIf="isApplying">
+      <app-job-application [job]="job" (close)="closeApply()"></app-job-application>
+    </section>
+  </section>
+
+  <ng-template #fallbackState>
+    <section class="fallback-card" *ngIf="isLoading">
+      <h2>Loading job details...</h2>
+    </section>
+
+    <section class="fallback-card" *ngIf="!isLoading && !job">
+      <h2>Job not found</h2>
+      <p>This posting may have been removed or expired.</p>
+      <button type="button" class="back-btn fallback-back-btn" (click)="goBack()" title="Go back to Careers">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        Back to Careers
+      </button>
+    </section>
+  </ng-template>
+</div>
+
+<app-footer></app-footer>
