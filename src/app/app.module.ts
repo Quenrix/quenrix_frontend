@@ -47,6 +47,7 @@ import { CodeEditorComponent } from './codexa/code-editor/code-editor.component'
 import { TrainerDashboardComponent } from './trainer-dashboard/trainer-dashboard.component';
 import { SetupProfileComponent } from './setup-profile/setup-profile.component';
 import { ModalContainerComponent } from './components/modal-container/modal-container.component';
+import { AdminSidebarComponent } from './admin-panel/admin-sidebar/admin-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { ModalContainerComponent } from './components/modal-container/modal-cont
     CodeEditorComponent,
     TrainerDashboardComponent,
     SetupProfileComponent,
-    ModalContainerComponent
+    ModalContainerComponent,
+    AdminSidebarComponent
   ],
   imports: [
     MonacoEditorModule.forRoot({

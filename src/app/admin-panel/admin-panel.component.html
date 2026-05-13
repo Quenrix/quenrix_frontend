@@ -3,29 +3,14 @@
 <div class="container" [class.dark-mode]="darkModeActive()">
     <!-- Header -->
     <header class="seamless-header">
-        <div class="header-left">
+        <div class="header-left" (click)="navigateTo('/admin-panel', 'dashboard')" style="cursor: pointer;">
             <div class="logo">
                 <img src="assets/logo.webp" alt="Institute Logo" class="institute-logo" title="Institute Logo">
             </div>
             <span class="brand-name">Quenrix</span>
         </div>
 
-        <nav class="top-nav desktop-nav">
-            <a *ngFor="let link of config.SIDEBAR_LINKS"
-               class="top-nav-item"
-               [class.active]="activeTab() === link.id"
-               (click)="navigateTo(link.route, link.id)"
-               [title]="link.label">
-                <i [class]="link.icon"></i>
-                <span>{{ link.label }}</span>
-            </a>
-        </nav>
-
         <div class="header-right">
-            <button class="menu-toggle-btn" (click)="toggleMobileMenu()" [attr.aria-label]="mobileMenuOpen() ? 'Close menu' : 'Open menu'" title="Menu">
-                <i class="fas" [class.fa-bars]="!mobileMenuOpen()" [class.fa-times]="mobileMenuOpen()"></i>
-            </button>
-
             <div class="search-wrapper modern-search">
                 <i class="fas fa-search search-icon"></i>
                 <input 
@@ -49,32 +34,14 @@
         </div>
     </header>
 
-    <div class="mobile-menu-overlay" *ngIf="mobileMenuOpen()" (click)="closeMobileMenu()"></div>
-    <aside class="mobile-drawer" [class.open]="mobileMenuOpen()" aria-label="Mobile navigation">
-        <div class="drawer-header">
-            <h3>Menu</h3>
-            <button class="drawer-close-btn" (click)="closeMobileMenu()" aria-label="Close menu">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <nav class="mobile-drawer-nav">
-            <a *ngFor="let link of config.SIDEBAR_LINKS"
-               class="drawer-nav-item"
-               [class.active]="activeTab() === link.id"
-               (click)="navigateFromMobileMenu(link.route, link.id)"
-               [title]="link.label">
-                <span class="drawer-item-left">
-                    <i [class]="link.icon"></i>
-                    <span>{{ link.label }}</span>
-                </span>
-                <i class="fas fa-chevron-right"></i>
-            </a>
-        </nav>
-    </aside>
+    <!-- Sidebar Component -->
+    <app-admin-sidebar 
+        [activeTab]="activeTab()" 
+        (navClick)="navigateTo($event.route, $any($event.tabId))">
+    </app-admin-sidebar>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content with-sidebar">
         
         <!-- Dashboard View -->
         <div *ngIf="activeTab() === 'dashboard'" class="fade-in">

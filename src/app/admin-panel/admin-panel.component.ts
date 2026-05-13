@@ -12,13 +12,6 @@ import { DatePipe } from '@angular/common';
 
 type TabId = 'dashboard' | 'users' | 'courses' | 'batches' | 'settings' | 'upload-careers' | 'applicants' | 'inquiries'; 
 
-interface NavLink {
-  id: TabId; 
-  label: string;
-  icon: string; 
-  route: string;
-}
-
 interface AdminCard {
   title: string;
   subtitle: string;
@@ -40,16 +33,53 @@ const ADMIN_CONFIG = {
     role: 'System Administrator',
     profileUrl: 'https://placehold.co/80x80/4f46e5/ffffff?text=AD' 
   },
-  SIDEBAR_LINKS: [
-    { id: 'dashboard', label: 'Home', icon: 'fas fa-home', route: '/admin-panel' }, 
-    { id: 'users', label: 'Users', icon: 'fas fa-users', route: '/users' }, 
-    { id: 'courses', label: 'Courses', icon: 'fas fa-book-open', route: '/courses' }, 
-    { id: 'batches', label: 'Batches', icon: 'fas fa-graduation-cap', route: '/batches' }, 
-    { id: 'applicants', label: 'Applicants', icon: 'fas fa-file-alt', route: '/applicants' },
-    { id: 'inquiries', label: 'Inquiries', icon: 'fas fa-question-circle', route: '/inquiries' },
-  ] as NavLink[],
   
   ADMIN_CARDS: [
+    { 
+      title: 'Manage Users', 
+      subtitle: 'View and manage all registered users.', 
+      iconImage: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Users', 
+      colorClass: 'indigo', 
+      route: '/users',
+      targetTab: 'users'
+    },
+    { 
+      title: 'Manage Courses', 
+      subtitle: 'View and manage all institute courses.', 
+      iconImage: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Courses', 
+      colorClass: 'violet', 
+      route: '/courses',
+      targetTab: 'courses'
+    },
+    { 
+      title: 'Manage Batches', 
+      subtitle: 'View and manage student batches.', 
+      iconImage: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Batches', 
+      colorClass: 'teal', 
+      route: '/batches',
+      targetTab: 'batches'
+    },
+    { 
+      title: 'Job Applicants', 
+      subtitle: 'View and manage received applications.', 
+      iconImage: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Applicants', 
+      colorClass: 'amber', 
+      route: '/applicants',
+      targetTab: 'applicants'
+    },
+    { 
+      title: 'Course Inquiries', 
+      subtitle: 'Track and manage student inquiries.', 
+      iconImage: 'https://images.pexels.com/photos/4065624/pexels-photo-4065624.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Inquiries', 
+      colorClass: 'red', 
+      route: '/inquiries',
+      targetTab: 'inquiries'
+    },
     { 
       title: 'Create New User', 
       subtitle: 'Register new users (Admin, Trainer, Student) and assign roles.', 
@@ -145,7 +175,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   config = ADMIN_CONFIG;
   darkModeActive = signal(false);
   activeTab = signal<TabId>('dashboard');
-  mobileMenuOpen = signal(false);
   
   headerSearchQuery = signal<string>(''); 
   private searchTerms = new Subject<string>();
@@ -210,15 +239,17 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     const path = this.router.url.split('?')[0];
-    const matchingLink = this.config.SIDEBAR_LINKS.find(link => link.route === path);
-    if (matchingLink) {
-        this.activeTab.set(matchingLink.id);
+    const matchingCard = this.config.ADMIN_CARDS.find(card => card.route === path && card.targetTab);
+    if (matchingCard && matchingCard.targetTab) {
+        this.activeTab.set(matchingCard.targetTab);
         
-        if (matchingLink.id === 'applicants') {
+        if (matchingCard.targetTab === 'applicants') {
           this.fetchApplicants();
-        } else if (matchingLink.id === 'inquiries') {
+        } else if (matchingCard.targetTab === 'inquiries') {
           this.fetchInquiries();
         }
+    } else if (path === '/admin-panel') {
+        this.activeTab.set('dashboard');
     }
   }
   
@@ -246,7 +277,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   }
 
   navigateTo(route: string, tabId?: TabId): void { 
-    this.mobileMenuOpen.set(false);
 
     if (tabId) {
         this.activeTab.set(tabId);
@@ -267,19 +297,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
             if (!tabId) console.error(err);
         });
     }
-  }
-
-  toggleMobileMenu(): void {
-    this.mobileMenuOpen.update((state) => !state);
-  }
-
-  closeMobileMenu(): void {
-    this.mobileMenuOpen.set(false);
-  }
-
-  navigateFromMobileMenu(route: string, tabId: TabId): void {
-    this.closeMobileMenu();
-    this.navigateTo(route, tabId);
   }
 
   // --- FETCHERS ---

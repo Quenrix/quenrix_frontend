@@ -1070,4 +1070,30 @@ header {
         margin-top: 82px;
         padding: 0.85rem;
     }
+}.main-content.with-sidebar { margin-left: 260px; }
+
+@media (max-width: 768px) {
+    .main-content.with-sidebar {
+        margin-left: 0;
+        padding-bottom: 85px; /* Offset for bottom navbar */
+    }
+}
+
+/* Fix Header Layout after navigation removal */
+header {
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+@media (max-width: 900px) {
+    header {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+}
+@media (max-width: 600px) {
+    header {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
 }
