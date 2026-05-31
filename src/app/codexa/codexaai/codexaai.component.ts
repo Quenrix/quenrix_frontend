@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { marked } from 'marked';
-import { CodexaChatService } from 'src/app/codexaservice/codexa-chat.service';
 import { QuestionStateService } from 'src/app/codexaservice/question-state.service';
+import { CodexaChatService } from 'src/app/services/codexa-chat.service';
 
 interface ChatMessage {
   role: 'user' | 'codexa';

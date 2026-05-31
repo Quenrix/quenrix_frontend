@@ -31,8 +31,7 @@ import { TrainerDashboardComponent } from './trainer-dashboard/trainer-dashboard
 import { GuestGuard } from './guest.guard';
 import { AuthGuard } from './auth.guard';
 import { NotesViewerComponent } from './notes-viewer/notes-viewer.component';
-
-
+import { CareersJobDetailComponent } from './careers-job-detail/careers-job-detail.component';
 
 const routes: Routes = [
   // Guest Routes (Accessible only if NOT logged in)
@@ -45,6 +44,11 @@ const routes: Routes = [
     path: 'landing-page', 
     component: LandingPageComponent,
     canActivate: [GuestGuard] 
+  },
+  {
+    path: 'courses',
+    component: LandingPageComponent,
+    canActivate: [GuestGuard]
   },
   { 
     path: 'courses', 
@@ -61,16 +65,20 @@ const routes: Routes = [
     canActivate: [GuestGuard]
   },
 
-  // Protected Routes (Accessible only if logged in)
-  { 
-    path: 'admin-panel', 
-    component: AdminPanelComponent,
-    canActivate: [AuthGuard]
+  // Lazy-loaded Student Module
+  {
+    path: 'student',
+    loadChildren: () => import('./modules/student/student.module').then(m => m.StudentModule),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'student' }
   },
-  { 
-    path: 'student-dashboard', 
-    component: StudentDashboardComponent,
-    canActivate: [AuthGuard]
+
+  // Lazy-loaded Trainer Module
+  {
+    path: 'trainer',
+    loadChildren: () => import('./modules/trainer/trainer.module').then(m => m.TrainerModule),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'trainer' }
   },
   { 
     path: 'trainer-dashboard', 
@@ -94,6 +102,7 @@ const routes: Routes = [
   {path:'upload-blog',component:UploadBlogComponent},
   {path:'upload-notes',component:UploadNotesComponent},
   {path:'careers',component:CareersComponent},
+  {path:'careers/job/:id',component:CareersJobDetailComponent},
   {path:'course-batch-management',component:CourseBatchManagementComponent},
   {path:'syntaxshare',component:SyntaxshareComponent},
   {path:'home',component:HomeComponent},
@@ -101,7 +110,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

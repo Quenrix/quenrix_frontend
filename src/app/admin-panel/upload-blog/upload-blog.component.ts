@@ -70,7 +70,7 @@ export class UploadBlogComponent {
 
   // --- Go Back ---
   goBack() {
-    this.router.navigate(['/admin-panel']);
+    this.router.navigate(['/admin/admin-panel']);
   }
 
   // --- Submit Logic ---

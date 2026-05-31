@@ -144,20 +144,21 @@
 /* --- BATCH GRID --- */
 .batch-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 28px;
 }
 
 /* --- BATCH CARD --- */
 .batch-card {
     background: var(--bg-surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    min-height: 235px;
 }
 
 .batch-card:hover {
@@ -177,10 +178,10 @@
 }
 
 .card-content {
-    padding: 20px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 18px;
     flex: 1;
 }
 
@@ -191,7 +192,7 @@
 }
 
 .batch-info h3 {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-main);
     margin: 0 0 4px 0;
@@ -199,25 +200,25 @@
 }
 
 .batch-id-badge {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--text-sub);
     background: var(--bg-hover);
-    padding: 2px 8px;
+    padding: 3px 9px;
     border-radius: 4px;
     font-weight: 500;
     font-family: monospace;
 }
 
 .icon-wrapper {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     background: #ecfeff;
     color: #0891b2;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.05rem;
     flex-shrink: 0;
 }
 .batch-card.inactive .icon-wrapper {
@@ -229,7 +230,7 @@
 .batch-meta {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .meta-item {
@@ -247,12 +248,12 @@
 }
 
 .meta-text {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-main);
     line-height: 1.4;
 }
 .label {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     color: #94a3b8;
     text-transform: uppercase;
     font-weight: 600;
@@ -262,7 +263,7 @@
 
 /* Card Footer */
 .card-footer {
-    padding: 16px 20px;
+    padding: 18px 24px;
     border-top: 1px solid var(--border);
     background: #fcfcfc;
     display: flex;
@@ -272,9 +273,9 @@
 
 /* Status Pill */
 .status-pill {
-    padding: 4px 10px;
+    padding: 6px 12px;
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -286,13 +287,46 @@
 
 /* Action Button */
 .btn-toggle-status {
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.8rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     border: 1px solid transparent;
     transition: all 0.2s;
+}
+
+@media (max-width: 1200px) {
+    .batch-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .batch-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .batch-card {
+        min-height: auto;
+    }
+
+    .card-content {
+        padding: 20px;
+    }
+
+    .card-footer {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .btn-toggle-status {
+        width: 100%;
+    }
 }
 
 .btn-deactivate {

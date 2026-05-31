@@ -38,7 +38,7 @@
     Ab careers page bhi header se open hoga.
   -->
   <div *ngIf="currentView === 'careers'" class="fade-in-view">
-    <app-careers></app-careers>
+    <app-careers [showChrome]="false"></app-careers>
   </div>
 
   <!-- COURSES VIEW -->
@@ -51,7 +51,6 @@
     Footer hamesha content ke neeche rahega.
   -->
   <app-footer></app-footer>
-
   <app-about-csmit
     *ngIf="isAboutModalOpen"
     [isVisible]="isAboutModalOpen"

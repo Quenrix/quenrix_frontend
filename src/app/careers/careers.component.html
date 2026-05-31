@@ -1,5 +1,6 @@
-<div class="page-wrapper">
+<app-mobile-menu *ngIf="showChrome"></app-mobile-menu>
 
+<div class="page-wrapper">
   <!-- VIEW 1: CAREERS LISTING -->
   <div class="careers-view">
 
@@ -28,10 +29,10 @@
       </p>
     </section>
 
-    <section class="story-section" id="openings" *ngIf="jobs.length > 0">
-      <article class="story-card" *ngFor="let job of jobs | slice:0:4; let i = index" [class.reverse]="i % 2 === 1">
+    <section class="story-section" id="openings" *ngIf="filteredJobs.length > 0">
+      <article class="story-card" *ngFor="let job of filteredJobs; let i = index; trackBy: trackByJob" [class.reverse]="i % 2 === 1">
         <div class="story-media">
-          <img class="story-image" [src]="getJobImage(job)" [alt]="job.title">
+          <img class="story-image" [src]="getJobImage(job)" [alt]="job.title" (error)="onJobImageError($event, job)">
           <div class="story-media-overlay">
             <div class="media-initials">{{ getDepartmentInitials(job.department) }}</div>
             <p>{{ job.department }}</p>
@@ -39,10 +40,16 @@
         </div>
         <div class="story-content">
           <h3>{{ job.title }}</h3>
+          <p><strong>{{ job.type }}</strong> | {{ job.location }} | {{ job.experience }}</p>
           <p>{{ job.description }}</p>
           <button type="button" class="learn-link" (click)="openApplication(job)">Learn More</button>
         </div>
       </article>
+    </section>
+
+    <section class="about-section" *ngIf="filteredJobs.length === 0">
+      <h2>No openings right now</h2>
+      <p>New opportunities will appear here as soon as they are posted by the company.</p>
     </section>
 
     <section class="impact-heading-block">
@@ -86,12 +93,6 @@
 
   </div>
 
-  <!-- VIEW 2: JOB APPLICATION OVERLAY -->
-  <div class="application-overlay" *ngIf="selectedJob">
-    <app-job-application
-      [job]="selectedJob"
-      (close)="closeApplication()">
-    </app-job-application>
-  </div>
-
 </div>
+
+<app-footer *ngIf="showChrome"></app-footer>

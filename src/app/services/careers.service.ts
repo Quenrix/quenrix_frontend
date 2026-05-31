@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, switchMap, map } from 'rxjs';
+import { BehaviorSubject, Observable, tap, switchMap, map, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 const API_BASE_URL = environment.apiBaseUrl;
 
@@ -30,12 +30,56 @@ export class CareerService {
   private jobsSubject = new BehaviorSubject<Job[]>([]);
   public jobs$ = this.jobsSubject.asObservable();
 
+  private normalizeJobsResponse(response: unknown): Job[] {
+    if (Array.isArray(response)) {
+      return response as Job[];
+    }
+
+    if (response && typeof response === 'object') {
+      const payload = response as { results?: Job[]; jobs?: Job[]; data?: Job[] };
+      const list = payload.results || payload.jobs || payload.data;
+      if (Array.isArray(list)) {
+        return list;
+      }
+    }
+
+    return [];
+  }
+
+  private sortByPostedDate(jobs: Job[]): Job[] {
+    return [...jobs].sort((a, b) => {
+      const aTime = a.posted_date ? new Date(a.posted_date).getTime() : 0;
+      const bTime = b.posted_date ? new Date(b.posted_date).getTime() : 0;
+      return bTime - aTime;
+    });
+  }
+
   // --- EXISTING FUNCTIONALITY (Jobs List) ---
 
+  getJobs(): Observable<Job[]> {
+    return this.http.get<unknown>(this.jobsUrl).pipe(
+      map((response) => this.normalizeJobsResponse(response)),
+      map((jobs) => this.sortByPostedDate(jobs)),
+      catchError((error) => {
+        console.error('Error fetching jobs:', error);
+        return of([]);
+      })
+    );
+  }
+
+  getJobById(id: number): Observable<Job | null> {
+    return this.getJobs().pipe(
+      map((jobs) => jobs.find((job) => job.id === id) ?? null),
+      catchError((error) => {
+        console.error('Error fetching job detail:', error);
+        return of(null);
+      })
+    );
+  }
+
   loadJobs() {
-    this.http.get<Job[]>(this.jobsUrl).subscribe({
-      next: (data) => this.jobsSubject.next(data),
-      error: (error) => console.error('Error fetching jobs:', error)
+    this.getJobs().subscribe({
+      next: (data) => this.jobsSubject.next(data)
     });
   }
 

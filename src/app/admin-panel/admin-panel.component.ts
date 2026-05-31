@@ -5,19 +5,14 @@ import { ManageCourseComponent } from './manage-course/manage-course.component';
 import { BatchManagementComponent } from './batch-management/batch-management.component';
 import { CareerService } from '../services/careers.service'; 
 import { InquiryService, InquiryPayload } from '../services/inquiry.service'; 
-import { AlertService } from '../services/alert.service'; // Import AlertService
+import { AlertService } from '../services/alert.service'; 
+import { AdminConfigService} from '../services/admin.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { NavigationService } from '../services/navigation.service';
 
 type TabId = 'dashboard' | 'users' | 'courses' | 'batches' | 'settings' | 'upload-careers' | 'applicants' | 'inquiries'; 
-
-interface NavLink {
-  id: TabId; 
-  label: string;
-  icon: string; 
-  route: string;
-}
 
 interface AdminCard {
   title: string;
@@ -40,20 +35,57 @@ const ADMIN_CONFIG = {
     role: 'System Administrator',
     profileUrl: 'https://placehold.co/80x80/4f46e5/ffffff?text=AD' 
   },
-  SIDEBAR_LINKS: [
-    { id: 'dashboard', label: 'Home', icon: 'fas fa-home', route: '/admin-panel' }, 
-    { id: 'users', label: 'Users', icon: 'fas fa-users', route: '/users' }, 
-    { id: 'courses', label: 'Courses', icon: 'fas fa-book-open', route: '/courses' }, 
-    { id: 'batches', label: 'Batches', icon: 'fas fa-graduation-cap', route: '/batches' }, 
-    { id: 'applicants', label: 'Applicants', icon: 'fas fa-file-alt', route: '/applicants' },
-    { id: 'inquiries', label: 'Inquiries', icon: 'fas fa-question-circle', route: '/inquiries' },
-  ] as NavLink[],
   
   ADMIN_CARDS: [
     { 
+      title: 'Manage Users', 
+      subtitle: 'View and manage all registered users.', 
+      iconImage: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Users', 
+      colorClass: 'indigo', 
+      route: '/users',
+      targetTab: 'users'
+    },
+    { 
+      title: 'Manage Courses', 
+      subtitle: 'View and manage all institute courses.', 
+      iconImage: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Courses', 
+      colorClass: 'violet', 
+      route: '/courses',
+      targetTab: 'courses'
+    },
+    { 
+      title: 'Manage Batches', 
+      subtitle: 'View and manage student batches.', 
+      iconImage: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Batches', 
+      colorClass: 'teal', 
+      route: '/batches',
+      targetTab: 'batches'
+    },
+    { 
+      title: 'Job Applicants', 
+      subtitle: 'View and manage received applications.', 
+      iconImage: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Applicants', 
+      colorClass: 'amber', 
+      route: '/applicants',
+      targetTab: 'applicants'
+    },
+    { 
+      title: 'Course Inquiries', 
+      subtitle: 'Track and manage student inquiries.', 
+      iconImage: 'https://images.pexels.com/photos/4065624/pexels-photo-4065624.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      buttonText: 'View Inquiries', 
+      colorClass: 'red', 
+      route: '/inquiries',
+      targetTab: 'inquiries'
+    },
+    { 
       title: 'Create New User', 
       subtitle: 'Register new users (Admin, Trainer, Student) and assign roles.', 
-      iconImage: 'new_user.png',
+      iconImage: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1600',
       buttonText: 'Create User', 
       colorClass: 'indigo', 
       route: '/create-user' 
@@ -61,7 +93,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'New Batch', 
       subtitle: 'Manage batch start dates, capacity, and student allocations.', 
-      iconImage: 'batch.png',
+      iconImage: 'https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1600',
       buttonText: 'Create Batch', 
       colorClass: 'violet', 
       route: '/create-batch' 
@@ -69,7 +101,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'New Course', 
       subtitle: 'Define new course structure, duration, and assign a dedicated trainer.', 
-      iconImage: 'course.png',
+      iconImage: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1600',
       buttonText: 'Create Course', 
       colorClass: 'violet', 
       route: '/create-course' 
@@ -77,7 +109,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'Assign to Batch', 
       subtitle: 'Map users (Student/Trainer) to specific batches and roles.', 
-      iconImage: 'assign-user (1).png',
+      iconImage: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1600',
       buttonText: 'Assign Users', 
       colorClass: 'teal', 
       route: '/assign-user-to-batch' 
@@ -85,7 +117,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'Create Exam', 
       subtitle: 'Design, configure, and schedule new tests and assessments.', 
-      iconImage: 'exam.png',
+      iconImage: 'https://images.pexels.com/photos/5905710/pexels-photo-5905710.jpeg?auto=compress&cs=tinysrgb&w=1600',
       buttonText: 'Create Exam', 
       colorClass: 'amber', 
       route: '/create-exam' 
@@ -93,7 +125,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'Create Jobs', 
       subtitle: 'Post and manage new job openings for ongoing placement drives.', 
-      iconImage: 'upload-job.png', 
+      iconImage: 'https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=1600', 
       buttonText: 'Manage Jobs', 
       colorClass: 'red', 
       route: '/create-job' 
@@ -101,7 +133,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'Post Careers', 
       subtitle: 'Post internal job openings for the main Careers website page.', 
-      iconImage: 'career_web.png', 
+      iconImage: 'https://images.pexels.com/photos/4065624/pexels-photo-4065624.jpeg?auto=compress&cs=tinysrgb&w=1600', 
       buttonText: 'Website Careers', 
       colorClass: 'indigo', 
       route: '/upload-careers',
@@ -110,7 +142,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'Success Stories', 
       subtitle: 'Share student placement stories and achievements on the wall of fame.', 
-      iconImage: 'success-story.png',
+      iconImage: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1600',
       buttonText: 'Add Story', 
       colorClass: 'teal', 
       route: '/create-success-story' 
@@ -118,7 +150,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'Upload Blog', 
       subtitle: 'Upload and manage PDF blogs to share with students.', 
-      iconImage: 'blog.png', 
+      iconImage: 'https://images.pexels.com/photos/4861362/pexels-photo-4861362.jpeg?auto=compress&cs=tinysrgb&w=1600', 
       buttonText: 'Manage Blog', 
       colorClass: 'red', 
       route: '/upload-blog' 
@@ -126,7 +158,7 @@ const ADMIN_CONFIG = {
     { 
       title: 'Upload Notes', 
       subtitle: 'Upload lecture notes, assignments, and study materials.', 
-      iconImage: 'notes.png', 
+      iconImage: 'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1600', 
       buttonText: 'Upload Notes', 
       colorClass: 'violet', 
       route: '/upload-notes' 
@@ -142,7 +174,7 @@ const ADMIN_CONFIG = {
   providers: [DatePipe]
 })
 export class AdminPanelComponent implements OnInit, AfterViewInit {
-  config = ADMIN_CONFIG;
+  config: any = inject(AdminConfigService).getAdminConfig();
   darkModeActive = signal(false);
   activeTab = signal<TabId>('dashboard');
   
@@ -164,7 +196,8 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
 
   private careerService = inject(CareerService);
   private inquiryService = inject(InquiryService); 
-  private alertService = inject(AlertService); // Inject AlertService
+  private alertService = inject(AlertService);
+  private navigationService = inject(NavigationService);
 
   @ViewChild(UserManagementComponent) userManagementComponent!: UserManagementComponent; 
   @ViewChild(ManageCourseComponent) manageCourseComponent!: ManageCourseComponent;
@@ -178,7 +211,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     const endDate = this.filterEndDate();
     const courseFilter = this.filterCourseName().toLowerCase();
 
-    // 1. Global Search (Header)
     if (query) {
       data = data.filter(item => 
         item.name.toLowerCase().includes(query) || 
@@ -187,12 +219,10 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       );
     }
 
-    // 2. Course Name Filter
     if (courseFilter) {
       data = data.filter(item => item.course_name.toLowerCase().includes(courseFilter));
     }
 
-    // 3. Date Range Filter
     if (startDate) {
       data = data.filter(item => item.created_at && new Date(item.created_at) >= new Date(startDate));
     }
@@ -205,19 +235,21 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
     return data;
   });
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     const path = this.router.url.split('?')[0];
-    const matchingLink = this.config.SIDEBAR_LINKS.find(link => link.route === path);
-    if (matchingLink) {
-        this.activeTab.set(matchingLink.id);
+    const matchingCard = this.config.ADMIN_CARDS.find(card => card.route === path && card.targetTab);
+    if (matchingCard && matchingCard.targetTab) {
+        this.activeTab.set(matchingCard.targetTab);
         
-        if (matchingLink.id === 'applicants') {
+        if (matchingCard.targetTab === 'applicants') {
           this.fetchApplicants();
-        } else if (matchingLink.id === 'inquiries') {
+        } else if (matchingCard.targetTab === 'inquiries') {
           this.fetchInquiries();
         }
+    } else if (path === '/admin-panel') {
+        this.activeTab.set('dashboard');
     }
   }
   
@@ -245,8 +277,9 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   }
 
   navigateTo(route: string, tabId?: TabId): void { 
+
     if (tabId) {
-        this.activeTab.set(tabId);
+        this.activeTab.set(tabId as TabId);
         
         if (tabId === 'applicants') {
           this.fetchApplicants();
@@ -306,7 +339,6 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Use AlertService confirm instead of browser confirm
     this.alertService.confirm('Are you sure?', 'You want to delete this inquiry?')
       .then((result) => {
         if (result.isConfirmed) {
@@ -359,11 +391,9 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // Demo action for "Mark as Contacted"
   markAsContacted() {
       this.alertService.success('Marked as contacted (Demo)', 'Done');
   }
-
 
   // --- ACTIONS ---
 
@@ -375,15 +405,17 @@ export class AdminPanelComponent implements OnInit, AfterViewInit {
   }
 
   logoutUser(): void {
-    // Clear all stored data (Auth tokens, user info, etc.)
+    this.navigationService.clearUser();
     localStorage.clear();
     sessionStorage.clear();
-
+    
     this.alertService.success('Logged out successfully. Redirecting...', 'Goodbye');
     
     setTimeout(() => {
-        // Force reload to clear memory state and redirect
         window.location.href = '/login'; 
     }, 1500); 
   }
 }
+
+
+

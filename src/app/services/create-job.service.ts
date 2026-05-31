@@ -28,6 +28,16 @@ export interface Job {
     is_active: boolean;
 }
 
+  export interface CareerJobPayload {
+    title: string;
+    department: string;
+    type: string;
+    location: string;
+    experience: string;
+    description: string;
+    skills: string[];
+  }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,11 +46,16 @@ export class CreateJobService {
   private apiUrl = `${environment.apiBaseUrl}/jobs`;
   private createJobEndpoint = `${this.apiUrl}/create-job/`; 
   private listJobsEndpoint = `${this.apiUrl}/list-jobs/`;
+  private careersJobsEndpoint = `${environment.apiBaseUrl}/careers/jobs/`;
 
   constructor(private http: HttpClient) { }
 
   createJob(jobData: JobCreatePayload): Observable<any> {
     return this.http.post<any>(this.createJobEndpoint, jobData);
+  }
+
+  postCareerJob(jobData: CareerJobPayload): Observable<any> {
+    return this.http.post<any>(this.careersJobsEndpoint, jobData);
   }
 
   listJobs(): Observable<Job[]> {

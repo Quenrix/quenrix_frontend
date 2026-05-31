@@ -1,0 +1,55 @@
+<header class="top-navbar">
+  <div class="nav-shell">
+    <a class="brand" routerLink="/" (click)="closeMenu()">
+      <img src="assets/logo.webp" alt="Quenrix logo">
+      <span>Quenrix</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary">
+      <a routerLink="/courses" routerLinkActive="active">
+        Courses
+        <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.4" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </a>
+      <a routerLink="/careers" routerLinkActive="active">Careers</a>
+      <a routerLink="/blog" routerLinkActive="active">Blog</a>
+      <a routerLink="/contact" routerLinkActive="active">Contact</a>
+    </nav>
+
+    <a class="login desktop-login" routerLink="/login">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 19.5a7.5 7.5 0 0114.998 0" />
+      </svg>
+      Log In
+    </a>
+
+    <button class="hamburger" type="button" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div class="overlay" [class.open]="isMenuOpen" (click)="closeMenu()"></div>
+
+<aside class="mobile-drawer" [class.open]="isMenuOpen" aria-label="Mobile menu">
+  <div class="drawer-head">
+    <a class="drawer-brand" routerLink="/" (click)="closeMenu()">
+      <img src="assets/logo.webp" alt="Quenrix logo">
+      <span>Quenrix</span>
+    </a>
+  </div>
+
+  <nav class="drawer-links">
+    <a routerLink="/courses" routerLinkActive="active" (click)="closeMenu()">Courses</a>
+    <a routerLink="/careers" routerLinkActive="active" (click)="closeMenu()">Careers</a>
+    <a routerLink="/blog" routerLinkActive="active" (click)="closeMenu()">Blog</a>
+    <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">Contact</a>
+  </nav>
+
+  <div class="drawer-footer">
+    <a class="login" routerLink="/login" (click)="closeMenu()">Log In</a>
+  </div>
+</aside>

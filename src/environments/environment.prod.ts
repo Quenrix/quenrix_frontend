@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://13.61.143.129/api'
+  apiBaseUrl: 'https://multiperforated-kayleigh-secludedly.ngrok-free.dev/api'
 };

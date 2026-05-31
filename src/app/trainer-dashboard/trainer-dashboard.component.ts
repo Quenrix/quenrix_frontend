@@ -6,6 +6,7 @@ import { ApiService, StudentBatchDetails, LoginResponse } from '../services/api.
 import { CreateBatchService } from '../services/create-batch.service';
 import { ResumeService } from '../services/create-resume.service';
 
+import { NavigationService } from '../services/navigation.service';
 interface ScheduleItem {
   date: string; 
   desc: string;
@@ -114,8 +115,9 @@ export class TrainerDashboardComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     private batchService: CreateBatchService,
     private resumeService: ResumeService,
-    private sanitizer: DomSanitizer
-  ) {}
+    private sanitizer: DomSanitizer,
+    private navigationService: NavigationService
+) {}
 
   ngOnInit(): void {
     // 1. Synchronous UI Setup
@@ -277,10 +279,11 @@ export class TrainerDashboardComponent implements OnInit, OnDestroy {
   }
 
   goToProfileSetupForm(): void {
-    window.location.href = 'setup-profile';
+    window.location.href = '/setup-profile';
   }
 
   logout(): void {
+    this.navigationService.clearUser();
     localStorage.clear();
     sessionStorage.clear();
     window.location.href = 'login';
@@ -360,3 +363,8 @@ export class TrainerDashboardComponent implements OnInit, OnDestroy {
     }
   }
 }
+
+
+
+
+

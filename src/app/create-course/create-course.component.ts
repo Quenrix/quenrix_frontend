@@ -44,7 +44,7 @@ export class CreateCourseComponent implements OnInit {
    * Navigates back to the previous page (e.g., admin panel)
    */
   goBack(): void {
-    this.router.navigate(['/admin-panel']); 
+    this.router.navigate(['/admin/admin-panel']); 
   }
 
   resetFormState(form: NgForm): void {
