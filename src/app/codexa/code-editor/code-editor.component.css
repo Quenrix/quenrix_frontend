@@ -1,14 +1,14 @@
 :host {
-  --bg-editor: #1e1e20;
-  --bg-header: #2b2b2e;
-  --bg-terminal: #0d0d0f;
-  --border-color: #3f3f46;
-  --text-primary: #f4f4f5;
-  --text-secondary: #a1a1aa;
-  --accent-color: #10b981; /* Professional Emerald */
-  --accent-hover: #059669;
-  --status-success: #10b981;
-  --status-error: #ef4444;
+  --bg-editor: #171429;
+  --bg-header: rgba(255, 255, 255, 0.08);
+  --bg-terminal: #0f0c1f;
+  --border-color: rgba(139, 92, 246, 0.25);
+  --text-primary: #f4f1ff;
+  --text-secondary: #c4b5fd;
+  --accent-color: #8B5CF6;
+  --accent-hover: #7C3AED;
+  --status-success: #8B5CF6;
+  --status-error: #A78BFA;
 }
 
 .main-container {
@@ -19,9 +19,10 @@
     color: var(--text-primary);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     overflow: hidden;
-    border-radius: 12px; 
-    border: 1px solid var(--border-color);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  border-radius: 16px; 
+  border: 1px solid var(--border-color);
+  box-shadow: 0 16px 32px rgba(139, 92, 246, 0.2);
+  backdrop-filter: blur(14px);
 }
 
 .header {
@@ -30,8 +31,8 @@
     align-items: center;
     padding: 0 16px;
     height: 40px; /* Reverted to your original header height */
-    background-color: var(--bg-header);
-    border-bottom: 1px solid #18181b;
+  background-color: rgba(27, 22, 52, 0.9);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
     flex-shrink: 0;
 }
 
@@ -45,7 +46,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--bg-editor);
+  background: rgba(23, 20, 41, 0.9);
   padding: 0 20px;
   height: 100%;
   border-top: 2px solid var(--accent-color);
@@ -56,14 +57,14 @@
 }
 
 .file-icon { 
-  color: #38bdf8;
-  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.3));
+  color: #C4B5FD;
+  filter: drop-shadow(0 0 5px rgba(196, 181, 253, 0.35));
 }
 
 .divider {
   width: 1px;
   height: 18px;
-  background: var(--border-color);
+  background: rgba(139, 92, 246, 0.35);
   margin: 0 16px;
 }
 
@@ -74,10 +75,10 @@
 }
 
 .selected {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-secondary);
   padding: 6px 14px;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(139, 92, 246, 0.25);
   border-radius: 6px;
   cursor: pointer;
   display: flex;
@@ -89,7 +90,7 @@
 .selected:hover {
   color: #fff;
   border-color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(139, 92, 246, 0.18);
 }
 
 .options {
@@ -99,10 +100,10 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background: #27272a;
-  border: 1px solid var(--border-color);
+  background: #1b1732;
+  border: 1px solid rgba(139, 92, 246, 0.35);
   border-radius: 8px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 25px -5px rgba(20, 15, 38, 0.7);
   z-index: 100;
   min-width: 140px;
   opacity: 0;
@@ -144,13 +145,13 @@
     border-radius: 6px;
     font-size: 13px;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
     transition: all 0.2s;
 }
 
 .run-btn:hover:not(:disabled) {
     background-color: var(--accent-hover);
-    box-shadow: 0 6px 10px -1px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.35);
     transform: translateY(-1px);
 }
 
@@ -185,7 +186,7 @@
 /* Resize Divider Professional Touch */
 .horizontal-divider {
   height: 1px;
-  background-color: var(--border-color);
+  background-color: rgba(139, 92, 246, 0.25);
   cursor: row-resize;
   position: relative;
   transition: all 0.2s;
@@ -194,7 +195,7 @@
 .horizontal-divider:hover {
   background-color: var(--accent-color);
   height: 3px;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
 }
 
 /* Terminal Look & Feel */
@@ -212,8 +213,8 @@
     align-items: center;
     padding: 0 18px;
     height: 38px;
-    background-color: #09090b;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+  background-color: #141126;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .terminal-tabs {
@@ -234,8 +235,8 @@
 }
 
 .tab.active {
-    color: var(--text-primary);
-    border-bottom-color: var(--accent-color);
+  color: var(--text-primary);
+  border-bottom-color: var(--accent-color);
 }
 
 .status-dot {
@@ -250,7 +251,7 @@
 .icon-btn {
   background: transparent;
   border: none;
-  color: #52525b;
+  color: #a78bfa;
   cursor: pointer;
   padding: 6px;
   border-radius: 6px;
@@ -258,8 +259,8 @@
 }
 
 .icon-btn:hover { 
-  color: var(--status-error); 
-  background: rgba(239, 68, 68, 0.1); 
+  color: #fff; 
+  background: rgba(139, 92, 246, 0.2); 
 }
 
 .terminal-content {
@@ -268,11 +269,11 @@
     overflow-y: auto;
     font-family: 'Fira Code', 'JetBrains Mono', monospace;
     font-size: 13px;
-    color: #e4e4e7;
+  color: #e9e7ff;
     line-height: 1.6;
 }
 
-.placeholder { color: #52525b; font-style: italic; }
+.placeholder { color: rgba(196, 181, 253, 0.7); font-style: italic; }
 .prompt { color: var(--accent-color); margin-right: 10px; font-weight: bold; }
 
 pre {
@@ -289,10 +290,10 @@ pre {
 }
 
 .terminal-content::-webkit-scrollbar-thumb { 
-  background: #27272a; 
+  background: rgba(139, 92, 246, 0.35); 
   border-radius: 10px; 
 }
 
 .terminal-content::-webkit-scrollbar-thumb:hover { 
-  background: #3f3f46; 
+  background: rgba(139, 92, 246, 0.5); 
 }

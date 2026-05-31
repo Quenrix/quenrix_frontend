@@ -1,8 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Global light-theme lock for homepage consistency */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+@import 'aos/dist/aos.css';
 
 :root {
-	color-scheme: only light;
+	color-scheme: light;
 }
 
 html,
@@ -10,8 +16,11 @@ body {
 	margin: 0;
 	padding: 0;
 	min-height: 100%;
-	background: #f6f7fb !important;
-	color: #1f2937;
+	width: 100%;
+	max-width: 100vw;
+	overflow-x: hidden;
+	background: linear-gradient(120deg, #f7f4ff 0%, #ffffff 100%);
+	color: #1f1f28;
 	font-family: 'Inter', sans-serif;
 	color-scheme: light;
 }
@@ -19,18 +28,11 @@ body {
 app-root {
 	display: block;
 	min-height: 100vh;
-	background: #f6f7fb !important;
 }
 
-.landing-page,
-.hero-section,
-.stats-section,
-.feature-dashboard-section {
-	background-color: #ffffff !important;
-	color: #1f2937 !important;
-}
+/* Removed overrides to allow dark theme components to render correctly */
 
-/* Keep controls light even when OS/browser is dark */
+
 input,
 select,
 textarea,
@@ -42,26 +44,227 @@ input,
 select,
 textarea {
 	background: #ffffff;
-	color: #111827;
-	border: 1px solid #e5e7eb;
+	color: #1f1f28;
+	border: 1px solid #e8defd;
 }
 
 a {
 	color: inherit;
 }
 
+
+:root {
+    --primary-purple: #8B5CF6;
+    --secondary-purple: #7C3AED;
+    --light-purple: #22D3EE;
+    --hover-purple: #7C3AED;
+    --gradient-purple: #8B5CF6;
+	--glass-card-bg: #ffffff;
+	--glass-card-border: #efeff6;
+	--glass-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+	--glass-card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --text-main: #1f1f28;
+    --text-light: #636374;
+}
+
+.form-card,
+.user-details-card,
+.cta-card,
+.bento-card,
+.guidance-card,
+.story-card,
+.course-card,
+.bento-form-card,
+.stat-card,
+.mission-card,
+.ai-capability-card,
+.trainer-card,
+.premium-profile-card,
+.right-schedule-card,
+.delete-confirm-card,
+.batch-card,
+.exam-entry-card,
+.radio-card,
+.success-card,
+.question-card,
+.bot-type-card,
+.profile-setting-card,
+.stats-summary-card,
+.card-section,
+.doubt-card,
+.login-card,
+.card,
+.user-card,
+.timer-card,
+.option-card,
+.sidebar-card,
+.result-hero-card,
+.analysis-card,
+.result-card,
+.job-card,
+.code-editor-card {
+	background: var(--glass-card-bg) !important;
+	border: 1px solid var(--glass-card-border) !important;
+	box-shadow: var(--glass-card-shadow) !important;
+	backdrop-filter: blur(18px) saturate(150%);
+	-webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+.form-card:hover,
+.user-details-card:hover,
+.cta-card:hover,
+.bento-card:hover,
+.guidance-card:hover,
+.story-card:hover,
+.course-card:hover,
+.bento-form-card:hover,
+.stat-card:hover,
+.mission-card:hover,
+.ai-capability-card:hover,
+.trainer-card:hover,
+.premium-profile-card:hover,
+.right-schedule-card:hover,
+.delete-confirm-card:hover,
+.batch-card:hover,
+.exam-entry-card:hover,
+.radio-card:hover,
+.success-card:hover,
+.question-card:hover,
+.bot-type-card:hover,
+.profile-setting-card:hover,
+.stats-summary-card:hover,
+.card-section:hover,
+.doubt-card:hover,
+.login-card:hover,
+.card:hover,
+.user-card:hover,
+.timer-card:hover,
+.option-card:hover,
+.sidebar-card:hover,
+.result-hero-card:hover,
+.analysis-card:hover,
+.result-card:hover,
+.job-card:hover,
+.code-editor-card:hover {
+	box-shadow: var(--glass-card-hover-shadow) !important;
+}
+
+/* Light theme trainer dashboard styles removed to support new dark purple theme */
+
+@keyframes trainerAmbientDrift {
+	from {
+		transform: translate3d(-1.5%, -1%, 0) scale(1);
+	}
+
+	to {
+		transform: translate3d(1.5%, 1%, 0) scale(1.035);
+	}
+}
+
+@keyframes trainerPanelIn {
+	from {
+		opacity: 0;
+		transform: translateY(14px) scale(0.985);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	app-trainer-dashboard .container:not(.exam-active-mode)::after,
+	app-trainer-dashboard .premium-profile-card,
+	app-trainer-dashboard .stat-card,
+	app-trainer-dashboard .right-schedule-card,
+	app-trainer-dashboard .sidebar {
+		animation: none;
+	}
+
+	app-trainer-dashboard .premium-profile-card,
+	app-trainer-dashboard .stat-card,
+	app-trainer-dashboard .right-schedule-card,
+	app-trainer-dashboard .sidebar-nav a,
+	app-trainer-dashboard .sidebar-nav a i {
+		transition-duration: 1ms;
+	}
+}
+
+@media (max-width: 1200px) {
+	app-trainer-dashboard .dashboard-grid {
+		grid-template-columns: 150px minmax(0, 1fr);
+		gap: 18px;
+	}
+
+	app-trainer-dashboard .right-schedule-card {
+		display: none;
+	}
+
+	app-trainer-dashboard .stats-cards-container {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 768px) {
+	app-trainer-dashboard .container:not(.exam-active-mode) {
+		width: 100%;
+		padding: 12px 14px 96px;
+	}
+
+	app-trainer-dashboard header {
+		top: 8px;
+		height: 62px;
+		border-radius: 22px;
+	}
+
+	app-trainer-dashboard .dashboard-grid {
+		display: block;
+		padding: 16px 0 0 !important;
+	}
+
+	app-trainer-dashboard .sidebar {
+		left: 12px !important;
+		right: 12px !important;
+		bottom: 12px !important;
+		width: auto !important;
+		height: 72px !important;
+		border-radius: 24px !important;
+		border: 1px solid rgba(255, 255, 255, 0.58) !important;
+		background: rgba(255, 255, 255, 0.72) !important;
+		box-shadow: 0 18px 44px rgba(75, 29, 124, 0.2) !important;
+	}
+
+	app-trainer-dashboard .sidebar-nav a {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 4px;
+		border-radius: 18px !important;
+		transition: transform 200ms ease, background 200ms ease;
+	}
+
+	app-trainer-dashboard .premium-profile-card {
+		padding: 24px 18px;
+		border-radius: 28px;
+	}
+
+	app-trainer-dashboard .stats-cards-container {
+		grid-template-columns: 1fr;
+		gap: 14px;
+	}
+}
+
 /* If OS/browser is in dark mode, still render our app in light mode */
 @media (prefers-color-scheme: dark) {
+
 	html,
 	body,
-	app-root,
-	.landing-page,
-	.hero-section,
-	.stats-section,
-	.feature-dashboard-section {
-		background-color: #f6f7fb !important;
-		color: #1f2937 !important;
-	}
+	app-root {
+	background-color: transparent !important;
+	color: #1f1f28 !important;
+}
 
 	.site-header,
 	.site-header::before,
@@ -69,4 +272,867 @@ a {
 	.dropdown-menu {
 		filter: none !important;
 	}
+}
+
+/* Dark purple SaaS dashboard theme */
+app-student-dashboard,
+app-trainer-dashboard {
+	display: block;
+	min-height: 100vh;
+	background: #ffffff !important;
+	color: #120C24;
+	--dashboard-bg-1: #120C24;
+	--dashboard-bg-2: #1A1333;
+	--dashboard-bg-3: #ffffff;
+	--dashboard-primary: #4B3F8F;
+	--dashboard-secondary: #C2B6FF;
+	--dashboard-card: #4B3F8F;
+	--dashboard-border: rgba(255, 255, 255, 0.1);
+	--dashboard-text: #120C24;
+	--dashboard-muted: rgba(255, 255, 255, 0.7);
+	--dashboard-shadow: 0 10px 30px rgba(75, 63, 143, 0.2);
+}
+
+app-student-dashboard .container:not(.exam-active-mode),
+app-trainer-dashboard .container:not(.exam-active-mode) {
+	width: 100% !important;
+	max-width: none !important;
+	min-height: 100vh;
+	margin: 0 !important;
+	padding: 0 !important;
+	background: #ffffff !important;
+	color: #120C24 !important;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+app-student-dashboard .container:not(.exam-active-mode)::before,
+app-trainer-dashboard .container:not(.exam-active-mode)::before,
+app-student-dashboard .container:not(.exam-active-mode)::after,
+app-trainer-dashboard .container:not(.exam-active-mode)::after {
+	content: none !important;
+}
+
+app-student-dashboard header,
+app-trainer-dashboard header {
+	top: 0 !important;
+	height: 76px !important;
+	border-radius: 0 !important;
+	padding: 0 30px !important;
+	background: #ffffff !important;
+	border: 0 !important;
+	border-bottom: 1px solid #e5e7eb !important;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+	backdrop-filter: blur(10px) !important;
+	-webkit-backdrop-filter: blur(10px) !important;
+}
+
+app-student-dashboard .dashboard-grid,
+app-trainer-dashboard .dashboard-grid {
+	display: flex !important;
+	gap: 32px !important;
+	padding: 50px 30px 30px 0 !important;
+	min-height: calc(100vh - 76px) !important;
+	max-width: none !important;
+	margin: 0 !important;
+	align-items: start;
+}
+
+app-student-dashboard .main-content,
+app-trainer-dashboard .main-content {
+	min-width: 0;
+	padding: 0 !important;
+	display: block !important;
+}
+
+app-student-dashboard .institute-logo,
+app-trainer-dashboard .institute-logo {
+	background: rgba(255, 255, 255, 0.08) !important;
+	border: 1px solid rgba(194, 182, 255, 0.34) !important;
+	box-shadow: 0 0 22px rgba(75, 63, 143, 0.24) !important;
+}
+
+app-student-dashboard .search-wrapper input,
+app-trainer-dashboard .search-wrapper input {
+	height: 46px;
+	color: #120C24 !important;
+	background: #f3f4f6 !important;
+	border: 1px solid #e5e7eb !important;
+	border-radius: 14px !important;
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.04) !important;
+}
+
+app-student-dashboard .search-wrapper input::placeholder,
+app-trainer-dashboard .search-wrapper input::placeholder {
+	color: rgba(185, 185, 211, 0.78);
+}
+
+app-student-dashboard .search-wrapper i,
+app-trainer-dashboard .search-wrapper i {
+	color: var(--dashboard-secondary) !important;
+}
+
+app-student-dashboard .btn-request,
+app-trainer-dashboard .btn-request,
+app-student-dashboard .btn-primary-gradient,
+app-trainer-dashboard .btn-primary-gradient,
+app-student-dashboard .btn-submit,
+app-trainer-dashboard .btn-submit {
+	color: #FFFFFF !important;
+	background: #4B3F8F !important;
+	border: 0 !important;
+	border-radius: 14px !important;
+	box-shadow: 0 10px 20px rgba(75, 63, 143, 0.3) !important;
+	transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease !important;
+}
+
+app-student-dashboard .btn-request:hover,
+app-trainer-dashboard .btn-request:hover,
+app-student-dashboard .btn-primary-gradient:hover:not(:disabled),
+app-trainer-dashboard .btn-primary-gradient:hover:not(:disabled),
+app-student-dashboard .btn-submit:hover,
+app-trainer-dashboard .btn-submit:hover {
+	transform: translateY(-2px) scale(1.03) !important;
+	box-shadow: 0 0 26px rgba(194, 182, 255, 0.48), 0 12px 30px rgba(0, 0, 0, 0.28) !important;
+	filter: saturate(1.08);
+}
+
+app-student-dashboard .sidebar,
+app-trainer-dashboard .sidebar {
+	top: 100px !important;
+	height: calc(100vh - 130px) !important;
+	padding: 20px 15px !important;
+	border-radius: 24px !important;
+	background: #ffffff !important;
+	border: 1px solid #e5e7eb !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+	align-self: start !important;
+}
+
+app-student-dashboard .sidebar-nav,
+app-trainer-dashboard .sidebar-nav {
+	gap: 10px !important;
+}
+
+app-student-dashboard .sidebar-nav a,
+app-trainer-dashboard .sidebar-nav a {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: center !important;
+	justify-content: flex-start !important;
+	gap: 15px !important;
+	min-height: 50px !important;
+	padding: 12px 20px !important;
+	color: #4B3F8F !important;
+	background: transparent !important;
+	border: 1px solid transparent !important;
+	border-radius: 12px !important;
+	font-size: 14px !important;
+	font-weight: 600 !important;
+	text-align: left;
+	cursor: pointer;
+	transition: all 0.3s ease !important;
+	box-sizing: border-box !important;
+	width: 100% !important;
+}
+
+app-student-dashboard .sidebar-nav a i,
+app-trainer-dashboard .sidebar-nav a i {
+	width: 24px !important;
+	height: 24px !important;
+	margin: 0 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	color: #4B3F8F !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	font-size: 16px !important;
+}
+
+app-student-dashboard .sidebar-nav a:hover,
+app-trainer-dashboard .sidebar-nav a:hover {
+	transform: translateX(5px) !important;
+	color: #FFFFFF !important;
+	background: rgba(255, 255, 255, 0.08) !important;
+}
+
+app-student-dashboard .sidebar-nav a.active,
+app-trainer-dashboard .sidebar-nav a.active {
+	color: #FFFFFF !important;
+	background: #4B3F8F !important;
+	box-shadow: 0 4px 15px rgba(75, 63, 143, 0.5) !important;
+}
+
+app-student-dashboard .sidebar-nav a.active i,
+app-trainer-dashboard .sidebar-nav a.active i,
+app-student-dashboard .sidebar-nav a.active span,
+app-trainer-dashboard .sidebar-nav a.active span {
+	color: #FFFFFF !important;
+}
+
+app-student-dashboard .premium-profile-card,
+app-trainer-dashboard .premium-profile-card,
+app-student-dashboard .stat-card,
+app-trainer-dashboard .stat-card,
+app-student-dashboard .right-schedule-card,
+app-trainer-dashboard .right-schedule-card,
+app-student-dashboard .current-time-display,
+app-trainer-dashboard .current-time-display,
+app-student-dashboard .schedule-item,
+app-trainer-dashboard .schedule-item,
+app-student-dashboard .no-schedule-message,
+app-trainer-dashboard .no-schedule-message,
+app-student-dashboard .premium-exam-modal,
+app-trainer-dashboard .premium-exam-modal {
+	background: var(--dashboard-card) !important;
+	border: 1px solid var(--dashboard-border) !important;
+	box-shadow: var(--dashboard-shadow) !important;
+	backdrop-filter: blur(10px) saturate(145%) !important;
+	-webkit-backdrop-filter: blur(10px) saturate(145%) !important;
+	color: var(--dashboard-text) !important;
+}
+
+app-student-dashboard .premium-profile-card,
+app-trainer-dashboard .premium-profile-card,
+app-student-dashboard .stat-card,
+app-trainer-dashboard .stat-card,
+app-student-dashboard .right-schedule-card,
+app-trainer-dashboard .right-schedule-card {
+	border-radius: 20px !important;
+	position: relative;
+	overflow: hidden;
+	transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+app-student-dashboard .premium-profile-card::after,
+app-trainer-dashboard .premium-profile-card::after,
+app-student-dashboard .stat-card::after,
+app-trainer-dashboard .stat-card::after,
+app-student-dashboard .right-schedule-card::after,
+app-trainer-dashboard .right-schedule-card::after {
+	content: '' !important;
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	border-radius: inherit;
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 46%, rgba(194, 182, 255, 0.08));
+	opacity: 0.8;
+}
+
+app-student-dashboard .premium-profile-card:hover,
+app-trainer-dashboard .premium-profile-card:hover,
+app-student-dashboard .stat-card:hover,
+app-trainer-dashboard .stat-card:hover,
+app-student-dashboard .right-schedule-card:hover,
+app-trainer-dashboard .right-schedule-card:hover {
+	transform: translateY(-5px) !important;
+	border-color: rgba(194, 182, 255, 0.28) !important;
+	box-shadow: 0 0 28px rgba(75, 63, 143, 0.22), 0 12px 32px rgba(0, 0, 0, 0.34) !important;
+}
+
+app-student-dashboard .premium-profile-card>*,
+app-trainer-dashboard .premium-profile-card>*,
+app-student-dashboard .stat-card>*,
+app-trainer-dashboard .stat-card>*,
+app-student-dashboard .right-schedule-card>*,
+app-trainer-dashboard .right-schedule-card>* {
+	position: relative;
+	z-index: 1;
+}
+
+app-student-dashboard .premium-profile-card,
+app-trainer-dashboard .premium-profile-card {
+	padding: 34px !important;
+	margin-bottom: 24px !important;
+	background:
+		radial-gradient(circle at 12% 18%, rgba(75, 63, 143, 0.32), transparent 38%),
+		linear-gradient(135deg, rgba(75, 63, 143, 0.24), rgba(255, 255, 255, 0.055)),
+		var(--dashboard-card) !important;
+}
+
+app-student-dashboard .profile-content-wrapper,
+app-trainer-dashboard .profile-content-wrapper {
+	display: flex !important;
+	align-items: center !important;
+	gap: 28px !important;
+	text-align: left !important;
+}
+
+app-student-dashboard .premium-profile-ring,
+app-trainer-dashboard .premium-profile-ring {
+	background: #4B3F8F !important;
+	box-shadow: 0 0 28px rgba(75, 63, 143, 0.42) !important;
+	animation: none !important;
+}
+
+app-student-dashboard .attractive-profile-circle,
+app-trainer-dashboard .attractive-profile-circle {
+	background: rgba(255, 255, 255, 0.08) !important;
+	border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+app-student-dashboard .profile-initial-text,
+app-trainer-dashboard .profile-initial-text,
+app-student-dashboard .student-name-text,
+app-trainer-dashboard .student-name-text {
+	color: #ffffff !important;
+	text-shadow: none !important;
+}
+
+app-student-dashboard .student-name-text,
+app-trainer-dashboard .student-name-text {
+	font-size: clamp(2rem, 3vw, 3.2rem) !important;
+	line-height: 1.05 !important;
+	letter-spacing: 0 !important;
+}
+
+app-student-dashboard .status-badge,
+app-trainer-dashboard .status-badge,
+app-student-dashboard .date-badge,
+app-trainer-dashboard .date-badge {
+	background: rgba(255, 255, 255, 0.2) !important;
+	border: 1px solid rgba(255, 255, 255, 0.3) !important;
+	color: #ffffff !important;
+}
+
+app-student-dashboard .greeting-message,
+app-trainer-dashboard .greeting-message,
+app-student-dashboard .stat-card .footer-info span,
+app-trainer-dashboard .stat-card .footer-info span,
+app-student-dashboard .no-schedule-message,
+app-trainer-dashboard .no-schedule-message,
+app-student-dashboard .schedule-item .desc,
+app-trainer-dashboard .schedule-item .desc,
+app-student-dashboard .exam-modal-header p,
+app-trainer-dashboard .exam-modal-header p,
+app-student-dashboard .header-titles p,
+app-trainer-dashboard .header-titles p {
+	color: var(--dashboard-muted) !important;
+}
+
+app-student-dashboard .greeting-message,
+app-trainer-dashboard .greeting-message {
+	color: rgba(255, 255, 255, 0.86) !important;
+	font-weight: 650 !important;
+}
+
+app-student-dashboard .stats-cards-container,
+app-trainer-dashboard .stats-cards-container {
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+	gap: 22px !important;
+}
+
+app-student-dashboard .stat-card,
+app-trainer-dashboard .stat-card {
+	min-height: 165px;
+	padding: 24px !important;
+	cursor: pointer;
+	background:
+		linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.035)),
+		var(--dashboard-card) !important;
+}
+
+app-student-dashboard .stat-blue,
+app-student-dashboard .stat-yellow,
+app-student-dashboard .stat-red,
+app-student-dashboard .stat-purple,
+app-trainer-dashboard .stat-blue,
+app-trainer-dashboard .stat-yellow,
+app-trainer-dashboard .stat-red,
+app-trainer-dashboard .stat-purple {
+	background: var(--dashboard-card) !important;
+	border-left: 4px solid var(--dashboard-primary) !important;
+}
+
+app-student-dashboard .stat-card .title,
+app-trainer-dashboard .stat-card .title,
+app-student-dashboard .schedule-list h5,
+app-trainer-dashboard .schedule-list h5,
+app-student-dashboard .calendar-weekdays,
+app-trainer-dashboard .calendar-weekdays {
+	color: var(--dashboard-muted) !important;
+	letter-spacing: 0.04em !important;
+}
+
+app-student-dashboard .stat-card .title,
+app-trainer-dashboard .stat-card .title {
+	color: rgba(255, 255, 255, 0.68) !important;
+	font-weight: 850 !important;
+}
+
+app-student-dashboard .stat-card .value,
+app-trainer-dashboard .stat-card .value,
+app-student-dashboard .right-schedule-header h3,
+app-trainer-dashboard .right-schedule-header h3,
+app-student-dashboard .calendar-controls p,
+app-trainer-dashboard .calendar-controls p,
+app-student-dashboard .exam-main-info h4,
+app-trainer-dashboard .exam-main-info h4,
+app-student-dashboard .header-titles h3,
+app-trainer-dashboard .header-titles h3 {
+	color: #FFFFFF !important;
+}
+
+app-student-dashboard .stat-card .value,
+app-trainer-dashboard .stat-card .value {
+	color: #ffffff !important;
+	font-weight: 850 !important;
+}
+
+app-student-dashboard .stat-card .footer-info,
+app-trainer-dashboard .stat-card .footer-info {
+	border-top-color: var(--dashboard-border) !important;
+}
+
+app-student-dashboard .stat-card .footer-info i,
+app-trainer-dashboard .stat-card .footer-info i {
+	color: var(--dashboard-secondary) !important;
+	background: rgba(194, 182, 255, 0.12) !important;
+	box-shadow: 0 0 18px rgba(75, 63, 143, 0.12) !important;
+}
+
+app-student-dashboard .right-schedule-card,
+app-trainer-dashboard .right-schedule-card {
+	top: 100px !important;
+	padding: 24px !important;
+}
+
+app-student-dashboard .current-time-display,
+app-trainer-dashboard .current-time-display {
+	background: #4B3F8F !important;
+	border-radius: 16px !important;
+	padding: 16px !important;
+	margin-bottom: 18px !important;
+	text-align: center !important;
+	color: #ffffff !important;
+}
+
+app-student-dashboard .current-time-text,
+app-trainer-dashboard .current-time-text {
+	margin: 0 !important;
+	color: #FFFFFF !important;
+	font-weight: 800 !important;
+}
+
+app-student-dashboard .right-schedule-header button,
+app-trainer-dashboard .right-schedule-header button,
+app-student-dashboard .calendar-controls button,
+app-trainer-dashboard .calendar-controls button,
+app-student-dashboard .modal-close-btn,
+app-trainer-dashboard .modal-close-btn,
+app-student-dashboard .btn-secondary-outline,
+app-trainer-dashboard .btn-secondary-outline {
+	color: #FFFFFF !important;
+	background: rgba(255, 255, 255, 0.07) !important;
+	border: 1px solid var(--dashboard-border) !important;
+	box-shadow: none !important;
+}
+
+app-student-dashboard .right-schedule-header button:hover,
+app-trainer-dashboard .right-schedule-header button:hover,
+app-student-dashboard .calendar-controls button:hover,
+app-trainer-dashboard .calendar-controls button:hover,
+app-student-dashboard .modal-close-btn:hover,
+app-trainer-dashboard .modal-close-btn:hover,
+app-student-dashboard .btn-secondary-outline:hover,
+app-trainer-dashboard .btn-secondary-outline:hover {
+	background: rgba(194, 182, 255, 0.16) !important;
+	box-shadow: 0 0 18px rgba(194, 182, 255, 0.18) !important;
+}
+
+app-student-dashboard .calendar-days,
+app-trainer-dashboard .calendar-days {
+	gap: 8px !important;
+}
+
+app-student-dashboard .calendar-days div,
+app-trainer-dashboard .calendar-days div {
+	width: 36px !important;
+	height: 36px !important;
+	padding: 0 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	justify-self: center;
+	border-radius: 50% !important;
+	color: var(--dashboard-muted) !important;
+	background: transparent !important;
+	transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+app-student-dashboard .calendar-days div:hover:not(.active):not(.inactive),
+app-trainer-dashboard .calendar-days div:hover:not(.active):not(.inactive) {
+	transform: translateY(-2px) !important;
+	color: #FFFFFF !important;
+	background: rgba(194, 182, 255, 0.14) !important;
+	box-shadow: 0 0 18px rgba(194, 182, 255, 0.16) !important;
+}
+
+app-student-dashboard .calendar-days div.active,
+app-trainer-dashboard .calendar-days div.active {
+	color: #FFFFFF !important;
+	background: #4B3F8F !important;
+	box-shadow: 0 0 20px rgba(75, 63, 143, 0.58), 0 8px 20px rgba(0, 0, 0, 0.28) !important;
+}
+
+app-student-dashboard .calendar-days div.inactive,
+app-trainer-dashboard .calendar-days div.inactive {
+	color: rgba(185, 185, 211, 0.32) !important;
+	cursor: default !important;
+}
+
+app-student-dashboard .schedule-item,
+app-trainer-dashboard .schedule-item {
+	border-radius: 16px !important;
+}
+
+app-student-dashboard .schedule-item .date,
+app-trainer-dashboard .schedule-item .date,
+app-student-dashboard .exam-subject-tag,
+app-trainer-dashboard .exam-subject-tag {
+	color: #FFFFFF !important;
+	background: rgba(75, 63, 143, 0.18) !important;
+}
+
+app-student-dashboard .modal-overlay,
+app-trainer-dashboard .modal-overlay,
+app-student-dashboard .exam-lobby-overlay,
+app-trainer-dashboard .exam-lobby-overlay {
+	background: rgba(15, 12, 41, 0.76) !important;
+	backdrop-filter: blur(14px) !important;
+	-webkit-backdrop-filter: blur(14px) !important;
+}
+
+app-student-dashboard .premium-modal,
+app-trainer-dashboard .premium-modal,
+app-student-dashboard .premium-exam-modal,
+app-trainer-dashboard .premium-exam-modal {
+	background:
+		linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04)),
+		linear-gradient(135deg, #0F0C29, #1B1333) !important;
+	border: 1px solid var(--dashboard-border) !important;
+	color: #FFFFFF !important;
+}
+
+app-student-dashboard .premium-modal h2,
+app-trainer-dashboard .premium-modal h2,
+app-student-dashboard .premium-modal p,
+app-trainer-dashboard .premium-modal p {
+	color: #FFFFFF !important;
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+
+	app-student-dashboard .dashboard-grid,
+	app-trainer-dashboard .dashboard-grid {
+		grid-template-columns: 112px minmax(0, 1fr) 286px !important;
+		gap: 18px !important;
+		padding: 18px !important;
+	}
+
+	app-student-dashboard .right-schedule-card,
+	app-trainer-dashboard .right-schedule-card {
+		display: flex !important;
+		padding: 18px !important;
+		top: 94px !important;
+	}
+
+	app-student-dashboard .sidebar,
+	app-trainer-dashboard .sidebar {
+		top: 94px !important;
+		padding: 12px 8px !important;
+	}
+
+	app-student-dashboard .sidebar-nav a,
+	app-trainer-dashboard .sidebar-nav a {
+		min-height: 68px !important;
+		font-size: 11px !important;
+	}
+
+	app-student-dashboard .premium-profile-card,
+	app-trainer-dashboard .premium-profile-card {
+		padding: 28px !important;
+	}
+
+	app-student-dashboard .stats-cards-container,
+	app-trainer-dashboard .stats-cards-container {
+		grid-template-columns: repeat(2, minmax(190px, 1fr)) !important;
+		gap: 18px !important;
+	}
+
+	app-student-dashboard .stat-card,
+	app-trainer-dashboard .stat-card {
+		min-height: 150px !important;
+	}
+}
+
+@media (max-width: 900px) {
+
+	app-student-dashboard .dashboard-grid,
+	app-trainer-dashboard .dashboard-grid {
+		grid-template-columns: 122px minmax(0, 1fr) !important;
+	}
+
+	app-student-dashboard .right-schedule-card,
+	app-trainer-dashboard .right-schedule-card {
+		display: none !important;
+	}
+}
+
+@media (max-width: 768px) {
+
+	app-student-dashboard .container:not(.exam-active-mode),
+	app-trainer-dashboard .container:not(.exam-active-mode) {
+		padding-bottom: 92px !important;
+	}
+
+	app-student-dashboard header,
+	app-trainer-dashboard header {
+		height: 68px !important;
+		padding: 0 16px !important;
+	}
+
+	app-student-dashboard .dashboard-grid,
+	app-trainer-dashboard .dashboard-grid {
+		display: block !important;
+		padding: 16px !important;
+		min-height: auto !important;
+	}
+
+	app-student-dashboard .sidebar,
+	app-trainer-dashboard .sidebar {
+		position: fixed !important;
+		left: 12px !important;
+		right: 12px !important;
+		bottom: 12px !important;
+		top: auto !important;
+		z-index: 2000 !important;
+		width: auto !important;
+		height: 72px !important;
+		min-height: 0 !important;
+		padding: 8px !important;
+		border-radius: 22px !important;
+		background: rgba(18, 12, 48, 0.92) !important;
+		backdrop-filter: blur(10px) saturate(150%) !important;
+		-webkit-backdrop-filter: blur(10px) saturate(150%) !important;
+	}
+
+	app-student-dashboard .sidebar-nav,
+	app-trainer-dashboard .sidebar-nav {
+		flex-direction: row !important;
+		justify-content: space-around !important;
+		align-items: center !important;
+		height: 100% !important;
+		gap: 4px !important;
+	}
+
+	app-student-dashboard .sidebar-nav a,
+	app-trainer-dashboard .sidebar-nav a {
+		min-height: 54px !important;
+		padding: 6px !important;
+		font-size: 10px !important;
+	}
+
+	app-student-dashboard .sidebar-nav a i,
+	app-trainer-dashboard .sidebar-nav a i {
+		width: 28px !important;
+		height: 28px !important;
+		font-size: 13px !important;
+	}
+
+	app-student-dashboard .profile-content-wrapper,
+	app-trainer-dashboard .profile-content-wrapper {
+		flex-direction: column !important;
+		text-align: center !important;
+		gap: 16px !important;
+	}
+
+	app-student-dashboard .profile-text-content,
+	app-trainer-dashboard .profile-text-content {
+		align-items: center !important;
+	}
+
+	app-student-dashboard .premium-profile-card,
+	app-trainer-dashboard .premium-profile-card {
+		padding: 24px 18px !important;
+	}
+
+	app-student-dashboard .stats-cards-container,
+	app-trainer-dashboard .stats-cards-container {
+		grid-template-columns: 1fr !important;
+	}
+}
+
+/* ==========================================================================
+   PREMIUM ULTRA GLOWING GLASSMORPHIC STYLES & CYBERPUNK PALETTE
+   ========================================================================== */
+.glass-morphic {
+	background: rgba(30, 20, 60, 0.45) !important;
+	border: 1px solid rgba(139, 92, 246, 0.3) !important;
+	box-shadow: 
+		0 30px 60px rgba(0, 0, 0, 0.4),
+		inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+	backdrop-filter: blur(20px) saturate(160%) !important;
+	-webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+
+/* Floating background gradient circles for immersive cinematic depth */
+.cinematic-orb {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(120px);
+	mix-blend-mode: screen;
+	z-index: 0;
+	pointer-events: none;
+	opacity: 0.45;
+}
+.cinematic-orb-purple {
+	background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+}
+.cinematic-orb-cyan {
+	background: radial-gradient(circle, rgba(34, 211, 238, 0.3) 0%, transparent 70%);
+}
+.cinematic-orb-pink {
+	background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, transparent 70%);
+}
+
+/* Keyframe animations for active micro-interactions */
+@keyframes orbFloatCycle {
+	0% {
+		transform: translate(0, 0) scale(1);
+	}
+	33% {
+		transform: translate(30px, -50px) scale(1.1);
+	}
+	66% {
+		transform: translate(-20px, 20px) scale(0.95);
+	}
+	100% {
+		transform: translate(0, 0) scale(1);
+	}
+}
+
+.animate-orb-slow {
+	animation: orbFloatCycle 18s ease-in-out infinite;
+}
+
+.animate-orb-slower {
+	animation: orbFloatCycle 24s ease-in-out infinite reverse;
+}
+
+/* --- RESPONSIVE FIXES FOR TRAINER DASHBOARD --- */
+@media (max-width: 1200px) {
+    app-trainer-dashboard .dashboard-grid,
+    app-student-dashboard .dashboard-grid {
+        flex-wrap: wrap !important;
+        padding-right: 30px !important;
+    }
+    app-trainer-dashboard .right-panel,
+    app-student-dashboard .right-panel {
+        width: 100% !important;
+        position: static !important;
+        height: auto !important;
+        order: 3 !important;
+        margin-top: 20px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    app-trainer-dashboard header,
+    app-student-dashboard header {
+        padding: 0 15px !important;
+        flex-direction: column !important;
+        height: auto !important;
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        gap: 15px !important;
+    }
+    app-trainer-dashboard .logo-search,
+    app-student-dashboard .logo-search {
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+    app-trainer-dashboard .search-wrapper,
+    app-student-dashboard .search-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 !important;
+        margin-left: 15px !important;
+    }
+    app-trainer-dashboard .dashboard-grid,
+    app-student-dashboard .dashboard-grid {
+        padding: 20px 15px !important;
+        gap: 20px !important;
+    }
+    app-trainer-dashboard .sidebar,
+    app-student-dashboard .sidebar {
+        position: fixed !important;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 70px !important;
+        border-radius: 20px 20px 0 0 !important;
+        padding: 10px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-around !important;
+        z-index: 1000 !important;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.1) !important;
+    }
+    app-trainer-dashboard .sidebar-nav,
+    app-student-dashboard .sidebar-nav {
+        flex-direction: row !important;
+        width: 100% !important;
+        justify-content: space-around !important;
+        gap: 5px !important;
+    }
+    app-trainer-dashboard .sidebar-nav a,
+    app-student-dashboard .sidebar-nav a {
+        flex-direction: column !important;
+        justify-content: center !important;
+        padding: 5px !important;
+        min-height: 0 !important;
+        font-size: 10px !important;
+        gap: 5px !important;
+    }
+    app-trainer-dashboard .sidebar-nav a i,
+    app-student-dashboard .sidebar-nav a i {
+        font-size: 18px !important;
+    }
+    app-trainer-dashboard .logout-btn,
+    app-student-dashboard .logout-btn {
+        margin-top: 0 !important;
+        border-top: none !important;
+        padding-top: 5px !important;
+    }
+    app-trainer-dashboard .main-content,
+    app-student-dashboard .main-content {
+        padding-bottom: 80px !important; /* space for bottom nav */
+    }
+    app-trainer-dashboard .profile-card,
+    app-student-dashboard .profile-card {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+        padding: 20px !important;
+    }
+    app-trainer-dashboard .profile-info-wrap,
+    app-student-dashboard .profile-info-wrap {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+    }
+    app-trainer-dashboard .profile-stats-mini,
+    app-student-dashboard .profile-stats-mini {
+        width: 100% !important;
+        flex-wrap: wrap !important;
+    }
+    app-trainer-dashboard .mini-stat,
+    app-student-dashboard .mini-stat {
+        flex: 1 !important;
+    }
 }

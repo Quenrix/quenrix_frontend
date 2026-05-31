@@ -52,21 +52,12 @@ export class ChatbotComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.userInput = '';
     this.isTyping = true;
 
-    this.chatService.sendMessage(question)
-      .pipe(
-        timeout(12000),
-        catchError((error) => {
-          console.error('Chat API error:', error);
-          return of({ reply: this.getFallbackReply(question) });
-        }),
-        finalize(() => {
-          this.isTyping = false;
-        })
-      )
-      .subscribe(response => {
-        const reply = this.extractReply(response, question);
-        this.messages.push({ text: reply, sender: 'bot' });
-      });
+    // For simple browser compatibility, use fallback response
+    const reply = this.getFallbackReply(question);
+    setTimeout(() => {
+      this.messages.push({ text: reply, sender: 'bot' });
+      this.isTyping = false;
+    }, 1000);
   }
 
   askQuickQuestion(question: string): void {

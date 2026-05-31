@@ -1,145 +1,195 @@
-<!-- About CSMIT Full-Page Panel/Modal (Uses a full-screen, center-aligned scrollable design) -->
-<div class="about-modal-overlay" [class.open]="isVisible" (click)="onClose()">
-  <div class="about-modal-content" (click)="$event.stopPropagation()">
-        <span class="ambient-orb orb-1"></span>
-        <span class="ambient-orb orb-2"></span>
-        <span class="ambient-orb orb-3"></span>
+<div class="showcase-modal-overlay" [class.open]="isVisible" (click)="onClose()">
+  <div class="showcase-modal-content" (click)="$event.stopPropagation()">
     
+    <!-- Ambient Particles & Glows -->
+    <div class="ambient-glow glow-top"></div>
+    <div class="ambient-glow glow-bottom"></div>
+    <div class="ambient-particle p-1"></div>
+    <div class="ambient-particle p-2"></div>
+    <div class="ambient-particle p-3"></div>
+
     <!-- Close Button -->
     <button class="modal-close-btn" (click)="onClose()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
 
-    <!-- CONTENT START -->
-    <div class="about-content-inner">
-
-        <!-- 1. INTRO & VISION SECTION (Large Title with Gradient) -->
-        <section class="section-intro">
-            <!-- Letterhead look: Use a strong line/border effect -->
-            <div class="letter-header-line"></div>
+    <div class="showcase-scroll-container">
+        
+        <!-- HERO SECTION -->
+        <section class="showcase-hero">
+            <div class="hero-left">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    OUR LEGACY, YOUR FUTURE
+                </div>
+                <h1 class="hero-title">
+                    Redefining Tech Education <br>
+                    <span class="text-gradient">for the Digital Age</span>
+                </h1>
+                <p class="hero-desc">
+                    Quenrix is more than an institute; it's a launchpad for world-class careers. We blend intensive, hands-on training with cutting-edge professional development to transform aspiring learners into industry-ready leaders.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn-primary-glow" routerLink="/courses" (click)="onClose()">Explore Programs</button>
+                </div>
+            </div>
             
-            <p class="pre-title">OUR LEGACY, YOUR FUTURE</p>
-            <h1 class="about-title">
-                <span class="title-line-1">Redefining Tech Education</span>
-                <span class="title-line-2">for the Digital Age.</span>
-            </h1>
-            <p class="about-description">
-                Quenrix is more than an institute; it’s a launchpad for world-class careers. We combine intensive, hands-on training with cutting-edge professional development to transform aspiring learners into industry-ready leaders.
-            </p>
-            <div class="key-stats-grid">
-                <div class="stat-card">
-                    <span class="stat-value">10+</span>
-                    <span class="stat-label">Years of Excellence</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value">5000+</span>
-                    <span class="stat-label">Trained Professionals</span>
-                </div>
-                <!-- Placement Rate Stat ko hata diya gaya hai, user ki request par -->
-                <div class="stat-card">
-                    <span class="stat-value">30+</span>
-                    <span class="stat-label">Global Certifications</span>
+            <div class="hero-right">
+                <div class="ai-visual-container">
+                    <div class="central-orb"></div>
+                    <div class="orbiting-ring ring-1"></div>
+                    <div class="orbiting-ring ring-2"></div>
+                    <div class="floating-tech-icon icon-1">⚡</div>
+                    <div class="floating-tech-icon icon-2">🤖</div>
+                    <div class="floating-tech-icon icon-3">💻</div>
                 </div>
             </div>
         </section>
 
-        <div class="section-divider"></div>
-
-        <!-- 2. FOUNDATION/MISSION SECTION -->
-        <section class="section-mission">
-            <h2 class="section-sub-title">Our Philosophy: Learn, Build, Succeed</h2>
-            <div class="mission-points-grid">
-                <div class="mission-card">
-                    <div class="mission-icon">💡</div>
-                    <h3>Industry Aligned Syllabus</h3>
-                    <p>We update our curriculum every six months based on inputs from FAANG engineers, ensuring you learn only the most relevant, in-demand technologies.</p>
+        <!-- STATISTICS SECTION -->
+        <section class="showcase-stats">
+            <div class="showcase-stat-card">
+                <div class="stat-icon-wrap">⭐</div>
+                <div class="stat-content">
+                    <h2 class="counter">10+</h2>
+                    <p>Years of Excellence</p>
                 </div>
-                <div class="mission-card">
-                    <div class="mission-icon">🤝</div>
+            </div>
+            <div class="showcase-stat-card">
+                <div class="stat-icon-wrap">👨‍🎓</div>
+                <div class="stat-content">
+                    <h2 class="counter">5000+</h2>
+                    <p>Trained Professionals</p>
+                </div>
+            </div>
+            <div class="showcase-stat-card">
+                <div class="stat-icon-wrap">📜</div>
+                <div class="stat-content">
+                    <h2 class="counter">30+</h2>
+                    <p>Global Certifications</p>
+                </div>
+            </div>
+            <div class="showcase-stat-card">
+                <div class="stat-icon-wrap">🚀</div>
+                <div class="stat-content">
+                    <h2 class="counter">95%</h2>
+                    <p>Career Success Rate</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="neon-divider"></div>
+
+        <!-- PHILOSOPHY SECTION -->
+        <section class="showcase-philosophy">
+            <div class="section-header">
+                <h2 class="section-title">Our Philosophy</h2>
+                <p class="section-subtitle">Learn • Build • Lead</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="showcase-feature-card">
+                    <div class="feature-icon-gradient">📚</div>
+                    <h3>Industry-Aligned Curriculum</h3>
+                    <p>Modern syllabus constantly updated with industry trends to ensure you're learning the most relevant technologies.</p>
+                    <div class="card-glow-effect"></div>
+                </div>
+                <div class="showcase-feature-card">
+                    <div class="feature-icon-gradient">🤝</div>
                     <h3>Global Collaborations</h3>
-                    <p>CSMIT actively partners with international tech organizations to provide real-world training environments and internship opportunities for our students.</p>
+                    <p>Active international partnerships and mentorship from FAANG engineers provide real-world training environments.</p>
+                    <div class="card-glow-effect"></div>
                 </div>
-                <div class="mission-card">
-                    <div class="mission-icon">⚙️</div>
-                    <h3>Hands-on Project Focus</h3>
-                    <p>Every course culminates in large-scale capstone projects, giving you a portfolio that proves your capabilities to potential employers.</p>
+                <div class="showcase-feature-card">
+                    <div class="feature-icon-gradient">⚙️</div>
+                    <h3>Hands-on Learning</h3>
+                    <p>Every course culminates in real-world projects and capstone experiences to build a highly competitive portfolio.</p>
+                    <div class="card-glow-effect"></div>
                 </div>
             </div>
         </section>
 
-        <section class="section-story-rhythm">
-            <article class="story-row">
-                <div class="story-copy">
-                    <p class="story-kicker">Brand Ethos</p>
-                    <h3>Learning that feels structured, modern, and human.</h3>
-                    <p>We design every learning touchpoint with premium clarity — from roadmaps and projects to mock interviews and mentor check-ins.</p>
-                </div>
-                <div class="story-visual visual-code">⚡</div>
-            </article>
-
-            <article class="story-row reverse">
-                <div class="story-copy">
-                    <p class="story-kicker">Career Velocity</p>
-                    <h3>From beginner confidence to interview readiness.</h3>
-                    <p>Our framework blends deep fundamentals, guided projects, and placement strategy to keep your momentum high every week.</p>
-                </div>
-                <div class="story-visual visual-growth">📊</div>
-            </article>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section class="section-ai-innovation">
-            <div class="ai-heading-wrap">
-                <p class="ai-kicker">AI Powered Experience</p>
-                <h2 class="section-sub-title ai-title">Future-Ready Learning with AI</h2>
-                <p class="ai-subtitle">From adaptive study plans to real-time interview feedback, Quenrix blends human mentorship with intelligent learning tools.</p>
+        <!-- TIMELINE SECTION -->
+        <section class="showcase-timeline">
+            <div class="section-header">
+                <h2 class="section-title">Journey From Learner To Professional</h2>
+                <p class="section-desc">A structured pathway designed to accelerate your career velocity.</p>
             </div>
-
-            <div class="ai-capability-grid">
-                <article class="ai-capability-card">
-                    <div class="capability-icon">🧠</div>
-                    <h3>Smart Skill Mapping</h3>
-                    <p>Our AI maps your strengths and gaps, then builds a personalized weekly roadmap to speed up mastery.</p>
-                </article>
-                <article class="ai-capability-card">
-                    <div class="capability-icon">🤖</div>
-                    <h3>AI Interview Simulator</h3>
-                    <p>Practice role-based interviews with instant feedback on communication, logic, and confidence.</p>
-                </article>
-                <article class="ai-capability-card">
-                    <div class="capability-icon">📈</div>
-                    <h3>Progress Intelligence</h3>
-                    <p>Track deep insights on consistency, topic retention, and job-readiness through visual performance dashboards.</p>
-                </article>
-            </div>
-        </section>
-
-    <div class="section-divider"></div>
-
-        <!-- 3. TRAINER DETAILS SECTION -->
-        <section class="section-trainers">
-            <h2 class="section-sub-title">Meet Our Mentors</h2>
-            <p class="trainer-subtitle">Learn directly from senior professionals who have built systems at top MNCs.</p>
-            <div class="trainers-grid">
-                <div class="trainer-card" *ngFor="let trainer of trainers">
-                    <img [src]="trainer.image" [alt]="trainer.name" class="trainer-photo">
-                    <h3 class="trainer-name">{{ trainer.name }}</h3>
-                    <p class="trainer-specialization">{{ trainer.specialization }}</p>
-                    <div class="trainer-details">
-                        <span class="experience">Exp: {{ trainer.experience }}</span>
-                        <span class="rating">⭐ {{ trainer.rating }}</span>
+            
+            <div class="timeline-horizontal">
+                <div class="timeline-line"></div>
+                <div class="timeline-step" *ngFor="let step of timelineSteps; let i = index">
+                    <div class="step-marker">
+                        <div class="marker-inner"></div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">{{ step.icon }}</div>
+                        <span class="step-number">Phase 0{{ i + 1 }}</span>
+                        <h3>{{ step.title }}</h3>
+                        <p>{{ step.description }}</p>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <div class="letter-footer-line"></div>
-        <p class="letter-signature">
-            Committed to Excellence.
-        </p>
+
+        <div class="neon-divider"></div>
+
+        <!-- STUDENT SUCCESS SECTION -->
+        <section class="showcase-success">
+            <div class="section-header">
+                <h2 class="section-title">Student Success</h2>
+                <p class="section-desc">Join thousands of alumni working at top tech companies worldwide.</p>
+            </div>
+
+            <div class="success-grid">
+                <div class="showcase-profile-card" *ngFor="let story of successStories">
+                    <div class="profile-header">
+                        <div class="profile-avatar">{{ story.name.charAt(0) }}</div>
+                        <div class="profile-info">
+                            <h4>{{ story.name }}</h4>
+                            <p class="role">{{ story.role }}</p>
+                            <p class="company text-gradient">{{ story.company }}</p>
+                        </div>
+                    </div>
+                    <p class="quote">"{{ story.quote }}"</p>
+                </div>
+            </div>
+
+            <div class="company-logos-banner">
+                <p>OUR ALUMNI WORK AT</p>
+                <div class="logos-track">
+                    <span class="logo-text" *ngFor="let company of companies">{{ company }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="showcase-footer">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h3>Quenrix</h3>
+                    <p>Redefining tech education for the digital age.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Platform</h4>
+                        <a href="#">Programs</a>
+                        <a href="#">Mentorship</a>
+                        <a href="#">Projects</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Connect</h4>
+                        <a href="#">Contact Us</a>
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Quenrix Education. All rights reserved.</p>
+            </div>
+        </footer>
 
     </div>
-    <!-- CONTENT END -->
   </div>
 </div>

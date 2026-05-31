@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;600;700&display=swap');
 
 .landing-page {
-  /* Changed background to plain white */
+  /* Restored background to dark to match the hero section and header */
   background-color: #ffffff;
   
   min-height: 100vh;

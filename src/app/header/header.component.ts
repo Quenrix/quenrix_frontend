@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, HostListener, ElementRef, OnDestroy, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Course, CreateCourseService } from '../services/create-course.service';
 import { InquiryService, InquiryPayload } from '../services/inquiry.service';
@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Desktop States
   isCoursesOpen = false;
-  activePage: string = 'home'; 
+  @Input() activePage: string = 'home'; 
   
   // Modal State
   isEnrollmentModalOpen = false;

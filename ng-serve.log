@@ -1,0 +1,341 @@
+nohup: ignoring input
+Warning: Running a server with --disable-host-check is a security risk. See https://medium.com/webpack/webpack-dev-server-middleware-security-issues-1489d950874a for more information.
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files   | Names         |  Raw Size
+vendor.js             | vendor        |   2.84 MB |
+main.js               | main          |   2.80 MB |
+polyfills.js          | polyfills     | 252.55 kB |
+styles.css, styles.js | styles        | 174.64 kB |
+runtime.js            | runtime       |   6.52 kB |
+
+| Initial Total |   6.07 MB
+
+Build at: 2026-04-29T16:10:46.118Z - Hash: 8db20a6ff70b1806 - Time: 14945ms
+
+** Angular Live Development Server is listening on 0.0.0.0:4204, open your browser on http://localhost:4204/ **
+
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.71 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-29T16:18:35.682Z - Hash: aa661ce372bdfae3 - Time: 7031ms
+
+Error: src/app/trainer-dashboard/trainer-dashboard.component.html:103:5 - error NG5002: Unexpected closing tag "main". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags
+
+103     </main>
+        ~~~~~~~
+
+  src/app/trainer-dashboard/trainer-dashboard.component.ts:39:16
+    39   templateUrl: './trainer-dashboard.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TrainerDashboardComponent.
+
+
+
+
+✖ Failed to compile.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.71 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-29T16:18:37.464Z - Hash: 229e7c2a99a0ae98 - Time: 964ms
+
+Error: src/app/trainer-dashboard/trainer-dashboard.component.html:103:5 - error NG5002: Unexpected closing tag "main". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags
+
+103     </main>
+        ~~~~~~~
+
+  src/app/trainer-dashboard/trainer-dashboard.component.ts:39:16
+    39   templateUrl: './trainer-dashboard.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TrainerDashboardComponent.
+
+
+
+
+✖ Failed to compile.
+✔ Browser application bundle generation complete.
+
+5 unchanged chunks
+
+Build at: 2026-04-29T16:21:06.228Z - Hash: 229e7c2a99a0ae98 - Time: 3462ms
+
+Error: src/app/trainer-dashboard/trainer-dashboard.component.html:103:5 - error NG5002: Unexpected closing tag "main". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags
+
+103     </main>
+        ~~~~~~~
+
+  src/app/trainer-dashboard/trainer-dashboard.component.ts:39:16
+    39   templateUrl: './trainer-dashboard.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TrainerDashboardComponent.
+
+
+
+
+✖ Failed to compile.
+✔ Browser application bundle generation complete.
+
+5 unchanged chunks
+
+Build at: 2026-04-29T16:21:07.651Z - Hash: 229e7c2a99a0ae98 - Time: 1087ms
+
+Error: src/app/trainer-dashboard/trainer-dashboard.component.html:103:5 - error NG5002: Unexpected closing tag "main". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags
+
+103     </main>
+        ~~~~~~~
+
+  src/app/trainer-dashboard/trainer-dashboard.component.ts:39:16
+    39   templateUrl: './trainer-dashboard.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TrainerDashboardComponent.
+
+
+
+
+✖ Failed to compile.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime |  6.52 kB |
+
+4 unchanged chunks
+
+Build at: 2026-04-29T16:23:00.368Z - Hash: 071a2bc851779363 - Time: 1168ms
+
+Error: src/app/trainer-dashboard/trainer-dashboard.component.html:113:5 - error NG5002: Unexpected closing tag "main". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags
+
+113     </main>
+        ~~~~~~~
+
+  src/app/trainer-dashboard/trainer-dashboard.component.ts:39:16
+    39   templateUrl: './trainer-dashboard.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TrainerDashboardComponent.
+
+
+
+
+✖ Failed to compile.
+✔ Browser application bundle generation complete.
+
+5 unchanged chunks
+
+Build at: 2026-04-29T16:23:06.429Z - Hash: 071a2bc851779363 - Time: 1087ms
+
+Error: src/app/trainer-dashboard/trainer-dashboard.component.html:113:5 - error NG5002: Unexpected closing tag "main". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags
+
+113     </main>
+        ~~~~~~~
+
+  src/app/trainer-dashboard/trainer-dashboard.component.ts:39:16
+    39   templateUrl: './trainer-dashboard.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TrainerDashboardComponent.
+
+
+
+
+✖ Failed to compile.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.80 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-29T16:25:31.816Z - Hash: 22f048c5c76b07e1 - Time: 3940ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.80 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-29T16:25:37.058Z - Hash: f1db7eee29c40752 - Time: 2771ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.80 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-29T16:30:12.853Z - Hash: a94405b44c24c159 - Time: 1937ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.80 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-29T16:30:41.135Z - Hash: b635bc8cf6e57d57 - Time: 2346ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime |  6.52 kB |
+
+4 unchanged chunks
+
+Build at: 2026-04-30T04:31:19.603Z - Hash: 6837a7d42a2c304b - Time: 1659ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+5 unchanged chunks
+
+Build at: 2026-04-30T04:31:24.101Z - Hash: 6837a7d42a2c304b - Time: 862ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:48:46.075Z - Hash: 9c119874f7b5a19c - Time: 4660ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:48:48.014Z - Hash: f6e8711fb1383bfa - Time: 1773ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:50:43.869Z - Hash: 1d6b20fdb7369ced - Time: 2839ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:50:47.176Z - Hash: 72f526040fa4f61a - Time: 1743ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:53:17.140Z - Hash: 1ba7f199b26f3e18 - Time: 2833ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:53:19.433Z - Hash: a40259180ad76984 - Time: 1496ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:54:03.265Z - Hash: 49525cbddd8b9730 - Time: 4087ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T04:54:07.456Z - Hash: 9ab3c251a9c3dbb6 - Time: 3023ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T05:02:33.697Z - Hash: 245c0bad943fa380 - Time: 3092ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T05:02:58.359Z - Hash: 5c7e700ab494f7fc - Time: 4075ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+main.js             | main    |  2.81 MB |
+runtime.js          | runtime |  6.52 kB |
+
+3 unchanged chunks
+
+Build at: 2026-04-30T05:03:13.699Z - Hash: 86f532550642cec4 - Time: 1948ms
+
+✔ Compiled successfully.
+✔ Browser application bundle generation complete.
+
+5 unchanged chunks
+
+Build at: 2026-04-30T05:03:15.510Z - Hash: 86f532550642cec4 - Time: 1691ms
+
+✔ Compiled successfully.

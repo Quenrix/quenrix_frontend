@@ -1,0 +1,120 @@
+<div class="learning-hub-wrapper">
+  
+  <!-- 1. Top Overview Cards -->
+  <section class="overview-section">
+    <div class="glass-card stat-card" *ngFor="let stat of stats">
+      <div class="stat-icon-box">
+        <i [class]="stat.icon"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">{{ stat.title }}</span>
+        <h2 class="stat-value">{{ stat.value }}</h2>
+        <span class="stat-trend">{{ stat.trend }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. AI Teaching Assistant Section (Banner) -->
+  <section class="ai-banner">
+    <div class="ai-icon">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="ai-content">
+      <h4>AI Teaching Assistant Insights</h4>
+      <ul>
+        <li *ngFor="let insight of insights">{{ insight }}</li>
+      </ul>
+    </div>
+    <div class="ai-glow"></div>
+  </section>
+
+  <div class="main-grid">
+    <div class="left-col">
+      <!-- 2. Course Management Section -->
+      <section class="glass-card course-section">
+        <div class="section-header">
+          <h3>Course Management</h3>
+          <button class="btn-primary-glow" (click)="addModule()"><i class="fas fa-plus"></i> Add Module</button>
+        </div>
+        <div class="course-list">
+          <div class="course-item" *ngFor="let course of courses; let i = index">
+            <div class="course-info">
+              <h4>{{ course.name }}</h4>
+              <span>{{ course.batch }} • {{ course.students }} Students</span>
+            </div>
+            <div class="course-progress">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" [style.width.%]="course.progress"></div>
+              </div>
+              <span>{{ course.progress }}%</span>
+            </div>
+            <button class="btn-delete" (click)="deleteModule(i)"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Resource Center -->
+      <section class="glass-card resource-section">
+        <div class="section-header">
+          <h3>Resource Center</h3>
+          <button class="btn-primary-glow" (click)="uploadResource()"><i class="fas fa-upload"></i> Upload</button>
+        </div>
+        <div class="resource-grid">
+          <div class="file-card" *ngFor="let file of resources">
+            <div class="file-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="file-info">
+              <h5>{{ file.name }}</h5>
+              <span>{{ file.type }} • {{ file.size }}</span>
+            </div>
+            <button class="btn-icon" (click)="downloadFile(file)"><i class="fas fa-download"></i></button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="right-col">
+      <!-- 7. Upcoming Sessions Panel -->
+      <section class="glass-card sessions-section">
+        <h3>Upcoming Sessions</h3>
+        <div class="session-list">
+          <div class="session-item" *ngFor="let session of sessions">
+            <div class="session-time">{{ session.time }}</div>
+            <div class="session-details">
+              <h4>{{ session.topic }}</h4>
+              <span>{{ session.batch }}</span>
+            </div>
+            <button class="btn-join" (click)="joinSession(session)">Join</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Student Learning Analytics (Mock UI) -->
+      <section class="glass-card analytics-section">
+        <h3>Learning Analytics</h3>
+        <div class="analytics-card">
+          <span class="label">Course Completion Rate</span>
+          <div class="val">68%</div>
+          <div class="prog-bg"><div class="prog-fill" style="width: 68%;"></div></div>
+        </div>
+        <div class="analytics-card">
+          <span class="label">Average Engagement</span>
+          <div class="val">85%</div>
+          <div class="prog-bg"><div class="prog-fill" style="width: 85%;"></div></div>
+        </div>
+      </section>
+
+      <!-- 4. Assignment & Review Panel (Mock UI) -->
+      <section class="glass-card review-section">
+        <h3>Review Queue</h3>
+        <div class="queue-item">
+          <span>Batch A - Assignment 3</span>
+          <span class="badge">12 Pending</span>
+        </div>
+        <div class="queue-item">
+          <span>Batch B - Project Proposal</span>
+          <span class="badge">5 Pending</span>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

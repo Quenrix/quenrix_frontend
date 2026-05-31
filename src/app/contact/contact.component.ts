@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertService } from '../services/alert.service';
 import { InquiryService, InquiryPayload } from '../services/inquiry.service';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contact',
@@ -56,14 +57,14 @@ export class ContactComponent {
     const payload: InquiryPayload = {
       name: this.contactForm.name,
       email: email,
-      // Since Contact form doesn't have phone, sending "N/A" to satisfy API requirement
-      phone_number: 'N/A', 
+      // Since Contact form doesn't have phone, sending a dummy valid number to satisfy API regex
+      phone_number: '0000000000', 
       // Mapping Subject & Message to 'course_name' so it shows up in DB
       course_name: `Contact Query: ${this.contactForm.subject} - ${this.contactForm.message}` 
     };
 
-    // 4. Call the API
-    this.inquiryService.createInquiry(payload).subscribe({
+    // 4. Call the API with a 10 second timeout
+    this.inquiryService.createInquiry(payload).pipe(timeout(10000)).subscribe({
       next: (response) => {
         console.log('Contact submitted successfully:', response);
         
@@ -85,14 +86,13 @@ export class ContactComponent {
       },
       error: (error) => {
         console.error('Error submitting contact form:', error);
+        this.isSubmitting = false;
         
         // Error Alert
         this.alertService.error(
           'Something went wrong while sending your message. Please try again.',
           'Submission Failed'
         );
-        
-        this.isSubmitting = false;
       }
     });
   }

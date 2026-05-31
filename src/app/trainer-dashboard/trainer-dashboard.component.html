@@ -4,74 +4,199 @@
     <div class="logo-search">
       <div class="logo"><img src="assets/logo.webp" alt="Logo" class="institute-logo"></div>
       <div class="search-wrapper">
-        <input type="search" placeholder="Search curriculum, students..." />
         <i class="fas fa-search"></i>
+        <input type="search" placeholder="Search curriculum, students..." />
       </div>
     </div>
     <div class="header-right">
-      <button class="btn-request" (click)="goToProfileSetupForm()">
-        <i class="fas fa-user-edit"></i> <span>Setup Profile</span>
+      <div class="setup-alert">
+        <i class="fas fa-exclamation-triangle"></i> Finish setting up your trainer profile
+      </div>
+      <button class="btn-settings" (click)="goToProfileSetupForm()">
+        <i class="fas fa-cog"></i> Settings
       </button>
     </div>
   </header>
 
+  <!-- DASHBOARD CONTENT -->
   <div class="dashboard-grid">
+    <!-- FLOATING SIDEBAR -->
     <aside class="sidebar">
       <nav class="sidebar-nav">
-        <a [class.active]="activePage === 'dashboard'" (click)="setActivePage('dashboard')">
-          <i class="fas fa-home"></i> <span>Home</span>
+        <a [class.active]="activePage === 'dashboard'" (click)="setActivePage('dashboard')" title="Dashboard">
+          <i class="fas fa-home"></i> <span>Dashboard</span>
         </a>
-        <a [class.active]="activePage === 'batches'" (click)="setActivePage('batches')">
+        <a [class.active]="activePage === 'batches'" (click)="setActivePage('batches')" title="Batches">
           <i class="fas fa-users"></i> <span>Batches</span>
         </a>
-        <a [class.active]="activePage === 'shorts'" (click)="setActivePage('shorts')" style="color: #ec4899;">
-          <i class="fas fa-play-circle" style="font-size: 26px;"></i> <span>Shorts</span>
+        <a [class.active]="activePage === 'shorts'" (click)="setActivePage('shorts')" title="Learning">
+          <i class="fas fa-play-circle"></i> <span>Learning</span>
         </a>
-        <a [class.active]="activePage === 'generate-resume'" (click)="goToResumeView()">
-          <i class="fas fa-file-alt"></i> <span>Resume</span>
+        <a [class.active]="activePage === 'generate-resume'" (click)="goToResumeView()" title="Reports">
+          <i class="fas fa-file-alt"></i> <span>Reports</span>
         </a>
-        <a [class.active]="activePage === 'syntaxshare'" (click)="setActivePage('syntaxshare')">
+        <a [class.active]="activePage === 'syntaxshare'" (click)="setActivePage('syntaxshare')" title="Doubt Hub">
           <i class="fas fa-comments"></i> <span>Doubt Hub</span>
         </a>
-        <a (click)="logout()" class="logout-link" style="color: #ef4444; margin-top: auto;">
+        <a (click)="logout()" class="logout-btn" title="Logout">
           <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
         </a>
       </nav>
     </aside>
-
     <main class="main-content">
       <ng-container *ngIf="activePage === 'dashboard'">
-        <!-- Profile Section -->
-        <section class="premium-profile-card">
-          <div class="profile-content-wrapper">
-            <div class="profile-upload-container" (click)="triggerProfileUpload()">
-              <div class="premium-profile-ring">
-                <div class="attractive-profile-circle">
-                  <img *ngIf="uploadedProfileImage" [src]="uploadedProfileImage" class="uploaded-profile-img">
-                  <span *ngIf="!uploadedProfileImage" class="profile-initial-text">{{ profileInitial }}</span>
-                </div>
-              </div>
+        
+        <!-- Profile Card -->
+        <section class="profile-card">
+          <div class="profile-info-wrap">
+            <div class="profile-avatar-box" (click)="triggerProfileUpload()">
+              <img *ngIf="uploadedProfileImage" [src]="uploadedProfileImage" class="uploaded-profile-img">
+              <span *ngIf="!uploadedProfileImage">{{ profileInitial }}</span>
               <input type="file" #fileInput (change)="onProfileImageSelected($event)" style="display: none;">
             </div>
-            <div class="profile-text-content">
-              <span class="status-badge">Senior Trainer</span>
-              <h2 class="student-name-text">{{ trainerName }}</h2>
-              <p class="greeting-message">{{ greeting }}</p>
-              <div class="date-badge"><i class="far fa-calendar-alt"></i> {{ currentDayOfWeek }}, {{ currentDay }} {{ currentMonth }}</div>
+            <div class="p-text">
+              <span class="role-tag">Senior Trainer</span>
+              <h2>{{ trainerName }}</h2>
+              <span class="date-tag"><i class="far fa-calendar"></i> {{ currentDayOfWeek }}, {{ currentDay }} {{ currentMonth }}</span>
+            </div>
+          </div>
+          <div class="profile-stats-mini">
+            <div class="mini-stat">
+              <i class="fas fa-layer-group"></i>
+              <div class="ms-info">
+                <span class="ms-val">{{ trainerAssignedBatches.length }}</span>
+                <span class="ms-label">Batches</span>
+              </div>
+            </div>
+            <div class="mini-stat">
+              <i class="fas fa-video"></i>
+              <div class="ms-info">
+                <span class="ms-val">2</span>
+                <span class="ms-label">Classes Today</span>
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- Stats Grid -->
-        <section class="stats-cards-container">
-          <div *ngFor="let card of quickAccessCards" class="stat-card" [ngClass]="card.colorClass" (click)="handleQuickCardClick(card.route)">
-            <p class="title">{{ card.title }}</p>
-            <p class="value">{{ card.value }}</p>
-            <div class="footer-info"><span>{{ card.subText }}</span><i [class]="card.icon" [style.color]="card.color"></i></div>
+        <!-- Quick Actions -->
+        <section class="quick-actions-row">
+          <div class="action-card purple" (click)="openJoinMeetingModal()">
+            <div class="action-icon"><i class="fas fa-video"></i></div>
+            <div class="info">
+              <h4>Host Session</h4>
+              <p>Start Meeting</p>
+            </div>
+            <i class="fas fa-chevron-right arrow"></i>
+          </div>
+          <div class="action-card pink" (click)="setActivePage('batches')">
+            <div class="action-icon"><i class="fas fa-clipboard-check"></i></div>
+            <div class="info">
+              <h4>Review Work</h4>
+              <p>Pending Reviews</p>
+            </div>
+            <i class="fas fa-chevron-right arrow"></i>
+          </div>
+          <div class="action-card blue" (click)="setActivePage('syntaxshare')">
+            <div class="action-icon"><i class="fas fa-comments"></i></div>
+            <div class="info">
+              <h4>Resolve Queries</h4>
+              <p>Pending Queries</p>
+            </div>
+            <i class="fas fa-chevron-right arrow"></i>
           </div>
         </section>
+
+        <!-- Analytics Grid -->
+        <section class="analytics-grid">
+          <div class="analytic-white-card" style="border-bottom: 4px solid var(--primary-purple);">
+            <div class="awc-header">
+              <div class="awc-icon" style="background: rgba(75, 63, 143, 0.15); color: var(--primary-purple);"><i class="fas fa-user-graduate"></i></div>
+              <span>Total Students</span>
+            </div>
+            <div class="awc-val">
+              <h3>148</h3>
+              <span class="sub">Active enrollment</span>
+            </div>
+          </div>
+          <div class="analytic-white-card" style="border-bottom: 4px solid var(--primary-purple);">
+            <div class="awc-header">
+              <div class="awc-icon" style="background: rgba(75, 63, 143, 0.15); color: var(--primary-purple);"><i class="fas fa-exclamation-triangle"></i></div>
+              <span>Students At Risk</span>
+            </div>
+            <div class="awc-val">
+              <h3>12</h3>
+              <span class="sub">Needs attention</span>
+            </div>
+          </div>
+          <div class="analytic-white-card" style="border-bottom: 4px solid var(--primary-purple);">
+            <div class="awc-header">
+              <div class="awc-icon" style="background: rgba(75, 63, 143, 0.15); color: var(--primary-purple);"><i class="fas fa-chart-line"></i></div>
+              <span>Avg Performance</span>
+            </div>
+            <div class="awc-val">
+              <h3>72%</h3>
+              <span class="sub">Current average</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- AI Tip Banner V2 -->
+        <section class="ai-tip-v2">
+          <div class="ai-icon-circle">
+            <i class="fas fa-brain"></i>
+          </div>
+          <div class="content">
+            <h5>AI Teaching Tip</h5>
+            <p>Focus on students scoring below 60% — schedule a revision session this week.</p>
+          </div>
+          <button class="ai-refresh-btn"><i class="fas fa-sync-alt"></i></button>
+        </section>
+
+        <!-- PERFORMANCE ANALYTICS SECTION (NEW) -->
+        <div class="section-title-wrap">
+            <i class="fas fa-chart-area"></i>
+            <h3>Performance Analytics</h3>
+        </div>
+        <section class="analytics-detailed-grid">
+            <div class="detailed-card">
+                <div class="dc-header">
+                    <span>Course Progress</span>
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="dc-val">58%</div>
+                <div class="dc-progress-bg"><div class="dc-progress-bar" style="width: 58%; background: var(--primary-purple);"></div></div>
+                <span class="dc-footer">Curriculum coverage</span>
+            </div>
+            <div class="detailed-card">
+                <div class="dc-header">
+                    <span>Pending Queries</span>
+                    <i class="fas fa-question-circle" style="color: var(--primary-purple);"></i>
+                </div>
+                <div class="dc-val">7</div>
+                <button class="dc-action-btn" (click)="setActivePage('syntaxshare')">Resolve Now</button>
+            </div>
+            <div class="detailed-card">
+                <div class="dc-header">
+                    <span>Pending Reviews</span>
+                    <i class="fas fa-tasks" style="color: var(--primary-purple);"></i>
+                </div>
+                <div class="dc-val">12</div>
+                <button class="dc-action-btn orange" (click)="setActivePage('batches')">Grade Now</button>
+            </div>
+            <div class="detailed-card">
+                <div class="dc-header">
+                    <span>High Performers</span>
+                    <i class="fas fa-trophy" style="color: var(--primary-purple);"></i>
+                </div>
+                <div class="dc-val">81%</div>
+                <div class="dc-progress-bg"><div class="dc-progress-bar" style="width: 81%; background: var(--primary-purple);"></div></div>
+                <span class="dc-footer">Scoring above 60%</span>
+            </div>
+        </section>
+
       </ng-container>
 
+      <!-- Subpages -->
       <ng-container *ngIf="activePage === 'batches'">
         <app-course-batch-management 
           [userId]="trainerId" 
@@ -80,67 +205,82 @@
         </app-course-batch-management>
       </ng-container>
 
-      <ng-container *ngIf="activePage === 'shorts'"><div class="no-data">Shorts Content Loading...</div></ng-container>
-      
+      <ng-container *ngIf="activePage === 'shorts'">
+        <app-learning-hub></app-learning-hub>
+      </ng-container>
       <ng-container *ngIf="activePage === 'generate-resume'">
           <app-generate-ats-resume [isDashboardEmbed]="true"></app-generate-ats-resume>
       </ng-container>
-
       <ng-container *ngIf="activePage === 'syntaxshare'"><app-syntaxshare></app-syntaxshare></ng-container>
     </main>
 
-    <aside class="right-schedule-card">
-      <div class="current-time-display"><p class="current-time-text">{{ currentTime }}</p></div>
-      <div class="calendar-controls">
-        <button (click)="navigateCalendar(-1)">&lt;</button>
-        <p>{{ selectedMonthYear }}</p>
-        <button (click)="navigateCalendar(1)">&gt;</button>
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel">
+      <div class="panel-tabs">
+        <div class="p-tab" [class.active]="activeTab === 'Schedule'" (click)="activeTab = 'Schedule'">Schedule</div>
+        <div class="p-tab" [class.active]="activeTab === 'Deadlines'" (click)="activeTab = 'Deadlines'">Deadlines</div>
+        <div class="p-tab" [class.active]="activeTab === 'Queries'" (click)="activeTab = 'Queries'">Queries</div>
       </div>
-      <div class="calendar-weekdays"><div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div></div>
-      <div class="calendar-days">
-        <div *ngFor="let day of calendarDays" [class.inactive]="day.disabled" [class.active]="day.selected" (click)="!day.disabled && onDateSelect(day.fullDate)">{{ day.date }}</div>
+
+      <div *ngIf="activeTab === 'Schedule'">
+        <div class="calendar-widget">
+          <div class="cal-header">
+            <button (click)="navigateCalendar(-1)" class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+            <h4>{{ selectedMonthYear }}</h4>
+            <button (click)="navigateCalendar(1)" class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-day-label">Mon</div><div class="cal-day-label">Tue</div><div class="cal-day-label">Wed</div><div class="cal-day-label">Thu</div><div class="cal-day-label">Fri</div><div class="cal-day-label">Sat</div><div class="cal-day-label">Sun</div>
+            <div *ngFor="let day of calendarDays" 
+                 class="cal-date"
+                 [class.inactive]="day.disabled" 
+                 [class.active]="day.selected" 
+                 (click)="!day.disabled && onDateSelect(day.fullDate)">
+                 {{ day.date }}
+            </div>
+          </div>
+        </div>
+
+        <div class="agenda-section">
+          <h5><i class="far fa-calendar-alt"></i> Today's Agenda</h5>
+          <div *ngIf="scheduleDetails.length === 0" class="no-agenda">No items for today.</div>
+          <div *ngFor="let item of scheduleDetails" class="agenda-item">
+            <div class="agenda-info">
+              <h6>{{ item.desc }}</h6>
+              <span>10:00 AM</span>
+            </div>
+            <div class="agenda-action" (click)="openJoinMeetingModal()"><i class="fas fa-video"></i></div>
+          </div>
+        </div>
       </div>
-      <div class="schedule-list">
-        <h5>Today's Schedule</h5>
-        <div *ngIf="scheduleDetails.length === 0" class="no-schedule-message">No live sessions for today.</div>
+
+      <div *ngIf="activeTab === 'Deadlines'" class="tab-placeholder">
+        <p>No upcoming deadlines.</p>
+      </div>
+      
+      <div *ngIf="activeTab === 'Queries'" class="tab-placeholder">
+        <p>No pending queries for today.</p>
+      </div>
+
+      <div class="bottom-clock">
+        {{ currentTime }}
       </div>
     </aside>
   </div>
 
-  <!-- Profile Completion Modal -->
-  <div *ngIf="showProfileCompletionModal" class="modal-overlay">
-    <div class="premium-modal">
-      <div class="modal-header" style="text-align: center; margin-bottom: 20px;">
-        <div class="header-icon" style="font-size: 50px; color: #6366f1; margin-bottom: 15px;">
-          <i class="fas fa-user-circle"></i>
-        </div>
-        <h2 style="margin: 0; color: #1e293b;">Profile Incomplete!</h2>
-        <p style="color: #64748b; margin-top: 10px;">Please update your details to unlock all features of the trainer dashboard.</p>
-      </div>
-      <div class="modal-footer" style="display: flex; flex-direction: column; gap: 10px;">
-        <button class="btn-submit" (click)="goToProfileSetupForm()" style="width: 100%;">
-          Update Profile Now
-        </button>
-        <button class="btn-cancel" (click)="dismissProfileCompletionModal()" style="width: 100%; background: transparent;">
-          Maybe Later
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Join Meeting Modal -->
   <div *ngIf="showJoinMeetingModal" class="modal-overlay">
-    <div class="premium-exam-modal" style="max-width: 500px; background: white; border-radius: 24px; padding: 25px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h3 style="margin: 0;"><i class="fas fa-video" style="color: #10B981;"></i> Host Session</h3>
-        <button (click)="closeJoinMeetingModal()" style="border: none; background: #f1f5f9; border-radius: 8px; width: 32px; height: 32px; cursor: pointer;"><i class="fas fa-times"></i></button>
+    <div class="premium-exam-modal">
+      <div class="modal-top">
+        <h3><i class="fas fa-video"></i> Host Session</h3>
+        <button (click)="closeJoinMeetingModal()" class="close-btn"><i class="fas fa-times"></i></button>
       </div>
-      <div *ngFor="let b of selectedBatchDetails" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #f1f5f9; border-radius: 12px; margin-bottom: 10px;">
-        <div>
-          <div style="font-weight: 700;">{{ b.batch_name }}</div>
-          <div style="font-size: 12px; color: #64748b;">{{ b.timing }} • {{ b.mode }}</div>
+      <div *ngFor="let b of selectedBatchDetails" class="batch-item">
+        <div class="batch-info">
+          <div class="batch-name">{{ b.batch_name }}</div>
+          <div class="batch-time">{{ b.timing }} • {{ b.mode }}</div>
         </div>
-        <button (click)="joinMeeting(b.zoom_join_url)" style="background: #10B981; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-size: 12px; font-weight: 600;">Start</button>
+        <button (click)="joinMeeting(b.zoom_join_url)" class="start-btn">Start</button>
       </div>
     </div>
   </div>

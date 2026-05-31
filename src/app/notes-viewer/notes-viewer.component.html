@@ -1,0 +1,110 @@
+<app-header></app-header>
+
+<div class="notes-container">
+  
+  <!-- Sidebar -->
+  <aside class="notes-sidebar" [class.closed]="!isSidebarOpen">
+    <div class="sidebar-header">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" placeholder="Search notes..." [(ngModel)]="searchQuery" (input)="onSearch()">
+      </div>
+    </div>
+
+    <!-- Search Results -->
+    <div class="search-results-dropdown" *ngIf="searchResults.length > 0">
+      <div class="search-result-item" *ngFor="let res of searchResults" (click)="selectSearchResult(res)">
+        <span class="res-topic">{{res.topicId | uppercase}}</span>
+        <span class="res-chapter">{{res.chapter.title}}</span>
+      </div>
+    </div>
+
+    <div class="sidebar-content">
+      <div class="topic-group" *ngFor="let topic of topics">
+        <div class="topic-header" (click)="selectTopic(topic)" [class.active-topic]="currentTopic?.id === topic.id">
+          <i [class]="topic.icon"></i>
+          <span>{{topic.title}}</span>
+        </div>
+        
+        <div class="chapter-list" *ngIf="currentTopic?.id === topic.id">
+          <div class="chapter-item" 
+               *ngFor="let chap of topic.chapters" 
+               [class.active-chapter]="currentChapter?.id === chap.id"
+               (click)="selectChapter(chap)">
+               
+            <i class="fas fa-bookmark bookmark-icon" *ngIf="notesService.isBookmarked(topic.id, chap.id)"></i>
+            <span class="chap-title">{{chap.title}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="notes-main">
+    
+    <!-- Topbar -->
+    <div class="notes-topbar">
+      <button class="toggle-btn" (click)="toggleSidebar()" title="Toggle Sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <button class="back-home-btn" (click)="goBack()" title="Back to Home">
+        <i class="fas fa-arrow-left"></i> Home
+      </button>
+      
+      <div class="breadcrumbs" *ngIf="currentTopic && currentChapter">
+        <span>{{currentTopic.title}}</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="current-crumb">{{currentChapter.title}}</span>
+      </div>
+
+      <div class="topbar-actions" *ngIf="currentTopic && currentChapter">
+        <span class="eta-badge"><i class="far fa-clock"></i> {{currentChapter.estimatedMinutes}} min read</span>
+        <button class="action-btn bookmark-btn" [class.bookmarked]="isCurrentBookmarked()" (click)="toggleBookmark()" title="Bookmark this chapter">
+          <i class="fa-bookmark" [class.fas]="isCurrentBookmarked()" [class.far]="!isCurrentBookmarked()"></i>
+        </button>
+        <button class="action-btn download-btn" title="Download PDF Version">
+          <i class="fas fa-file-pdf"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Reader Area -->
+    <div class="notes-content-area" *ngIf="currentTopic && currentChapter">
+      <div class="reader-glass-card">
+        
+        <div class="reader-header">
+          <h1>{{currentChapter.title}}</h1>
+        </div>
+
+        <div class="reader-body" [innerHTML]="currentChapter.content">
+          <!-- Content is injected here -->
+        </div>
+
+        <!-- Footer Navigation -->
+        <div class="reader-footer">
+          <button class="nav-btn prev-btn" *ngIf="getPrevChapter()" (click)="selectChapter(getPrevChapter()!)">
+            <i class="fas fa-arrow-left"></i> Previous: {{getPrevChapter()?.title}}
+          </button>
+          <div class="spacer" *ngIf="!getPrevChapter()"></div>
+
+          <button class="nav-btn next-btn" *ngIf="getNextChapter()" (click)="selectChapter(getNextChapter()!)">
+            Next: {{getNextChapter()?.title}} <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+    
+    <!-- Empty State -->
+    <div class="notes-empty-state" *ngIf="!currentChapter">
+      <i class="fas fa-book-reader empty-icon"></i>
+      <h2>Select a topic to start learning</h2>
+      <p>Dive into deep, professional-grade educational material.</p>
+    </div>
+
+  </main>
+
+</div>
+<app-footer></app-footer>

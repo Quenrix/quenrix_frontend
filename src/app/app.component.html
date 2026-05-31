@@ -1,1 +1,26 @@
 <router-outlet></router-outlet>
+
+<!-- Chat Popup -->
+<div class="chat-popup-container" [class.open]="isChatOpen" [class.moved-up]="isScrolled">
+
+  <div class="chat-popup-header">
+    <div class="chat-header-info">
+      <img src="assets/chatbot.png" class="header-bot-icon" alt="Bot">
+      <div class="header-text">
+        <span class="bot-name">QUENRIX Assistant</span>
+        <span class="bot-status">Online</span>
+      </div>
+    </div>
+    <button class="close-chat-btn" (click)="toggleChat()">×</button>
+  </div>
+
+  <div class="chat-content-area">
+    <app-chatbot></app-chatbot>
+  </div>
+</div>
+
+<!-- Chat Trigger -->
+<div class="chat-bot-trigger" [class.moved-up]="isScrolled" [class.active]="isChatOpen" (click)="toggleChat()">
+  <img *ngIf="!isChatOpen" src="assets/chatbot.png" alt="Chat" class="chat-bot-img fadeIn">
+  <span *ngIf="isChatOpen" class="close-icon fadeIn">✕</span>
+</div>

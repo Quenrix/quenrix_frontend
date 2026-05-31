@@ -1,15 +1,24 @@
 <section class="demo-classes-section">
+  <!-- Glowing Neural Nodes Background -->
+  <div class="neural-node node-bottom-left"></div>
+  <div class="neural-node node-top-right"></div>
+  <div class="bg-grid"></div>
+
   <div class="container">
-    <div class="section-heading">
+    <div class="section-heading" data-aos="fade-up">
       <h2 class="section-title">Watch Our Free Demo Classes</h2>
       <p class="section-subtitle">Experience world-class teaching before you enroll.</p>
     </div>
+
     <div class="demo-grid">
       <article
         class="demo-card"
-        *ngFor="let video of demoVideos"
+        *ngFor="let video of demoVideos; let i = index"
         [class.is-flipped]="flippedCards[video.youtubeVideoId]"
+        [attr.data-aos]="(i % 4) < 2 ? 'fade-right' : 'fade-left'"
+        [attr.data-aos-delay]="((i % 4) < 2 ? (i % 4) : (3 - (i % 4))) * 150"
       >
+
         <div class="demo-card-inner">
           <div class="demo-card-face demo-card-front">
             <div class="thumbnail-container">
@@ -34,19 +43,6 @@
               <h3 class="video-title">{{ video.title }}</h3>
               <p class="video-instructor">Instructor: {{ video.instructor }}</p>
               <p class="video-short-description">{{ video.shortDescription }}</p>
-
-              <p class="video-full-description" *ngIf="expandedCards[video.youtubeVideoId]">
-                {{ video.fullDescription }}
-              </p>
-
-              <div class="video-actions">
-                <button
-                  type="button"
-                  class="read-more-btn"
-                  (click)="toggleReadMore(video.youtubeVideoId, $event)">
-                  {{ expandedCards[video.youtubeVideoId] ? 'Show Less' : 'Read More' }}
-                </button>
-              </div>
             </div>
           </div>
 

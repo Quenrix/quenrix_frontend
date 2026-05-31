@@ -1,0 +1,118 @@
+<section class="catalog-section">
+  <!-- Glowing Neural Nodes Background -->
+  <div class="neural-node node-bottom-left"></div>
+  <div class="neural-node node-top-right"></div>
+  <div class="bg-grid"></div>
+  
+  <!-- Purple Glowing Particles -->
+  <div class="particles-container">
+    <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]"></div>
+  </div>
+
+  <div class="catalog-container">
+    
+    <!-- Back Navigation -->
+    <div class="back-nav" data-aos="fade-right">
+      <button class="back-btn" (click)="goBackHome()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Home
+      </button>
+    </div>
+
+    <!-- Header -->
+    <div class="catalog-header" data-aos="fade-up">
+      <h1 class="catalog-title">Master New Skills</h1>
+      <p class="catalog-subtitle">Choose your path from our curated list of expert-led courses</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="catalog-search-wrapper" data-aos="fade-up" data-aos-delay="100">
+      <span class="search-icon">🔍</span>
+      <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" class="catalog-search" placeholder="Search">
+    </div>
+
+    <div class="catalog-layout">
+      <!-- Sidebar Filters -->
+      <aside class="catalog-sidebar" data-aos="fade-right" data-aos-delay="200">
+        
+        <div class="filter-group">
+          <h3 class="filter-title">Category</h3>
+          <ul class="filter-list">
+            <li [class.active]="selectedCategory === 'programming'" (click)="setCategory('programming')">Programming <span class="arrow">›</span></li>
+            <li [class.active]="selectedCategory === 'data'" (click)="setCategory('data')">Data & AI <span class="arrow">›</span></li>
+            <li [class.active]="selectedCategory === 'design'" (click)="setCategory('design')">Design <span class="arrow">›</span></li>
+            <li [class.active]="selectedCategory === 'business'" (click)="setCategory('business')">Business <span class="arrow">›</span></li>
+          </ul>
+        </div>
+
+        <div class="filter-group">
+          <h3 class="filter-title">Difficulty Level</h3>
+          <ul class="filter-list">
+            <li [class.active]="selectedLevel === 'beginner'" (click)="setLevel('beginner')">Beginner <span class="arrow">›</span></li>
+            <li [class.active]="selectedLevel === 'intermediate'" (click)="setLevel('intermediate')">Intermediate <span class="arrow">›</span></li>
+            <li [class.active]="selectedLevel === 'advanced'" (click)="setLevel('advanced')">Advanced <span class="arrow">›</span></li>
+          </ul>
+        </div>
+
+      </aside>
+
+      <!-- Main Course Grid -->
+      <main class="catalog-main">
+        
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="loading-state">
+          <div class="spinner"></div>
+        </div>
+
+        <!-- No Results -->
+        <div *ngIf="!isLoading && filteredCourses.length === 0" class="no-results" data-aos="fade-up">
+          <p>No courses found matching your criteria.</p>
+        </div>
+
+        <!-- Course Grid -->
+        <div *ngIf="!isLoading" class="course-grid">
+          <div *ngFor="let course of displayedCourses; let i = index" class="catalog-course-card" data-aos="fade-up" [attr.data-aos-delay]="100 + (i * 50)">
+            <div class="card-border-ring"></div>
+            
+            <div class="card-header">
+              <div class="course-icon">{{ course.icon }}</div>
+              <h3 class="course-title">{{ course.title }}</h3>
+            </div>
+            
+            <div class="card-body">
+              <h4 class="syllabus-heading">Course Syllabus</h4>
+              <ul class="syllabus-list">
+                <li *ngFor="let item of course.syllabus"><span class="bullet">•</span> {{ item }}</li>
+              </ul>
+            </div>
+            
+            <div class="card-footer">
+              <div class="instructor-info">
+                <img [src]="course.instructorAvatar" alt="Instructor" class="instructor-avatar" onerror="this.src='assets/icon.webp'">
+                <div class="instructor-meta">
+                  <span class="instructor-name">{{ course.instructor }}</span>
+                </div>
+              </div>
+              <div class="duration-info">
+                <span class="icon-clock">⏱️</span> {{ course.duration }}
+              </div>
+            </div>
+            
+            <div class="card-actions">
+              <button class="btn-primary" style="width: 100%;" (click)="onEnrollNow()">Enroll Now</button>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Read More / Read Less Buttons -->
+        <div *ngIf="!isLoading && filteredCourses.length > 4" class="read-more-container" data-aos="fade-up">
+          <button *ngIf="!showAll" class="read-more-btn" (click)="toggleShowAll()">Read More</button>
+          <button *ngIf="showAll" class="read-more-btn" (click)="toggleShowAll()">Read Less</button>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+</section>

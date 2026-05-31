@@ -21,11 +21,11 @@ describe('HeroSectionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call onStartAssessment when primary button is clicked', () => {
-    spyOn(component, 'onStartAssessment');
+  it('should call onAboutClick when primary button is clicked', () => {
+    spyOn(component, 'onAboutClick');
     const button = fixture.nativeElement.querySelector('.btn-primary');
     button.click();
-    expect(component.onStartAssessment).toHaveBeenCalled();
+    expect(component.onAboutClick).toHaveBeenCalled();
   });
 
   it('should display About Quenrix on primary button', () => {
@@ -51,7 +51,7 @@ describe('HeroSectionComponent', () => {
   });
 
   it('should have correct file name in editor header', () => {
-    const fileName = fixture.nativeElement.querySelector('.file-name');
-    expect(fileName.textContent).toContain('app.js');
+    const fileName = fixture.nativeElement.querySelector('.editor-tabs');
+    expect(fileName.textContent).toContain('index.js');
   });
 });

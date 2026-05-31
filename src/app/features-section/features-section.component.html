@@ -1,0 +1,193 @@
+<section class="fs" #sectionRef>
+
+  <!-- Mouse-follow glow -->
+  <div class="mouse-glow" #mouseGlow></div>
+
+  <!-- Particle canvas -->
+  <canvas class="particle-canvas" #canvas></canvas>
+
+  <!-- Animated blob mesh -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Grid overlay -->
+  <div class="grid-overlay"></div>
+
+  <div class="fs-inner">
+
+    <!-- ── Section Header ───────────────────────────────── -->
+    <div class="fs-header" [class.visible]="headerVisible">
+
+      <div class="fs-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span>Platform Features</span>
+        <span class="eyebrow-line"></span>
+      </div>
+
+      <h2 class="fs-title">
+        Everything You Need to<br>
+        <span class="title-grad">Get Hired Faster</span>
+      </h2>
+
+      <p class="fs-sub">
+        AI-powered tools, expert mentorship, and real-world practice —
+        <br class="desktop-br">engineered to accelerate your tech career.
+      </p>
+
+      <div class="header-glow-divider">
+        <span class="divider-line"></span>
+        <span class="divider-diamond"></span>
+        <span class="divider-line"></span>
+      </div>
+
+    </div>
+
+    <!-- ── Feature Cards ────────────────────────────────── -->
+    <div class="fs-grid">
+      <div
+        *ngFor="let f of features; let i = index"
+        class="fc"
+        [class.visible]="cardsVisible"
+        [style]="f.accentVar"
+        [style.transition-delay]="(i * 60) + 'ms'"
+        #cardEl
+        (mousemove)="onCardMouseMove($event, cardEl)"
+        (mouseleave)="onCardMouseLeave(cardEl)"
+      >
+        <!-- Animated border ring -->
+        <div class="fc-ring"></div>
+
+        <!-- Inner glow (follows mouse) -->
+        <div class="card-inner-glow"></div>
+
+        <!-- Top accent line -->
+        <div class="fc-top-line"></div>
+
+        <!-- Icon / Illustration -->
+        <div class="fc-icon">
+          <div class="icon-ring"></div>
+          
+          <!-- AI Mentor -->
+          <img *ngIf="f.id === 'ai'" src="assets/ai_mentor_support.png" [alt]="f.title" class="fc-img">
+          
+          <!-- Premium Notes -->
+          <img *ngIf="f.id === 'notes'" src="assets/premium_notes.png" [alt]="f.title" class="fc-img">
+          
+          <!-- Mock Interviews -->
+          <img *ngIf="f.id === 'interview'" src="assets/mock_interviews.png" [alt]="f.title" class="fc-img">
+          
+          <!-- DSA Problems -->
+          <img *ngIf="f.id === 'coding'" src="assets/dsa_problems.png" [alt]="f.title" class="fc-img">
+          
+          <!-- ATS Resume -->
+          <img *ngIf="f.id === 'resume'" src="assets/ats_resume_templates.png" [alt]="f.title" class="fc-img">
+          
+          <!-- Placement Assistance -->
+          <img *ngIf="f.id === 'placement'" src="assets/placement_assistance.png" [alt]="f.title" class="fc-img">
+          
+          <!-- Real Industry Projects -->
+          <img *ngIf="f.id === 'projects'" src="assets/real_industry_projects.png" [alt]="f.title" class="fc-img">
+          
+          <!-- Skill Certificates -->
+          <img *ngIf="f.id === 'cert'" src="assets/skill_certificates.png" [alt]="f.title" class="fc-img">
+        </div>
+
+        <!-- Content -->
+        <h3 class="fc-title">{{ f.title }}</h3>
+        <p class="fc-desc">{{ f.desc }}</p>
+
+        <!-- Footer -->
+        <div class="fc-foot">
+          <div class="fc-stat">
+            <span class="stat-num">{{ f.stat }}</span>
+            <span class="stat-lbl">{{ f.statLabel }}</span>
+          </div>
+          <span class="fc-tag">{{ f.tag }}</span>
+          <span class="fc-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- ── Career growth calculator widget ──────────────── -->
+    <div class="career-calculator-container" data-aos="fade-up">
+      <div class="calculator-header">
+        <span class="calc-badge"><i class="fas fa-chart-line mr-1"></i> Interactive Predictor</span>
+        <h2>Estimate Your Career & Salary Potential</h2>
+        <p>Use our active corporate predictor to visualize your growth trajectory after graduating from Quenrix.</p>
+      </div>
+
+      <div class="calculator-grid">
+        <!-- Controls (Left Column) -->
+        <div class="calc-controls">
+          <div class="control-group">
+            <label class="control-label">Select Specialization</label>
+            <select [(ngModel)]="selectedCourse" (change)="onCalculatorChange()" class="calc-select">
+              <option value="fullstack">Full Stack Web Development</option>
+              <option value="datascience">Data Science & AI/ML</option>
+              <option value="cybersecurity">Cyber Security Masterclass</option>
+              <option value="cloud">Cloud Computing & DevOps</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <div class="flex justify-between items-center mb-2">
+              <label class="control-label m-0">Years of Experience</label>
+              <span class="exp-val-badge">{{ experienceYears }} Years</span>
+            </div>
+            <input 
+              type="range" 
+              min="0" 
+              max="10" 
+              [(ngModel)]="experienceYears" 
+              (input)="onCalculatorChange()" 
+              class="calc-slider"
+            >
+            <div class="slider-marks">
+              <span>Beginner</span>
+              <span>Mid-Level</span>
+              <span>Lead Architect</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Predictor Results (Right Column) -->
+        <div class="calc-results">
+          <div class="result-card">
+            <span class="res-lbl">Estimated Salary Range</span>
+            <div class="salary-display">
+              <span class="salary-val">{{ estimatedSalary }}</span>
+              <span class="salary-unit">LPA</span>
+            </div>
+            <div class="salary-bar-container">
+              <div class="salary-bar-fill" [style.width.%]="(estimatedSalary / 32) * 100"></div>
+            </div>
+            <p class="salary-subtext">Calculated using recent student placement stats & hiring partner contracts.</p>
+          </div>
+
+          <div class="details-card">
+            <div class="detail-row">
+              <span class="det-lbl"><i class="fas fa-briefcase text-purple-400 mr-2"></i> Predicted Role:</span>
+              <strong class="det-val">{{ potentialRole }}</strong>
+            </div>
+            <div class="detail-row">
+              <span class="det-lbl"><i class="fas fa-building text-cyan-400 mr-2"></i> Top Hiring Companies:</span>
+              <strong class="det-val">{{ hiringCompanies }}</strong>
+            </div>
+            <div class="detail-row">
+              <span class="det-lbl"><i class="fas fa-code text-pink-400 mr-2"></i> Core Skills Needed:</span>
+              <div class="calc-skills-wrap">
+                <span *ngFor="let skill of requiredSkills" class="calc-skill-tag">{{ skill }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

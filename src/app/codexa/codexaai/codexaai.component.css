@@ -1,23 +1,24 @@
 :host {
-  --primary: #2563eb;
-  --bg-main: #ffffff;
-  --bg-secondary: #f8fafc;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --primary: #8B5CF6;
+  --bg-main: rgba(255, 255, 255, 0.8);
+  --bg-secondary: rgba(245, 243, 255, 0.85);
+  --text-main: #1F2937;
+  --text-muted: #6B7280;
+  --border-color: #E9D5FF;
+  --shadow-sm: 0 8px 20px rgba(139, 92, 246, 0.12);
 }
 
 .full-codexa-ai {
   height: 100%;
   width: 100%;
-  border-radius: 12px;
+  border-radius: 16px;
   background-color: var(--bg-main);
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  box-shadow: 0 16px 30px rgba(139, 92, 246, 0.18);
+  backdrop-filter: blur(16px);
 }
 
 /* Header */
@@ -27,7 +28,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .header-info {
@@ -39,9 +40,9 @@
 .ai-status {
   width: 8px;
   height: 8px;
-  background: #10b981;
+  background: var(--primary);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 .header-title {
@@ -61,8 +62,8 @@
 }
 
 .clear-btn:hover {
-  background: var(--bg-secondary);
-  color: #ef4444;
+  background: rgba(139, 92, 246, 0.12);
+  color: var(--primary);
 }
 
 /* Chat Area */
@@ -73,7 +74,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: #fcfcfd;
+  background: rgba(245, 243, 255, 0.6);
 }
 
 .msg-row {
@@ -91,17 +92,17 @@
   font-size: 14px;
   line-height: 1.5;
   position: relative;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 20px rgba(139, 92, 246, 0.12);
 }
 
 .user-msg {
-  background-color: var(--primary);
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
   color: white;
   border-bottom-right-radius: 2px;
 }
 
 .codexa-msg {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   color: var(--text-main);
   border: 1px solid var(--border-color);
   border-bottom-left-radius: 2px;
@@ -116,8 +117,8 @@
 
 /* Markdown styling inside bubble */
 .msg-content ::ng-deep pre {
-  background: #1e293b;
-  color: #f8fafc;
+  background: #1f1b3a;
+  color: #f8f7ff;
   padding: 10px;
   border-radius: 6px;
   overflow-x: auto;
@@ -132,7 +133,7 @@
 /* Input Section */
 .input-container {
   padding: 16px;
-  background: white;
+  background: rgba(255, 255, 255, 0.85);
   border-top: 1px solid var(--border-color);
 }
 
@@ -140,7 +141,7 @@
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  background: var(--bg-secondary);
+  background: rgba(245, 243, 255, 0.9);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 8px 12px;
@@ -149,7 +150,7 @@
 
 .input-wrapper:focus-within {
   border-color: var(--primary);
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .codexa-input {
@@ -167,7 +168,7 @@
 }
 
 .send-btn {
-  background-color: var(--primary);
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
   border: none;
   border-radius: 8px;
   width: 32px;
@@ -180,7 +181,7 @@
 }
 
 .send-btn:disabled {
-  background-color: var(--text-muted);
+  background-color: rgba(167, 139, 250, 0.5);
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -202,7 +203,7 @@
 .typing-indicator span {
   width: 6px;
   height: 6px;
-  background: var(--text-muted);
+  background: rgba(139, 92, 246, 0.6);
   border-radius: 50%;
   animation: bounce 1.4s infinite ease-in-out both;
 }

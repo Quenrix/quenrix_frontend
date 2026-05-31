@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, timeout } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface Note {
@@ -45,16 +45,16 @@ export class ManageNotesService {
     if (subject) params = params.set('subject', subject);
     if (category) params = params.set('category', category);
 
-    return this.http.get<Note[]>(`${this.baseUrl}/list/`, { params });
+    return this.http.get<Note[]>(`${this.baseUrl}/list/`, { params }).pipe(timeout(1500));
   }
 
   // 4. Download Link
   getDownloadLink(id: number): Observable<{download_url: string}> {
-    return this.http.get<{download_url: string}>(`${this.baseUrl}/${id}/download/`);
+    return this.http.get<{download_url: string}>(`${this.baseUrl}/${id}/download/`).pipe(timeout(1500));
   }
 
   // 5. Unique Subjects laao
   getAllSubjects(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/subjects/`);
+    return this.http.get<string[]>(`${this.baseUrl}/subjects/`).pipe(timeout(1500));
   }
 }

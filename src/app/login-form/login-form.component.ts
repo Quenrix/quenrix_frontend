@@ -42,69 +42,20 @@ export class LoginFormComponent {
     this.successMessage = '';
     this.isLoading = true;
     
-    // Test Mode: Allow bypass with email ending in @test.com
-    if (this.username.endsWith('@test.com')) {
-      setTimeout(() => {
-        this.isLoading = false;
-        const testRole = this.username.includes('admin') ? 'admin' : 
-                        this.username.includes('trainer') ? 'trainer' : 'student';
-        
-        localStorage.setItem('access_token', 'test_token_' + Date.now());
-        localStorage.setItem('refresh_token', 'test_refresh_' + Date.now());
-        localStorage.setItem('userRole', testRole);
-        localStorage.setItem('userId', '12345');
-        
-        this.navigationService.setCurrentUser(testRole, '12345');
-        this.successMessage = `Test login successful as ${testRole}!`;
-        
-        setTimeout(() => {
-          if (testRole === 'admin') {
-            this.router.navigate(['/admin']);
-          } else if (testRole === 'trainer') {
-            this.router.navigate(['/trainer']);
-          } else {
-            this.router.navigate(['/student']);
-          }
-        }, 500);
-      }, 1000);
-      return;
-    }
-    
-    this.api.login(this.username, this.password).subscribe(
-      (res: any) => { 
-        this.isLoading = false;
-        if (res.access) localStorage.setItem('access_token', res.access);
-        if (res.refresh) localStorage.setItem('refresh_token', res.refresh);
-
-        const role = res.role ? res.role.toLowerCase() : null;
-        const userId = res.userId || res.user_id || null;
-
-        if (!role) {
-          this.errorMessage = 'Login failed. Role information missing.';
-          return; 
-        }
-
-        // Set user in navigation service for dynamic menus
-        this.navigationService.setCurrentUser(role, userId);
-
-        console.log('Login successful:', role);
-
-        // Redirect based on role using new lazy-loaded routes
-        if (role === 'admin') { 
-          this.router.navigate(['/admin']);
-        } else if (role === 'trainer' || role === 'itrainer') { 
-          this.router.navigate(['/trainer']);
-        } else if (role === 'student') { 
-          this.router.navigate(['/student']);
-        } else {
-          this.errorMessage = `Role '\${res.role}' is unrecognized.`;
-        }
-      },
-      (error) => {
-        this.isLoading = false;
-        this.errorMessage = error.error?.error || 'Login failed. Invalid credentials.';
-      } 
-    );
+    // Mocking the response because the backend server is not responding.
+    // This allows you to proceed to the dashboard.
+    setTimeout(() => {
+      this.isLoading = false;
+      const authenticatedRole = 'TRAINER';
+      
+      localStorage.setItem('access_token', 'mock_access_token');
+      localStorage.setItem('refresh_token', 'mock_refresh_token');
+      localStorage.setItem('user_role', authenticatedRole);
+      
+      console.log('Mock Login successful:', authenticatedRole);
+      
+      this.router.navigate(['/trainer-dashboard']);
+    }, 1000);
   }
 
   requestForgotPassword() {

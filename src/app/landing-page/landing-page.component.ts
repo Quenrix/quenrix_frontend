@@ -1,6 +1,9 @@
+// Trigger recompile
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+
 import { Subscription } from 'rxjs';
 import { UiStateService } from '../services/ui-state.service';
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-landing-page',
@@ -14,6 +17,8 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   // Default view is 'home'
   currentView: string = 'home';
   isAboutModalOpen = false;
+  isAdvisorModalOpen = false;
+
 
   trainers = [
     { name: 'Ravi Verma', specialization: 'Lead Data Scientist', experience: '12 Yrs', rating: '4.9', image: 'https://placehold.co/80x80/2980b9/ffffff?text=RV' },
@@ -22,11 +27,35 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
+    AOS.init({
+      duration: 1000,
+      once: false,
+      easing: 'ease-out-cubic'
+    });
     this.uiSubscription = this.uiService.action$.subscribe((payload) => {
       if (payload.action === 'open-about') {
         this.openAboutModal();
       }
+      if (payload.action === 'open-advisor') {
+        this.openAdvisorModal();
+      }
+      if (payload.action === 'navigate-home') {
+        this.onPageChange('home');
+      }
+      if (payload.action === 'navigate-contact') {
+        this.onPageChange('contact');
+      }
+      if (payload.action === 'open-courses') {
+        this.onPageChange('courses');
+      }
+      if (payload.action === 'navigate-blog') {
+        this.onPageChange('blog');
+      }
+      if (payload.action === 'navigate-careers') {
+        this.onPageChange('careers');
+      }
     });
+
   }
 
   ngOnDestroy(): void {
@@ -50,4 +79,15 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.isAboutModalOpen = false;
     document.body.style.overflow = 'auto';
   }
+
+  openAdvisorModal(): void {
+    this.isAdvisorModalOpen = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeAdvisorModal(): void {
+    this.isAdvisorModalOpen = false;
+    document.body.style.overflow = 'auto';
+  }
+
 }

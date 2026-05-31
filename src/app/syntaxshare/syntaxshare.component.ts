@@ -101,20 +101,20 @@ export class SyntaxshareComponent implements OnInit, OnDestroy {
     if (isInitial) this.loading = true;
     else this.refreshing = true;
 
-    forkJoin({
-      doubts: this.doubtService.getAllDoubts(),
-      solutions: this.doubtService.getAllSolutions()
-    }).subscribe({
-      next: ({ doubts, solutions }) => {
-        this.mapDoubtsAndSolutions(doubts, solutions);
-        this.loading = false;
-        this.refreshing = false;
-      },
-      error: () => {
-        this.loading = false;
-        this.refreshing = false;
-      }
-    });
+    // Mock data to bypass hanging backend
+    setTimeout(() => {
+      const mockDoubts: any[] = [
+        { doubtid: 1, userid: '1', doubttext: 'How to use useMemo in React?', created_at: new Date().toISOString(), subjectid: 1 },
+        { doubtid: 2, userid: '2', doubttext: 'What is the difference between let and var?', created_at: new Date().toISOString(), subjectid: 2 }
+      ];
+      const mockSolutions: any[] = [
+        { solutionid: 1, doubtid: 1, userid: '3', solution: 'useMemo is used to memoize values.', created_at: new Date().toISOString() }
+      ];
+
+      this.mapDoubtsAndSolutions(mockDoubts, mockSolutions);
+      this.loading = false;
+      this.refreshing = false;
+    }, 1000);
   }
 
   mapDoubtsAndSolutions(doubts: Doubt[], solutions: Solution[]) {

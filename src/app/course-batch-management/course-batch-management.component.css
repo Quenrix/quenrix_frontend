@@ -389,3 +389,177 @@
     animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }
 @keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Premium glass layer for trainer dashboard embedding */
+:host {
+    --glass-bg: rgba(255, 255, 255, 0.48);
+    --glass-bg-strong: rgba(255, 255, 255, 0.64);
+    --glass-border: rgba(255, 255, 255, 0.58);
+    --purple-glow: 0 24px 70px rgba(124, 58, 237, 0.22), 0 0 32px rgba(168, 85, 247, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.58);
+    --soft-apple-shadow: 0 16px 42px rgba(88, 28, 135, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.46);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+}
+
+.header-section,
+.batch-card,
+.detail-sidebar,
+.modules-container,
+.stat-item,
+.instructor-brief,
+.subject-item {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.3));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--soft-apple-shadow);
+    backdrop-filter: blur(24px) saturate(145%);
+    -webkit-backdrop-filter: blur(24px) saturate(145%);
+}
+
+.header-section {
+    border-radius: 28px;
+    padding: 22px 26px;
+    margin-bottom: 26px;
+}
+
+.title-group h1,
+.card-content h3,
+.sidebar-header h2,
+.modules-container h3,
+.subject-info h4,
+.stat-data strong {
+    letter-spacing: -0.03em;
+}
+
+.subtitle,
+.course-meta,
+.progress-label,
+.subject-info p,
+.stat-data span {
+    letter-spacing: -0.01em;
+}
+
+.btn-back-home,
+.btn-open,
+.btn-contact,
+.nav-item,
+.batch-card,
+.subject-item,
+.stat-item,
+.card-image,
+.btn-play {
+    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 260ms ease, background 260ms ease, border-color 260ms ease, color 260ms ease;
+}
+
+.btn-back-home,
+.btn-contact {
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(139, 92, 246, 0.16);
+    box-shadow: 0 10px 22px rgba(124, 58, 237, 0.1);
+}
+
+.btn-back-home:hover,
+.btn-contact:hover {
+    background: rgba(255, 255, 255, 0.68);
+    color: var(--primary-indigo);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(124, 58, 237, 0.16);
+}
+
+.batch-grid {
+    gap: 22px;
+}
+
+.batch-card {
+    border-radius: 28px;
+}
+
+.batch-card:hover,
+.subject-item:hover,
+.stat-item:hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(139, 92, 246, 0.34);
+    box-shadow: var(--purple-glow);
+}
+
+.batch-card:hover .card-image {
+    transform: scale(1.06);
+}
+
+.card-content {
+    padding: 26px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08));
+}
+
+.card-overlay-badge,
+.trainer-avatar,
+.progress-track,
+.subject-count,
+.btn-play {
+    background: rgba(255, 255, 255, 0.46);
+    border: 1px solid rgba(255, 255, 255, 0.48);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.card-action {
+    border-top-color: rgba(139, 92, 246, 0.14);
+}
+
+.btn-open {
+    background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 14px 28px rgba(99, 102, 241, 0.24);
+}
+
+.btn-open:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 18px 36px rgba(99, 102, 241, 0.3);
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.48);
+    transform: translateX(4px);
+}
+
+.nav-item.active {
+    background: rgba(139, 92, 246, 0.14);
+    box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.18), 0 12px 24px rgba(124, 58, 237, 0.12);
+}
+
+.hero-banner {
+    box-shadow: var(--purple-glow);
+    border: 1px solid rgba(255, 255, 255, 0.44);
+}
+
+.modules-container,
+.detail-sidebar {
+    border-radius: 28px;
+}
+
+.subject-item {
+    background: rgba(255, 255, 255, 0.26);
+}
+
+.subject-item:hover {
+    background: var(--glass-bg-strong);
+}
+
+.subject-item:hover .btn-play,
+.subject-item:hover .subject-count {
+    background: linear-gradient(135deg, var(--primary-indigo), var(--primary-purple));
+    color: #fff;
+}
+
+.subject-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.subject-list::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.34);
+}
+
+.loader-overlay {
+    background: rgba(76, 29, 149, 0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}

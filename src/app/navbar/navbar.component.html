@@ -105,16 +105,37 @@
   <div *ngIf="isLoadingStories" class="loading-state"><p>{{ t('nav.loadingStories') }}</p></div>
     
     <div *ngIf="!isLoadingStories" class="stories-grid-modern">
-      <div *ngFor="let story of visibleStories" class="success-card" (click)="openStoryModal(story)">
-        <div class="card-top">
-          <img [src]="story.image" [alt]="story.name" class="candidate-img">
-          <img [src]="story.logo" alt="Company" class="company-logo-small">
-        </div>
-        <div class="card-content">
-          <h4 class="candidate-name">{{ story.name }}</h4>
-          <p class="candidate-role">{{ story.role }} @ <strong>{{ story.company }}</strong></p>
-          <div class="package-badge">💰 {{ story.package }}</div>
-          <p class="candidate-quote">"{{ story.quote }}"</p>
+      <div *ngFor="let story of visibleStories" class="flip-card-container">
+        <div class="flip-card">
+          
+          <!-- FRONT SIDE -->
+          <div class="flip-card-front success-card">
+            <div class="card-top">
+              <img [src]="story.image" [alt]="story.name" class="candidate-img">
+              <img [src]="story.logo" alt="Company" class="company-logo-small">
+            </div>
+            <div class="card-content">
+              <h4 class="candidate-name">{{ story.name }}</h4>
+              <p class="candidate-role">{{ story.role }} @ <strong>{{ story.company }}</strong></p>
+              <div class="package-badge">💰 {{ story.package }}</div>
+              <div class="flip-tip"><i class="fas fa-sync-alt mr-1"></i> Hover to view journey</div>
+            </div>
+          </div>
+
+          <!-- BACK SIDE -->
+          <div class="flip-card-back success-card">
+            <div class="card-content-back">
+              <div class="back-header">
+                <img [src]="story.logo" alt="Company" class="company-logo-back">
+                <h4>{{ story.name }}</h4>
+              </div>
+              <p class="candidate-quote">"{{ story.quote }}"</p>
+              <button class="read-story-btn" (click)="openStoryModal(story)">
+                Read Full Journey →
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -217,9 +238,9 @@
     <div class="pdf-body">
       <iframe *ngIf="previewUrl" [src]="previewUrl" class="pdf-frame" frameborder="0"></iframe>
 
-      <div *ngIf="!previewUrl" class="note-preview-fallback">
+      <div *ngIf="!previewUrl" class="note-preview-fallback topper-style">
         <p *ngIf="previewDescription">{{ previewDescription }}</p>
-        <div>{{ previewTextContent }}</div>
+        <div [innerHTML]="previewTextContent"></div>
       </div>
     </div>
   </div>

@@ -187,7 +187,7 @@
   transition: all .2s;
   box-shadow: 0 4px 14px rgba(0,0,0,.15);
 }
-.btn-primary  { background: #10b981; color: #fff; }
+.btn-primary  { background: linear-gradient(135deg, #4B3F8F, #4B3F8F) !important; color: #fff !important; }
 .btn-secondary{ background: #fff; color: #334155; border: 1.5px solid #e2e8f0; }
 .btn-primary:hover  { opacity: .9; transform: translateY(-1px); }
 .btn-secondary:hover{ background: #f8fafc; transform: translateY(-1px); }
@@ -217,14 +217,15 @@
    THEME: CLASSIC HARVARD
    ============================================================ */
 .theme-classic .resume-header {
+  background: #fff !important;
   padding: 28px 40px 18px;
-  border-bottom: 3px solid #1e293b;
+  border-bottom: 3px solid #4B3F8F !important;
   text-align: center;
 }
 .theme-classic .resume-header h1 {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
-  color: #1e293b;
+  color: #4B3F8F !important;
   letter-spacing: 1px;
 }
 .theme-classic .resume-role { font-size: 13px; color: #475569; margin-top: 3px; }
@@ -235,7 +236,7 @@
 .theme-classic section { padding: 14px 40px; }
 .theme-classic h2 {
   font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase;
-  color: #1e293b; border-bottom: 1px solid #e2e8f0;
+  color: #4B3F8F !important; border-bottom: 1px solid #e2e8f0;
   padding-bottom: 4px; margin-bottom: 10px;
 }
 .theme-classic p, .theme-classic li { font-size: 13px; color: #374151; line-height: 1.65; }
@@ -285,11 +286,12 @@
    THEME: MINIMAL
    ============================================================ */
 .theme-minimal .resume-header {
+  background: #fff !important;
   padding: 32px 44px 20px; border-bottom: 1px solid #e5e7eb;
 }
 .theme-minimal .resume-header h1 {
   font-size: 1.6rem; font-weight: 300;
-  letter-spacing: 4px; text-transform: uppercase; color: #111;
+  letter-spacing: 4px; text-transform: uppercase; color: #111 !important;
 }
 .theme-minimal .resume-role { font-size: 12px; color: #6b7280; margin-top: 4px; letter-spacing: 1px; }
 .theme-minimal .contact-info {
@@ -391,20 +393,20 @@
    THEME: CREATIVE PURPLE
    ============================================================ */
 .theme-creative .resume-header {
-  background: linear-gradient(135deg, #6d28d9, #4f46e5);
-  padding: 28px 36px; color: #fff; overflow: hidden; position: relative;
+  background: linear-gradient(135deg, #6d28d9, #4f46e5) !important;
+  padding: 28px 36px; color: #fff !important; overflow: hidden; position: relative;
 }
 .theme-creative .resume-header::before {
   content: ''; position: absolute; top: -40px; right: -40px;
   width: 140px; height: 140px; border-radius: 50%; background: rgba(255,255,255,.08);
 }
-.theme-creative .resume-header h1 { font-size: 1.8rem; font-weight: 600; color: #fff; position: relative; }
-.theme-creative .resume-role { font-size: 13px; color: #c4b5fd; margin-top: 4px; position: relative; }
+.theme-creative .resume-header h1 { font-size: 1.8rem; font-weight: 600; color: #fff !important; position: relative; }
+.theme-creative .resume-role { font-size: 13px; color: #c4b5fd !important; margin-top: 4px; position: relative; }
 .theme-creative .contact-info {
   display: flex; flex-wrap: wrap; gap: 10px;
-  font-size: 12px; color: #c4b5fd; margin-top: 7px; position: relative;
+  font-size: 12px; color: #c4b5fd !important; margin-top: 7px; position: relative;
 }
-.theme-creative .contact-info a { color: #c4b5fd; }
+.theme-creative .contact-info a { color: #c4b5fd !important; }
 .theme-creative section { padding: 14px 36px; }
 .theme-creative h2 {
   font-size: 12px; font-weight: 600; color: #6d28d9;
@@ -426,18 +428,18 @@
    THEME: TWO COLUMN
    ============================================================ */
 .theme-twocol .resume-header {
-  background: #1e293b;
+  background: #4B3F8F !important;
   display: grid; grid-template-columns: 220px 1fr;
 }
 .theme-twocol .resume-header .col-left  { padding: 22px 18px 22px 24px; }
 .theme-twocol .resume-header .col-right { padding: 22px 24px; }
-.theme-twocol .resume-header h1 { font-size: 1.35rem; font-weight: 600; color: #fff; line-height: 1.2; }
-.theme-twocol .resume-role { font-size: 12px; color: #94a3b8; margin-top: 3px; }
+.theme-twocol .resume-header h1 { font-size: 1.35rem; font-weight: 600; color: #fff !important; line-height: 1.2; }
+.theme-twocol .resume-role { font-size: 12px; color: #94a3b8 !important; margin-top: 3px; }
 .theme-twocol .contact-info {
   display: flex; flex-direction: column;
-  gap: 4px; font-size: 11px; color: #94a3b8; margin-top: 8px;
+  gap: 4px; font-size: 11px; color: rgba(255, 255, 255, 0.9) !important; margin-top: 8px;
 }
-.theme-twocol .contact-info a { color: #94a3b8; }
+.theme-twocol .contact-info a { color: rgba(255, 255, 255, 0.9) !important; }
 .theme-twocol .resume-body { display: grid; grid-template-columns: 220px 1fr; }
 .theme-twocol .body-left  { background: #f8fafc; padding: 16px 16px 16px 24px; border-right: 1px solid #e2e8f0; }
 .theme-twocol .body-right { padding: 16px 24px; }
@@ -459,9 +461,10 @@
    THEME: STARTUP ORANGE
    ============================================================ */
 .theme-startup .resume-header {
-  padding: 24px 36px; border-top: 6px solid #ea580c; background: #fff;
+  background: #fff !important;
+  padding: 24px 36px; border-top: 6px solid #4B3F8F !important;
 }
-.theme-startup .resume-header h1 { font-size: 1.7rem; font-weight: 700; color: #1c1917; letter-spacing: -.5px; }
+.theme-startup .resume-header h1 { font-size: 1.7rem; font-weight: 700; color: #1c1917 !important; letter-spacing: -.5px; }
 .theme-startup .resume-role { font-size: 13px; color: #78716c; margin-top: 3px; }
 .theme-startup .contact-info {
   display: flex; flex-wrap: wrap; gap: 10px;
@@ -470,11 +473,11 @@
 .theme-startup section { padding: 14px 36px; }
 .theme-startup h2 {
   font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: #ea580c; border-bottom: 2px solid #fed7aa;
+  color: #4B3F8F !important; border-bottom: 2px solid #4B3F8F !important;
   padding-bottom: 4px; margin-bottom: 10px;
 }
 .theme-startup p, .theme-startup li { font-size: 13px; color: #292524; line-height: 1.65; }
-.theme-startup .experience-item { margin-bottom: 12px; border-left: 3px solid #fdba74; padding-left: 12px; }
+.theme-startup .experience-item { margin-bottom: 12px; border-left: 3px solid #4B3F8F !important; padding-left: 12px; }
 .theme-startup .title-row { display: flex; justify-content: space-between; flex-wrap: wrap; }
 .theme-startup .title-row strong { font-size: 13px; font-weight: 700; color: #1c1917; }
 .theme-startup .title-row span   { font-size: 11.5px; color: #78716c; }
@@ -482,17 +485,18 @@
 .theme-startup .skill-list { list-style: none; padding: 0; }
 .theme-startup .skill-item { font-size: 12.5px; margin-bottom: 3px; }
 .theme-startup .project-list { list-style: none; padding: 0; }
-.theme-startup .project-list li { margin-bottom: 12px; border-left: 3px solid #fdba74; padding-left: 12px; }
+.theme-startup .project-list li { margin-bottom: 12px; border-left: 3px solid #4B3F8F !important; padding-left: 12px; }
 
 /* ============================================================
    THEME: ACADEMIC SERIF
    ============================================================ */
 .theme-academic .resume-header {
-  padding: 30px 44px 18px; text-align: center; border-bottom: 2px solid #1c1917;
+  background: #fff !important;
+  padding: 30px 44px 18px; text-align: center; border-bottom: 2px solid #1c1917 !important;
 }
 .theme-academic .resume-header h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 1.9rem; color: #1c1917; letter-spacing: .5px;
+  font-size: 1.9rem; color: #1c1917 !important; letter-spacing: .5px;
 }
 .theme-academic .resume-role { font-size: 13px; color: #57534e; margin-top: 4px; font-style: italic; }
 .theme-academic .contact-info {
@@ -520,35 +524,35 @@
    THEME: ELEGANT TEAL
    ============================================================ */
 .theme-elegant .resume-header {
-  background: #134e4a;
+  background: #4B3F8F !important;
   display: flex; justify-content: space-between; align-items: center;
   padding: 26px 36px; flex-wrap: wrap; gap: 14px;
 }
-.theme-elegant .resume-header h1 { font-size: 1.65rem; font-weight: 500; color: #ccfbf1; letter-spacing: .4px; }
-.theme-elegant .resume-role { font-size: 13px; color: #99f6e4; margin-top: 3px; }
-.theme-elegant .contact-info { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #99f6e4; }
-.theme-elegant .contact-info a { color: #99f6e4; }
+.theme-elegant .resume-header h1 { font-size: 1.65rem; font-weight: 500; color: #fff !important; letter-spacing: .4px; }
+.theme-elegant .resume-role { font-size: 13px; color: #e2e8f0 !important; margin-top: 3px; }
+.theme-elegant .contact-info { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #e2e8f0 !important; }
+.theme-elegant .contact-info a { color: #e2e8f0 !important; }
 .theme-elegant .initials-badge {
-  background: #0d9488; border-radius: 50%; width: 64px; height: 64px; flex-shrink: 0;
+  background: #4B3F8F !important; border-radius: 50%; width: 64px; height: 64px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; font-weight: 600; color: #ccfbf1;
+  font-size: 1.4rem; font-weight: 600; color: #fff !important;
 }
 .theme-elegant section { padding: 14px 36px; }
 .theme-elegant h2 {
   font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  color: #0f766e; border-bottom: 2px solid #99f6e4;
+  color: #4B3F8F !important; border-bottom: 2px solid #4B3F8F !important;
   padding-bottom: 3px; margin-bottom: 10px;
 }
 .theme-elegant p, .theme-elegant li { font-size: 13px; color: #1c1917; line-height: 1.65; }
-.theme-elegant .experience-item { margin-bottom: 12px; border-left: 3px solid #5eead4; padding-left: 10px; }
+.theme-elegant .experience-item { margin-bottom: 12px; border-left: 3px solid #4B3F8F !important; padding-left: 10px; }
 .theme-elegant .title-row { display: flex; justify-content: space-between; flex-wrap: wrap; }
-.theme-elegant .title-row strong { font-size: 13px; color: #134e4a; }
-.theme-elegant .title-row span   { font-size: 11.5px; color: #0f766e; }
+.theme-elegant .title-row strong { font-size: 13px; color: #4B3F8F !important; }
+.theme-elegant .title-row span   { font-size: 11.5px; color: #4B3F8F !important; }
 .theme-elegant .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
 .theme-elegant .skill-list { list-style: none; padding: 0; }
 .theme-elegant .skill-item { font-size: 12.5px; margin-bottom: 3px; }
 .theme-elegant .project-list { list-style: none; padding: 0; }
-.theme-elegant .project-list li { margin-bottom: 12px; border-left: 3px solid #5eead4; padding-left: 10px; }
+.theme-elegant .project-list li { margin-bottom: 12px; border-left: 3px solid #4B3F8F !important; padding-left: 10px; }
 
 /* ============================================================
    MOBILE RESPONSIVE

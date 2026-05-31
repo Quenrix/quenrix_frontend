@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+  :root{
+    --bg-deep: #0F0C29;
+    --bg-mid: #1B1333;
+    --bg-soft: #2A1E5C;
+    --accent: #7C5CFF;
+    --accent-soft: #A78BFA;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B9B9D3;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+
+  html{
+    background: #0F0C29;
+  }
+
+  body{
+    @apply text-white antialiased;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(124, 92, 255, 0.28), transparent 34%),
+      radial-gradient(circle at 82% 18%, rgba(167, 139, 250, 0.18), transparent 30%),
+      linear-gradient(135deg, #0F0C29 0%, #1B1333 52%, #2A1E5C 100%);
+  }
+}
+
+/* Glass & glow helpers */
+.glass{
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.shadow-purple{ box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 28px rgba(124,92,255,0.16); }
+.hover-glow:hover{ box-shadow: 0 14px 34px rgba(0,0,0,0.34), 0 0 32px rgba(167,139,250,0.26); transform: translateY(-4px) }
+
+/* small utilities */
+.text-purple{ color: #A78BFA }
+.bg-lav-gradient{ background: linear-gradient(135deg,#7C5CFF 0%, #A78BFA 100%) }
